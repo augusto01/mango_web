@@ -17,7 +17,7 @@ const Hero = () => {
 
   return (
     <Box className="hero-main-container">
-      {/* CAPAS DE AMBIENTE */}
+      {/* CAPAS DE AMBIENTE (Background) */}
       <div className="hero-noise-overlay"></div>
       <div className="hero-scanner-line"></div>
       <div className="screen-frame"></div>
@@ -27,6 +27,7 @@ const Hero = () => {
         {[...Array(5)].map((_, i) => <div key={i} className={`particle p${i}`}></div>)}
       </div>
 
+      {/* CONTENIDO PRINCIPAL: Centrado Absoluto */}
       <Box className="hero-content">
         {/* LOGO COMPACTO CON EFECTOS */}
         <Box className="logo-container">
@@ -39,7 +40,7 @@ const Hero = () => {
           <div className="logo-scan-fx"></div>
         </Box>
 
-        {/* TEXTO DINÁMICO */}
+        {/* TEXTO DINÁMICO CON ALTURA CONTROLADA */}
         <Box className="text-wrapper">
           <Typography key={currentPhrase} className="hero-subtitle-modern">
             {phrases[currentPhrase]}
@@ -49,10 +50,13 @@ const Hero = () => {
         {/* BOTÓN DE ACCIÓN */}
         <Button className="btn-mango-main" onClick={() => navigate('/login')}>
           <span className="btn-label">OBTENER ENTRADAS</span>
+          <span className="btn-glitch-text">MNG-TKT-2026</span>
         </Button>
       </Box>
 
-     
+      {/* TAGS DE ESQUINA (Opcional, estilo Cyberpunk) */}
+      <div className="corner-tag top-l">SYS_ACTIVE</div>
+      <div className="corner-tag bottom-r">V_0.3.1</div>
     </Box>
   );
 };

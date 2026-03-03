@@ -1,25 +1,40 @@
-/* --- COMPACT DJ GRID (3 PER SCREEN HEIGHT) --- */
+/* --- DJ CAROUSEL: SQUARE/POSTER EDITION --- */
+
+.dj-carousel-container {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  background: #000;
+  padding: 40px 0; /* Un poco de aire arriba y abajo */
+  overflow: hidden;
+}
 
 .dj-card-compact {
   position: relative;
-  height: 33.3vh; /* Exactamente 1/3 de la pantalla */
+  /* CAMBIO CLAVE: Aumentamos el alto para que sea más cuadrado/vertical */
+  height: 550px; 
   width: 100%;
   overflow: hidden;
-  background: #000;
-  border: 0.5px solid rgba(255, 107, 0, 0.15);
+  background: #111;
+  border: 1px solid rgba(255, 107, 0, 0.1);
+  transition: border 0.3s ease;
+}
+
+.dj-card-compact:hover {
+  border: 1px solid rgba(255, 107, 0, 0.5);
 }
 
 .dj-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) brightness(0.4);
-  transition: transform 0.8s ease, filter 0.5s ease;
+  object-fit: cover; /* Esto asegura que la foto llene el "cuadrado" sin deformarse */
+  filter: grayscale(1) brightness(0.5);
+  transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1), filter 0.8s ease;
 }
 
 .dj-card-compact:hover .dj-img {
-  filter: grayscale(0) brightness(0.7);
-  transform: scale(1.1);
+  filter: grayscale(0) brightness(0.8);
+  transform: scale(1.08);
 }
 
 .dj-info-compact {
@@ -27,67 +42,49 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 20px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-  z-index: 5;
+  padding: 30px 20px;
+  /* Gradiente más alto para mejorar legibilidad en fotos grandes */
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  z-index: 10;
 }
 
 .dj-name-compact {
   font-family: 'Syncopate', sans-serif !important;
   font-weight: 800 !important;
-  font-size: clamp(1rem, 3vw, 2.2rem) !important;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem) !important;
   color: #fff !important;
   text-transform: uppercase;
   letter-spacing: -1px;
+  line-height: 0.9 !important;
 }
 
 .dj-genre-compact {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.7rem !important;
-  color: #FF6B00;
-  letter-spacing: 2px;
-  margin-bottom: 5px;
+  font-size: 0.8rem !important;
+  color: #FF6B00 !important;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  display: block;
 }
 
-.dj-tag-status-compact {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background: rgba(0,0,0,0.7);
-  border: 1px solid #FF6B00;
-  color: #FF6B00;
-  font-size: 9px;
-  padding: 3px 8px;
-  font-family: 'JetBrains Mono', monospace;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  z-index: 10;
-}
+/* --- DJ SQUARE SECTION --- */
 
-/* --- DJ CAROUSEL SYSTEM --- */
-
-.dj-carousel-container {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
-  background: #000;
-  padding: 0;
-  overflow: hidden;
-}
-
-/* Espaciado entre elementos del carrusel */
 .carousel-item-spacing {
-  margin: 0 1px; /* Separación mínima para look industrial */
+  padding: 10px; /* Separación entre tarjetas para que no se peguen */
 }
 
-.dj-card-compact {
+.dj-card-square {
   position: relative;
-  height: 33.3vh; /* 3 djs por pantalla completa de alto */
+  aspect-ratio: 1 / 1.2; /* Casi cuadrado, levemente vertical para impacto */
   width: 100%;
+  background: #111;
   overflow: hidden;
-  background: #000;
-  border-right: 1px solid rgba(255, 107, 0, 0.2);
+  border: 1px solid #1a1a1a;
+  transition: border 0.3s ease;
+}
+
+.dj-card-square:hover {
+  border: 1px solid #FF6B00;
 }
 
 .dj-img {
@@ -95,35 +92,352 @@
   height: 100%;
   object-fit: cover;
   filter: grayscale(1) brightness(0.4);
-  transition: all 0.8s ease;
+  transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-.dj-card-compact:hover .dj-img {
-  filter: grayscale(0) brightness(0.7);
-  transform: scale(1.1);
+.dj-card-square:hover .dj-img {
+  filter: grayscale(0) brightness(0.8);
+  transform: scale(1.05);
+}
+
+.dj-info-compact {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 25px;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent 100%);
+  z-index: 10;
 }
 
 .dj-name-compact {
   font-family: 'Syncopate', sans-serif !important;
   font-weight: 800 !important;
-  font-size: clamp(1rem, 2vw, 1.8rem) !important;
   color: #fff !important;
-  line-height: 1;
+  font-size: 1.4rem !important;
+  text-transform: uppercase;
 }
 
-/* Ajuste para que el carrusel no deje espacios */
-.react-multi-carousel-track {
+.dj-genre-compact {
+  font-family: 'JetBrains Mono', monospace !important;
+  color: #FF6B00 !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+/* Efecto de parpadeo para el punto naranja */
+.blink-dot-orange {
+  width: 8px;
+  height: 8px;
+  background-color: #FF6B00;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+
+/* --- DJ SECTION LAYOUT --- */
+.dj-section-title {
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  margin-bottom: 50px !important;
+  letter-spacing: -2px !important;
+}
+
+.carousel-item-padding {
+  padding: 15px;
+}
+
+/* --- FLIP LOGIC --- */
+.flip-card {
+  background-color: transparent;
+  perspective: 1200px;
+  height: 500px; /* Tamaño cuadrado/poster */
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+}
+
+.flip-card-back {
+  background: #0a0a0a !important;
+  transform: rotateY(180deg);
   display: flex;
   align-items: center;
+  justify-content: center;
+  border: 1px solid #FF6B00 !important;
 }
 
-/* Mini esquinas decorativas */
-.corner-tl-mini { position: absolute; top: 8px; left: 8px; width: 10px; height: 10px; border-top: 1px solid #444; border-left: 1px solid #444; }
-.corner-br-mini { position: absolute; bottom: 8px; right: 8px; width: 10px; height: 10px; border-bottom: 1px solid #444; border-right: 1px solid #444; }
+/* --- FRONT STYLES --- */
+.dj-card-square {
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
 
-/* Responsive Mobile */
+.dj-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.4) contrast(1.2);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.dj-card-square:hover .dj-img {
+  filter: grayscale(0.5) brightness(0.6);
+  transform: scale(1.05);
+}
+
+.btn-flip-trigger {
+  margin-top: 15px !important;
+  border: 1px solid #FF6B00 !important;
+  color: #FF6B00 !important;
+  font-family: 'JetBrains Mono' !important;
+  font-size: 0.7rem !important;
+  background: rgba(255, 107, 0, 0.05) !important;
+  letter-spacing: 1px;
+  clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%); /* Corte industrial */
+}
+
+.btn-flip-trigger:hover {
+  background: #FF6B00 !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+}
+
+/* --- BACK STYLES --- */
+.flip-card-back {
+  background: linear-gradient(145deg, #0a0a0a 0%, #151515 100%) !important;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 107, 0, 0.5) !important;
+  box-shadow: inset 0 0 50px rgba(0,0,0,1);
+}
+
+.back-content-container {
+  padding: 30px;
+  text-align: center;
+  width: 100%;
+  z-index: 50; /* Asegura que el contenido esté arriba */
+}
+
+.back-title-orange {
+  font-family: 'Syncopate', sans-serif;
+  color: #FF6B00;
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+  text-shadow: 2px 2px 0px rgba(255, 107, 0, 0.2);
+}
+
+.social-links-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btn-social {
+  background: rgba(255,255,255,0.02) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: #efefef !important;
+  font-family: 'JetBrains Mono' !important;
+  justify-content: center !important;
+  padding: 14px !important;
+  transition: 0.2s !important;
+  text-transform: uppercase;
+}
+
+.btn-social:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: #FF6B00 !important;
+  transform: translateX(5px);
+}
+
+/* El botón volver mejorado */
+.btn-back-link {
+  margin-top: 30px !important;
+  color: #666 !important;
+  font-family: 'JetBrains Mono' !important;
+  font-size: 0.75rem !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  pointer-events: auto !important; /* Fuerza la detección de clics */
+}
+
+.btn-back-link:hover {
+  color: #FF6B00 !important;
+}
+
+/* --- DJ CAROUSEL: SQUARE/POSTER EDITION --- */
+.dj-carousel-container {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  background: #000;
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+/* --- FLIP LOGIC REFORZADO --- */
+.flip-card {
+  background-color: transparent;
+  perspective: 2000px; /* Aumentado para mejor efecto 3D */
+  height: 550px; 
+  position: relative;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Cuando está volteada, la cara frontal debe desaparecer para no bloquear clics */
+.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; 
+  backface-visibility: hidden;
+  border-radius: 0;
+  top: 0;
+  left: 0;
+}
+
+/* FIX: Ocultar la cara frontal cuando la trasera está activa */
+.is-flipped .flip-card-front {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.flip-card-back {
+  background: linear-gradient(145deg, #0a0a0a 0%, #151515 100%) !important;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #FF6B00 !important;
+  box-shadow: inset 0 0 50px rgba(0,0,0,1);
+  z-index: 2; /* Asegura estar por encima */
+}
+
+/* --- ESTILOS DE BOTONES Y CONTENIDO --- */
+.back-content-container {
+  padding: 30px;
+  text-align: center;
+  width: 100%;
+  /* Importante para que los botones internos funcionen */
+  position: relative;
+  z-index: 10;
+}
+
+.btn-back-link {
+  margin-top: 30px !important;
+  color: #FF6B00 !important; /* Más visible */
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase;
+  cursor: pointer !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 10px !important;
+  display: inline-block !important;
+  transition: 0.3s;
+}
+
+.btn-back-link:hover {
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #FF6B00;
+}
+
+.btn-social {
+  background: rgba(255,255,255,0.02) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: #fff !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  padding: 12px !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
+  transition: 0.3s !important;
+}
+
+.btn-social:hover {
+  background: #FF6B00 !important;
+  color: #000 !important;
+  transform: scale(1.02);
+}
+
+/* --- FRONT STYLES (DJ CARD) --- */
+.dj-card-square {
+  background: #000;
+  overflow: hidden;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+}
+
+.dj-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.4);
+}
+
+.btn-flip-trigger {
+  margin-top: 15px !important;
+  border: 1px solid #FF6B00 !important;
+  color: #FF6B00 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  background: rgba(255, 107, 0, 0.05) !important;
+  clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+}
+
+/* --- ANIMACIÓN BLINK --- */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.blink-dot-orange {
+  animation: blink 1.5s infinite;
+}
+
+/* --- Ajustes de Responsividad --- */
+
+@media (max-width: 1024px) {
+  .dj-card-compact {
+    height: 450px; /* Un poco más bajo en tablets */
+  }
+}
+
 @media (max-width: 600px) {
   .dj-card-compact {
-    height: 25vh; /* Un poco más bajo en móvil para ver más variedad */
+    height: 400px; /* Formato robusto para móvil */
   }
 }

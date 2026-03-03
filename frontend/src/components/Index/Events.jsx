@@ -43,18 +43,18 @@ const responsive = {
 const Events = () => (
   <Container maxWidth="lg" sx={{ py: 8 }} id="eventos">
     <Typography 
-      variant="h2" 
-      sx={{ 
-        fontFamily: 'Syncopate', 
-        fontWeight: 700, 
-        color: '#f3670a', 
-        mb: 4, 
-        textAlign: 'center',
-        fontSize: { xs: '1.8rem', md: '2.5rem' } 
-      }}
-    >
-      PRÓXIMOS EVENTOS
-    </Typography>
+            variant="h2" 
+            sx={{ 
+              fontFamily: 'Syncopate', 
+              fontWeight: 800, 
+              color: '#fff', 
+              mb: 6, 
+              letterSpacing: -2,
+              fontSize: { xs: '2rem', md: '3.5rem' }
+            }}
+          >
+            PRóXIMOS EVENTOS
+          </Typography>
 
     <Carousel 
       responsive={responsive} 

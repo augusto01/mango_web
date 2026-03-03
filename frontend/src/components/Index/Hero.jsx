@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import logoMango from '../../assets/img/mangocompleto.png';
+import logoMango from '../../../public/img/mangocompleto.png';
 import '../../styles/Index.css';
 
 

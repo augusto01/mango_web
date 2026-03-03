@@ -5,7 +5,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import SvgIcon from '@mui/material/SvgIcon';
 
-import logoMango from '../../assets/img/mangocompleto.png';
+import logoMango from '../../../public/img/mangocompleto.png';
 import { Typography } from '@mui/material';
 
 // Ícono de TikTok (SVG oficial)

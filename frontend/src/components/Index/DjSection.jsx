@@ -1,76 +1,108 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Button, Container } from '@mui/material';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import '../../styles/Index.css';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import MusicNoteIcon from '@mui/icons-material/MusicNote'; // Icono para TikTok
+import '../../styles/Djs.css';
+
 const djs = [
   { 
-    name: 'NICKO RUIZ', 
-    genre: 'TECH HOUSE', 
-    img: 'https://images.unsplash.com/photo-1571266028243-e4733b0f0bb1?auto=format&fit=crop&q=80&w=1000', 
-    tag: 'HEADLINER' 
+    name: 'DJ ROSSO', 
+    genre: 'CACHENGUE', 
+    img: '/img/djs/rossoperfil.png', 
+    tag: 'Contact',
+    socials: { ig: 'https://instagram.com/djrosso', ws: 'https://wa.me/123', tk: 'https://tiktok.com/@djrosso' }
   },
   { 
-    name: 'MICA TORRES', 
-    genre: 'PROGRESSIVE', 
-    img: 'https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?auto=format&fit=crop&q=80&w=1000', 
-    tag: 'SPECIAL GUEST' 
+    name: '17 DJ', 
+    genre: 'CACHENGUE', 
+    img: '/img/djs/17perfil.png', 
+    tag: 'Contact',
+    socials: { ig: 'https://instagram.com', ws: 'https://wa.me/123', tk: 'https://tiktok.com' }
   },
   { 
-    name: 'ALEX V-SYSTEM', 
-    genre: 'HARD TECHNO', 
-    img: 'https://images.unsplash.com/photo-1574391884720-bbe37400581a?auto=format&fit=crop&q=80&w=1000', 
-    tag: 'CLOSING SET' 
+    name: 'IAN BARION DJ', 
+    genre: 'CACHENGUE', 
+    img: '/img/djs/barionperfil.png', 
+    tag: 'CLOSING SET',
+    socials: { ig: 'https://instagram.com', ws: 'https://wa.me/123', tk: 'https://tiktok.com' }
   },
-  { 
-    name: 'LUNA STARK', 
-    genre: 'MINIMAL', 
-    img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=1000', 
-    tag: 'OPENING ACT' 
-  }
+ 
 ];
 
 const responsive = {
-  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 }, // Muestra 3 por pantalla
+  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
   tablet: { breakpoint: { max: 1024, min: 600 }, items: 2 },
-  mobile: { breakpoint: { max: 600, min: 0 }, items: 1.5 }, // Muestra 1 y medio para invitar a scrollear
+  mobile: { breakpoint: { max: 600, min: 0 }, items: 1 },
 };
 
-const DjSection = () => (
-  <Box className="dj-carousel-container" id="djs">
-    <Carousel
-      responsive={responsive}
-      infinite={true}
-      autoPlay={true}
-      autoPlaySpeed={3000}
-      keyBoardControl={true}
-      customTransition="transform 800ms ease-in-out"
-      transitionDuration={800}
-      containerClass="carousel-container"
-      removeArrowOnDeviceType={["tablet", "mobile", "desktop"]} // Oculta flechas para un look más limpio
-      pauseOnHover={true}
-    >
-      {djs.map((dj, i) => (
-        <Box key={i} className="dj-card-compact carousel-item-spacing">
-          <div className="dj-grain-overlay"></div>
-          <img src={dj.img} alt={dj.name} className="dj-img" />
-          
-          <Box className="dj-tag-status-compact">
-            <span className="blink-dot-orange"></span>
-            {dj.tag}
-          </Box>
+const DjSection = () => {
+  const [flipped, setFlipped] = useState({});
 
-          <Box className="dj-info-compact">
-            <Typography className="dj-genre-compact">{dj.genre}</Typography>
-            <Typography className="dj-name-compact">{dj.name}</Typography>
-          </Box>
-          
-          <div className="corner-tl-mini"></div>
-          <div className="corner-br-mini"></div>
-        </Box>
-      ))}
-    </Carousel>
-  </Box>
-);
+  const handleFlip = (i) => {
+    setFlipped(prev => ({ ...prev, [i]: !prev[i] }));
+  };
+
+  return (
+    <Box sx={{ bgcolor: '#000', py: 10 }}>
+      <Container maxWidth="lg" id="djs">
+        <Typography variant="h2" className="dj-section-title">
+          LINE UP <span style={{ color: '#FF6B00' }}>/</span> ARTISTAS
+        </Typography>
+
+        <Carousel
+          responsive={responsive}
+          infinite={true}
+          autoPlay={!Object.values(flipped).some(v => v)} // Pausa si hay alguno volteado
+          itemClass="carousel-item-padding"
+          removeArrowOnDeviceType={["mobile"]}
+        >
+          {djs.map((dj, i) => (
+            <Box key={i} className={`flip-card ${flipped[i] ? 'is-flipped' : ''}`}>
+              <Box className="flip-card-inner">
+                
+                {/* --- FRONT: IMAGEN Y NOMBRE --- */}
+                <Box className="flip-card-front dj-card-square">
+                  <div className="dj-grain-overlay"></div>
+                  <img src={dj.img} alt={dj.name} className="dj-img" />
+                  <Box className="dj-tag-status-compact">
+                    <span className="blink-dot-orange"></span> {dj.tag}
+                  </Box>
+                  <Box className="dj-info-compact">
+                    <Typography className="dj-genre-compact">{dj.genre}</Typography>
+                    <Typography className="dj-name-compact">{dj.name}</Typography>
+                    <Button className="btn-flip-trigger" onClick={() => handleFlip(i)}>
+                      VER CONTACTO
+                    </Button>
+                  </Box>
+                  <div className="corner-tl-mini"></div>
+                  <div className="corner-br-mini"></div>
+                </Box>
+
+                {/* --- BACK: REDES SOCIALES --- */}
+                <Box className="flip-card-back dj-card-square">
+                  <Box className="back-content-container">
+                    <Typography className="back-title-orange">{dj.name}</Typography>
+                    <Box className="social-links-grid">
+                      <Button startIcon={<InstagramIcon />} className="btn-social" href={dj.socials.ig} target="_blank">INSTAGRAM</Button>
+                      <Button startIcon={<WhatsAppIcon />} className="btn-social" href={dj.socials.ws} target="_blank">WHATSAPP</Button>
+                      <Button startIcon={<MusicNoteIcon />} className="btn-social" href={dj.socials.tk} target="_blank">TIKTOK</Button>
+                    </Box>
+                    <Button onClick={() => handleFlip(i)} sx={{ mt: 4, color: '#FF6B00', fontFamily: 'JetBrains Mono' }}>
+                      ← VOLVER
+                    </Button>
+                  </Box>
+                </Box>
+
+              </Box>
+            </Box>
+          ))}
+        </Carousel>
+      </Container>
+    </Box>
+  );
+};
 
 export default DjSection;

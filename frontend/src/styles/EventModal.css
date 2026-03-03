@@ -1,0 +1,163 @@
+/* --- MODAL CLEAN VERSION --- */
+.modal-industrial-clean {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 90% !important;
+  max-width: 600px !important; /* Más angosto al no tener foto */
+  background: #080808 !important;
+  border: 1px solid #FF6B00 !important;
+  outline: none !important;
+  box-shadow: 0 0 40px rgba(0,0,0,0.8) !important;
+}
+
+.modal-minimal-content {
+  padding: 40px !important;
+}
+
+/* HEADER */
+.mango-logo-text {
+  font-family: 'JetBrains Mono', monospace !important;
+  color: #FF6B00 !important;
+  font-size: 11px !important;
+  letter-spacing: 4px !important;
+  margin-bottom: 10px !important;
+}
+
+.event-title-huge {
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  font-size: 2.2rem !important;
+  line-height: 1 !important;
+  margin-bottom: 20px !important;
+  text-transform: uppercase;
+}
+
+.info-row-minimal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  color: #888;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+.info-row-minimal span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* DIVIDERS */
+.divider-minimal {
+  background-color: rgba(255, 107, 0, 0.15) !important;
+  margin: 25px 0 !important;
+}
+
+/* SECTIONS */
+.sub-label-tech {
+  font-family: 'JetBrains Mono' !important;
+  font-size: 10px !important;
+  color: #555 !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 15px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lineup-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.artist-tag-minimal {
+  font-family: 'Syncopate', sans-serif;
+  color: #fff;
+  font-size: 0.75rem;
+  border-left: 2px solid #333;
+  padding-left: 8px;
+}
+
+/* TICKETS STACK */
+.tickets-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ticket-item-minimal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+}
+
+.ticket-item-minimal.vip {
+  border-left: 3px solid #FF6B00;
+}
+
+.t-label {
+  display: block;
+  font-family: 'JetBrains Mono';
+  font-size: 9px;
+  color: #666;
+}
+
+.t-price {
+  font-family: 'Syncopate';
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+.ticket-item-minimal.vip .t-price {
+  color: #FF6B00;
+}
+
+.btn-mango-minimal {
+  background: transparent !important;
+  border: 1px solid #444 !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+  font-family: 'JetBrains Mono' !important;
+  font-size: 11px !important;
+  padding: 8px 15px !important;
+}
+
+.btn-mango-minimal:hover {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.vip-btn {
+  border-color: #FF6B00 !important;
+  color: #FF6B00 !important;
+}
+
+.vip-btn:hover {
+  background: #FF6B00 !important;
+  color: #000 !important;
+}
+
+/* CERRAR Y FOOTER */
+.modal-close-btn {
+  position: absolute !important;
+  top: 10px;
+  right: 10px;
+  color: #555 !important;
+}
+
+.modal-footer-minimal {
+  margin-top: 30px;
+  font-family: 'JetBrains Mono';
+  font-size: 8px;
+  color: #333;
+  text-align: center;
+  letter-spacing: 1px;
+}

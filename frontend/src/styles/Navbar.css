@@ -1,0 +1,198 @@
+/* Navbar.css */
+.mango-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  transition: all 0.4s ease;
+  z-index: 2000;
+  background-color: transparent; /* Sin fondo al inicio */
+}
+
+/* Estado cuando se hace scroll - Efecto profesional */
+.mango-navbar.scrolled {
+  height: 70px;
+  background-color: rgba(5, 5, 5, 0.9);
+  backdrop-filter: blur(10px); /* Desenfoque sutil 🌫️ */
+  /* Eliminamos el borde naranja y usamos una sombra muy tenue */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.nav-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo img {
+  height: 45px;
+  transition: transform 0.3s ease;
+}
+
+.nav-logo:hover img {
+  transform: scale(1.05);
+}
+
+.nav-item {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-left: 30px;
+  font-size: 0.9rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #FF6B00; /* Solo el texto cambia, sin bordes pesados 🟠 */
+}
+
+/* Botón de Login Estilo Minimal */
+.nav-login-minimal {
+  color: #FF6B00;
+  text-decoration: none;
+  margin-left: 30px;
+  padding: 8px 20px;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  border-radius: 2px; /* Esquinas más rectas para look premium */
+  transition: all 0.3s ease;
+}
+
+.nav-login-minimal:hover {
+  background-color: #FF6B00;
+  color: #000 !important;
+  border-color: #FF6B00;
+}
+
+/* --- CONFIGURACIÓN BASE --- */
+.mango-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2000;
+  background-color: transparent;
+}
+
+/* Efecto al hacer scroll */
+.mango-navbar.scrolled {
+  height: 70px;
+  background-color: rgba(5, 5, 5, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.nav-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo img {
+  height: 45px;
+  transition: transform 0.3s ease;
+}
+
+/* --- LINKS DE NAVEGACIÓN (Desktop) --- */
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none !important;
+  margin-left: 35px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #FF6B00;
+}
+
+.nav-login-minimal {
+  color: #FF6B00 !important;
+  text-decoration: none !important;
+  margin-left: 35px;
+  padding: 8px 24px;
+  border: 1px solid rgba(255, 107, 0, 0.4);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-login-minimal:hover {
+  background-color: #FF6B00;
+  color: #000 !important;
+  border-color: #FF6B00;
+}
+
+/* --- BOTÓN HAMBURGUESA --- */
+.nav-hamburger {
+  display: none; /* Se oculta en desktop */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2100;
+}
+
+.nav-hamburger .bar {
+  width: 30px;
+  height: 2px;
+  background-color: #FF6B00;
+  transition: all 0.3s ease;
+  transform-origin: left;
+}
+
+/* Animación del botón hamburguesa (X) */
+.nav-hamburger.active .bar:nth-child(1) { transform: rotate(45deg); }
+.nav-hamburger.active .bar:nth-child(2) { opacity: 0; }
+.nav-hamburger.active .bar:nth-child(3) { transform: rotate(-45deg); }
+
+/* --- RESPONSIVIDAD (Móvil) --- */
+@media (max-width: 768px) {
+  .nav-hamburger {
+    display: flex; /* Aparece en móvil */
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Escondido a la derecha */
+    height: 100vh;
+    width: 80%;
+    background-color: #050505;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  }
+
+  .nav-links.open {
+    right: 0; /* Se desplaza hacia adentro */
+  }
+
+  .nav-item, .nav-login-minimal {
+    margin: 20px 0;
+    font-size: 1.2rem;
+  }
+}

@@ -1,0 +1,124 @@
+/* --- FOOTER: CENTRAL LOGO & INDUSTRIAL DESIGN --- */
+.mango-footer-industrial {
+  background-color: #000;
+  padding: 80px 0 40px 0;
+  border-top: 2px solid #1a1a1a;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr; /* Logo central más ancho */
+  align-items: center;
+  padding: 0 50px;
+}
+
+/* Logo Central */
+.central-branding {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-logo-main {
+  height: 120px; /* Tamaño más grande */
+  filter: drop-shadow(0 0 15px rgba(255, 107, 0, 0.2));
+  transition: transform 0.5s ease;
+}
+
+.footer-logo-main:hover {
+  transform: scale(1.05) rotate(-1deg);
+  filter: drop-shadow(0 0 25px rgba(255, 107, 0, 0.4));
+}
+
+/* Info Izquierda */
+.side-info {
+  text-align: left;
+}
+
+.tech-text {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  color: #444;
+  letter-spacing: 2px;
+  margin-bottom: 5px !important;
+}
+
+/* Redes Derecha */
+.social-links {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.social-header {
+  font-family: 'Syncopate', sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: #FF6B00;
+  margin-bottom: 15px !important;
+}
+
+.icons-row {
+  display: flex;
+  gap: 20px;
+}
+
+.social-link-item {
+  color: #fff;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.social-link-item:hover {
+  color: #FF6B00;
+  transform: translateY(-3px);
+}
+
+/* Firma Desarrollador (Abajo) */
+.footer-dev-credit {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dev-line {
+  width: 100px;
+  height: 1px;
+  background: #222;
+  margin-bottom: 20px;
+}
+
+.dev-text {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 10px !important;
+  color: #555;
+  letter-spacing: 3px;
+}
+
+.dev-name {
+  color: #FF6B00;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  .side-info, .social-links {
+    text-align: center;
+    align-items: center;
+  }
+  .footer-logo-main {
+    height: 80px;
+  }
+}

@@ -1,0 +1,138 @@
+/* Importación de fuente moderna para boliches */
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+:root {
+  --primary-orange: #FF6B00;    /* Naranja vibrante */
+  --secondary-orange: #FF8533;  /* Naranja más claro para hover */
+  --dark-bg: #050505;           /* Fondo casi negro */
+  --card-bg: #121212;           /* Fondo de tarjetas */
+  --text-white: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--dark-bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-white);
+  overflow-x: hidden;
+}
+
+/* Contenedor principal con un sutil degradado radial */
+.index-container {
+  background: radial-gradient(circle at top right, #1a0f00 0%, #050505 60%);
+  min-height: 100vh;
+}
+
+/* Tipografías con estilo "Nightclub" */
+.index-title {
+  font-family: 'Syncopate', sans-serif;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+}
+
+.index-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+/* Botón de Iniciar Sesión / Mis Entradas */
+.login-button {
+  transition: all 0.3s ease-in-out !important;
+  border-width: 2px !important;
+}
+
+.login-button:hover {
+  box-shadow: 0 0 25px rgba(255, 107, 0, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Estilo para el Carousel */
+.carousel-container {
+  padding: 40px 0;
+}
+
+.react-multi-carousel-dot--active button {
+  background: var(--primary-orange) !important;
+}
+
+/* Iconos de Redes Sociales */
+.contact-icons .MuiIconButton-root {
+  color: var(--text-white);
+  transition: 0.3s;
+}
+
+.contact-icons .MuiIconButton-root:hover {
+  color: var(--primary-orange);
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 8px var(--primary-orange));
+}
+
+/* Footer y Copyright */
+.index-author {
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+.index-author strong {
+  color: var(--primary-orange);
+}
+
+/* Scrollbar personalizada para que combine con el boliche */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-orange);
+  border-radius: 10px;
+}
+
+/* Animación para los títulos de eventos */
+@keyframes glow {
+  from { text-shadow: 0 0 5px var(--primary-orange); }
+  to { text-shadow: 0 0 20px var(--primary-orange), 0 0 30px var(--secondary-orange); }
+}
+
+.index-title:hover {
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+/* Botón Principal (Contained) */
+.btn-primary-mango {
+  background-color: var(--primary-orange) !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  border-radius: 50px !important;
+  transition: 0.3s all ease-in-out !important;
+}
+
+.btn-primary-mango:hover {
+  background-color: var(--secondary-orange) !important;
+  box-shadow: 0 0 20px var(--primary-orange);
+  transform: scale(1.05);
+}
+
+/* Botón Secundario (Outlined) */
+.btn-outline-mango {
+  border: 2px solid var(--primary-orange) !important;
+  color: var(--primary-orange) !important;
+  background: transparent !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  transition: 0.3s all ease-in-out !important;
+}
+
+.btn-outline-mango:hover {
+  background-color: var(--primary-orange) !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px var(--primary-orange);
+}

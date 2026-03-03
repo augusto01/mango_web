@@ -1,0 +1,12 @@
+.btn-eliminar {
+  border: 1px solid red;
+  color: red;
+  background-color: transparent;
+  margin-left: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-eliminar:hover {
+  background-color: #ffe6e6;
+  color: #a00000;
+}

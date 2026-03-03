@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  background: #020617; /* Fondo Slate 950 (Oscuro profundo, no negro puro) */
+  background: #000000 !important; /* Fondo Slate 950 (Oscuro profundo, no negro puro) */
   color: #f8fafc;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

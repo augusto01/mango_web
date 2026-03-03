@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authProvider';
-import '../styles/Login.css';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { Box, Typography, Button } from '@mui/material';
+import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import ErrorAlert from '../components/Alerts/ErrorAlert';
+import '../styles/Login.css';
 
 const Login = () => {
   const { login, user } = useAuth();
@@ -14,9 +15,7 @@ const Login = () => {
   const [openError, setOpenError] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      navigate('/home');
-    }
+    if (user) navigate('/home');
   }, [user, navigate]);
 
   const handleChange = (e) => {
@@ -28,62 +27,75 @@ const Login = () => {
     try {
       await login(form.emailOrUser, form.password);
     } catch (err) {
-      console.error('Error durante el login:', err);
-      
-      if (err.status === 403) {
-        setError('Tu cuenta está inactiva. Renová la membresía para continuar.');
-      } else {
-        setError(err.message || 'Email/Usuario o contraseña incorrectos');
-      }
-
+      setError('Credenciales incorrectas. Verificá tus datos.');
       setOpenError(true);
     }
-
-};
-
-
+  };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>Iniciar sesión</h2>
+    <Box className="login-night-wrapper">
+      {/* Luces de ambiente sutiles */}
+      <div className="bg-glow-orange"></div>
 
-        <div className="mb-3">
-          <label htmlFor="emailOrUser">Email o usuario</label>
-          <input
-            type="text"
-            id="emailOrUser"
-            name="emailOrUser"
-            value={form.emailOrUser}
-            onChange={handleChange}
-            required
+      <Box className="glass-login-card">
+        {/* LOGO EN LUGAR DE TEXTO */}
+        <Box className="login-logo-wrapper">
+          <img 
+            src="/img/mangocompleto.png" 
+            alt="Logo Mango" 
+            className="login-brand-logo" 
           />
-        </div>
+          <div className="logo-shadow-glow"></div>
+        </Box>
 
-        <div className="mb-3 password-input">
-          <label htmlFor="password">Contraseña</label>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-          <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-          </span>
-        </div>
 
-        <button type="submit" className="login-btn">Ingresar</button>
-      </form>
+        <form onSubmit={handleSubmit} className="club-form">
+          <div className="custom-input-group">
+            <FiMail className="input-icon" />
+            <input
+              type="text"
+              name="emailOrUser"
+              placeholder="Email o Usuario"
+              value={form.emailOrUser}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      <ErrorAlert
-        open={openError}
-        onClose={() => setOpenError(false)}
-        message={error}
-      />
-    </div>
+          <div className="custom-input-group">
+            <FiLock className="input-icon" />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Contraseña"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+            <button 
+              type="button" 
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FiEyeOff /> : <FiEye />}
+            </button>
+          </div>
+
+          {/* BOTÓN CON DISEÑO DE EVENTOS */}
+          <Button type="submit" className="btn-industrial-buy">
+            INICIAR SESIÓN
+          </Button>
+
+          <Box className="login-options">
+            <Typography onClick={() => navigate('/register')}>
+              ¿No tenés cuenta? <span>Registrate</span>
+            </Typography>
+          </Box>
+        </form>
+      </Box>
+
+      <ErrorAlert open={openError} onClose={() => setOpenError(false)} message={error} />
+    </Box>
   );
 };
 

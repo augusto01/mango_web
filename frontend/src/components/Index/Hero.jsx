@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import logoMango from '../../../public/img/mangocompleto.png';
-import '../../styles/Index.css';
-
+import '../../styles/Hero.css';
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -13,21 +11,48 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPhrase((prev) => (prev + 1) % phrases.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <Box className="hero-section">
-      <img src={logoMango} alt="Logo Mango" className="hero-logo animate-fade-in" />
-      <Box className="phrase-container">
-        <Typography key={currentPhrase} variant="h4" className="hero-subtitle-laser">
-          {phrases[currentPhrase]}
-        </Typography>
+    <Box className="hero-main-container">
+      {/* CAPAS DE AMBIENTE */}
+      <div className="hero-noise-overlay"></div>
+      <div className="hero-scanner-line"></div>
+      <div className="screen-frame"></div>
+      
+      {/* PARTÍCULAS DE ENERGÍA */}
+      <div className="energy-particles">
+        {[...Array(5)].map((_, i) => <div key={i} className={`particle p${i}`}></div>)}
+      </div>
+
+      <Box className="hero-content">
+        {/* LOGO COMPACTO CON EFECTOS */}
+        <Box className="logo-container">
+          <div className="logo-glow-core"></div>
+          <img 
+            src="/img/mangocompleto.png" 
+            alt="Logo Mango" 
+            className="hero-logo-main" 
+          />
+          <div className="logo-scan-fx"></div>
+        </Box>
+
+        {/* TEXTO DINÁMICO */}
+        <Box className="text-wrapper">
+          <Typography key={currentPhrase} className="hero-subtitle-modern">
+            {phrases[currentPhrase]}
+          </Typography>
+        </Box>
+
+        {/* BOTÓN DE ACCIÓN */}
+        <Button className="btn-mango-main" onClick={() => navigate('/login')}>
+          <span className="btn-label">OBTENER ENTRADAS</span>
+        </Button>
       </Box>
-      <Button className="btn-hero" onClick={() => navigate('/login')}>
-        MIS ENTRADAS (QR) 🎫
-      </Button>
+
+     
     </Box>
   );
 };

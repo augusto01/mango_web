@@ -1,127 +1,133 @@
-/* Login.css */
+/* --- LOGIN CON LOGO & BOTÓN INDUSTRIAL --- */
 
-.login-container {
-  background-color: #0a0a0a;
-  min-height: 100vh;
+.login-night-wrapper {
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Orbitron', sans-serif;
-  padding: 20px;
-}
-
-.login-form {
-  background-color: rgba(0, 0, 0, 0.6);
-  border: 2px solid #00fff7;
-  border-radius: 12px;
-  padding: 30px;
-  width: 100%;
-  max-width: 400px;
-  color: #00fff7;
-}
-
-.login-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.login-form label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
-}
-
-.login-form input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid #00fff7;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 16px;
-}
-
-.password-input {
   position: relative;
-  display: flex;
-  align-items: center;
+  overflow: hidden;
 }
 
-.password-input input {
-  padding-right: 40px;
-}
-
-.eye-icon {
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.login-btn {
-  width: 100%;
-  background-color: transparent;
-  color: #00fff7;
-  border: 2px solid #00fff7;
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.login-bg {
-  background-color: #0a0a0a;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Orbitron', sans-serif;
-}
-
-.login-card {
-  padding: 30px;
-  border: 2px solid #00fff7;
-  background-color: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: #fff;
-  border-radius: 12px;
-}
-
-
-.login-btn:hover {
-  background-color: #00fff7;
-  color: #0a0a0a;
-}
-
-/* Corregimos la clase password-input */
-.password-input {
-  position: relative; /* ← importante para posicionar el ícono */
+.glass-login-card {
+  width: 90%;
+  max-width: 420px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 107, 0, 0.1); /* Toque naranja en el borde */
+  border-radius: 4px;
+  padding: 50px 40px;
+  z-index: 10;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-/* Centramos el icono de ojo dentro del input */
-.eye-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #00fff7;
+/* Contenedor del Logo */
+.login-logo-wrapper {
+  position: relative;
+  width: 180px; /* Tamaño compacto para login */
+  margin-bottom: 15px;
+}
+
+.login-brand-logo {
+  width: 100%;
+  position: relative;
   z-index: 2;
 }
 
-
-@media (max-width: 500px) {
-  .login-form {
-    padding: 20px;
-  }
-
-  .login-form h2 {
-    font-size: 20px;
-  }
+.logo-shadow-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background: #FF6B00;
+  filter: blur(40px);
+  opacity: 0.2;
+  z-index: 1;
 }
+
+.login-access-label {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.7rem !important;
+  color: #444;
+  letter-spacing: 5px;
+  margin-bottom: 40px !important;
+  text-transform: uppercase;
+}
+
+/* Botón idéntico a Eventos */
+.btn-industrial-buy {
+  margin-top: 25px !important;
+  background-color: transparent !important;
+  border: 2px solid #FF6B00 !important;
+  color: #FF6B00 !important;
+  border-radius: 0 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 900 !important;
+  padding: 14px !important;
+  transition: 0.2s ease-in-out !important;
+  width: 100%;
+  letter-spacing: 2px;
+}
+
+.btn-industrial-buy:hover {
+  background-color: #FF6B00 !important;
+  color: #000 !important;
+  box-shadow: 0 0 25px rgba(255, 107, 0, 0.4);
+}
+
+/* Estilo de inputs */
+.club-form { width: 100%; }
+
+.custom-input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.custom-input-group input {
+  width: 100%;
+  background: #050505;
+  border: 1px solid #1a1a1a;
+  padding: 16px 15px 16px 45px;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.custom-input-group input:focus {
+  border-color: #FF6B00;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #FF6B00;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+}
+
+.login-options {
+  margin-top: 25px;
+  text-align: center;
+  color: #444;
+  font-size: 0.75rem;
+}
+
+.login-options span { color: #FF6B00; cursor: pointer; }

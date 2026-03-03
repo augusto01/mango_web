@@ -23,6 +23,23 @@ exports.auth = (req, res, next) => {
   }
 };
 
+// Middleware para verificar roles específicos
+exports.isAdmin = (req, res, next) => {
+  if (req.user && req.user.rol === 'administrador') {
+    next();
+  } else {
+    return res.status(403).json({ message: "Acceso denegado: Se requiere rol Administrador" });
+  }
+};
+
+exports.isStaff = (req, res, next) => {
+  if (req.user && (req.user.rol === 'administrador' || req.user.rol === 'vendedor')) {
+    next();
+  } else {
+    return res.status(403).json({ message: "Acceso denegado: No tienes permisos de staff" });
+  }
+};
+
 // Función para crear (firmar) token JWT
 exports.createToken = (user) => {
   const payload = {

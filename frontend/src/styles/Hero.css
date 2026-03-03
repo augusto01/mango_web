@@ -1,0 +1,154 @@
+/* --- CONFIGURACIÓN BASE --- */
+.hero-main-container {
+  height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at center, #151515 0%, #000 100%);
+  background: #000 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* --- LOGO: EL NÚCLEO (MÁS COMPACTO) --- */
+.logo-container {
+  position: relative;
+  width: clamp(250px, 35vw, 420px); /* Más pequeño y controlado */
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-logo-main {
+  width: 100%;
+  height: auto;
+  z-index: 5;
+  filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.3));
+  animation: floatLogo 5s ease-in-out infinite;
+}
+
+/* Brillo Naranja central */
+.logo-glow-core {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  background: #FF6B00;
+  filter: blur(80px);
+  opacity: 0.2;
+  z-index: 1;
+  animation: pulseGlow 3s infinite alternate;
+}
+
+/* Efecto de línea láser cruzando el logo */
+.logo-scan-fx {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 107, 0, 0.5);
+  box-shadow: 0 0 10px #FF6B00;
+  z-index: 6;
+  animation: scanLogo 3s infinite;
+}
+
+@keyframes scanLogo {
+  0% { top: 20%; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: 80%; opacity: 0; }
+}
+
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.02); }
+}
+
+/* --- TIPOGRAFÍA Y TEXTO --- */
+.hero-subtitle-modern {
+  font-family: 'JetBrains Mono', monospace !important;
+  color: #fff !important;
+  font-size: clamp(0.7rem, 1.5vw, 1rem) !important;
+  letter-spacing: 10px !important;
+  text-transform: uppercase;
+  margin-top: 10px !important;
+  opacity: 0.8;
+  animation: slideUpFade 0.5s ease-out;
+}
+
+/* --- BOTÓN MEJORADO --- */
+.btn-mango-main {
+  margin-top: 40px !important;
+  padding: 12px 50px !important;
+  background: #FF6B00 !important;
+  color: #000 !important;
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 900 !important;
+  clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+  transition: 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+}
+
+.btn-mango-main:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 107, 0, 0.6);
+  letter-spacing: 1px;
+}
+
+.btn-glitch-text {
+  position: absolute;
+  bottom: 2px;
+  right: 15px;
+  font-size: 7px;
+  font-family: 'JetBrains Mono';
+  opacity: 0.7;
+}
+
+/* --- AMBIENTE: ESCÁNER Y RUIDO --- */
+.hero-noise-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_grain_texture.png');
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-scanner-line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #FF6B00, transparent);
+  animation: fullScan 6s linear infinite;
+  opacity: 0.2;
+  z-index: 3;
+}
+
+@keyframes fullScan {
+  0% { top: 0%; } 100% { top: 100%; }
+}
+
+.corner-tag {
+  position: absolute;
+  font-family: 'JetBrains Mono';
+  font-size: 10px;
+  color: #333;
+  padding: 20px;
+  letter-spacing: 2px;
+}
+.top-l { top: 0; left: 0; }
+.bottom-r { bottom: 0; right: 0; }
+
+/* Partículas sutiles */
+.particle {
+  position: absolute;
+  width: 1px; height: 1px;
+  background: #FF6B00;
+  border-radius: 50%;
+  animation: floatP 8s infinite linear;
+}
+.p0 { top: 20%; left: 15%; }
+.p1 { top: 70%; left: 80%; }
+@keyframes floatP { 
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(-100px); opacity: 0; }
+}

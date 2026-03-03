@@ -1,60 +1,86 @@
 import React from 'react';
-import {
-  FaBoxes, FaUsers, FaChartLine, FaUserTie,
-  FaShoppingCart, FaWarehouse, FaHistory
+import { 
+  FaBoxes, FaUsers, FaChartLine, FaUserTie, 
+  FaShoppingCart, FaWarehouse, FaHistory, FaMusic 
 } from 'react-icons/fa';
-import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { RiMoneyDollarCircleFill, RiDashboardFill } from "react-icons/ri";
 import { IoCalendarNumber } from "react-icons/io5";
 import { BiSolidUserBadge } from "react-icons/bi";
 import { MdOutlineWork } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authProvider';
+import Navbar from '../components/Layout/Navbar'; // Importado correctamente
+import { Typography } from '@mui/material';
 import '../styles/Home.css';
 
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const empresaNombre = user?.empresa?.nombre || 'Nombre de la empresa';
+  // Ajusté a user?.name porque en tu middleware usas 'name'
+  const userName = user?.name || user?.username || 'User_Unknown';
 
   const options = [
-    { icon: <RiMoneyDollarCircleFill size={40} />, title: 'Ventas', path: '/ventas' },
-    { icon: <FaBoxes size={40} />, title: 'Inventario', path: '/productos' },
-    { icon: <FaUsers size={40} />, title: 'Usuarios', path: '/usuarios' },
-    { icon: <FaUserTie size={40} />, title: 'Clientes', path: '/clientes' },
-    { icon: <FaChartLine size={40} />, title: 'Reportes', path: '/reportes' },
-    { icon: <BiSolidUserBadge size={40} />, title: 'Proveedores', path: '/proveedores' },
-    { icon: <FaShoppingCart size={40} />, title: 'Compras', path: '/compras' },
-    { icon: <FaWarehouse size={40} />, title: 'Almacén', path: '/almacen' },
-    { icon: <FaHistory size={40} />, title: 'Historial', path: '/historial' },
-    { icon: <FaHistory size={40} />, title: 'Servicios', path: '/servicios' },
-    { icon: <MdOutlineWork size={40} />, title: 'Trabajos', path: '/trabajos' },
-    { icon: <IoCalendarNumber size={40} />, title: 'Calendario', path: '/calendario' }
+    { icon: <RiMoneyDollarCircleFill />, title: 'Ventas', path: '/ventas', desc: 'Tickets y Barra' },
+    { icon: <FaBoxes />, title: 'Inventario', path: '/productos', desc: 'Stock Bebidas' },
+    { icon: <FaUsers />, title: 'Usuarios', path: '/usuarios', desc: 'Staff de Staff' },
+    { icon: <FaUserTie />, title: 'Clientes', path: '/clientes', desc: 'Base VIP' },
+    { icon: <FaChartLine />, title: 'Reportes', path: '/reportes', desc: 'Métricas Fest' },
+    { icon: <BiSolidUserBadge />, title: 'Proveedores', path: '/proveedores', desc: 'Logística' },
+    { icon: <FaShoppingCart />, title: 'Compras', path: '/compras', desc: 'Insumos' },
+    { icon: <FaWarehouse />, title: 'Almacén', path: '/almacen', desc: 'Depósito Central' },
+    { icon: <FaHistory />, title: 'Servicios', path: '/servicios', desc: 'Mantenimiento' },
+    { icon: <MdOutlineWork />, title: 'Trabajos', path: '/trabajos', desc: 'Tareas Staff' },
+    { icon: <IoCalendarNumber />, title: 'Calendario', path: '/calendario', desc: 'Próximas Fechas' },
+    { icon: <FaMusic />, title: 'Line Up', path: '/lineup', desc: 'Gestión de DJs' }
   ];
 
   return (
-    <>
-      <Navbar />
-      <div className="container mt-5">
-        <h1 className="text-center mb-5">{empresaNombre}</h1>
-        <div className="row">
+    <div className="home-dashboard-wrapper">
+      
+      {/* 1. AGREGAMOS EL NAVBAR AQUÍ ABAJO */}
+      <Navbar /> 
+
+      {/* Fondo con luces sutiles */}
+      <div className="home-glow-bg"></div>
+
+      {/* 2. IMPORTANTE: El margen superior (mt-5 o superior) para que el Nav no tape el título */}
+      <div className="container home-content-z" style={{ paddingTop: '100px' }}>
+        
+        {/* Header de Bienvenida */}
+        <div className="home-welcome-header">
+          <div className="welcome-text-box">
+            <Typography variant="h6" className="system-status">
+              <span className="blink">●</span> SYSTEM_ONLINE v.2026
+            </Typography>
+            <h1 className="welcome-title">HOLA, {userName.toUpperCase()}</h1>
+          </div>
+        </div>
+
+        {/* Grid de Opciones */}
+        <div className="row g-4 mt-2">
           {options.map((option, index) => (
-            <div
-              key={index}
-              className="col-md-4 col-sm-6 mb-4"
+            <div 
+              key={index} 
+              className="col-xl-3 col-lg-4 col-md-6 col-sm-12"
               onClick={() => navigate(option.path)}
               style={{ cursor: 'pointer' }}
             >
-              <div className="card text-center option-card h-100">
-                <div className="card-body d-flex flex-column justify-content-center align-items-center">
-                  <div className="mb-3">{option.icon}</div>
-                  <h5 className="card-title">{option.title}</h5>
+              <div className="home-option-card">
+                <div className="card-border-top"></div>
+                <div className="icon-wrapper-home">
+                  {option.icon}
                 </div>
+                <div className="card-info-home">
+                  <h3>{option.title}</h3>
+                  <p>{option.desc}</p>
+                </div>
+                <div className="card-corner-fx"></div>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

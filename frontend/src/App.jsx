@@ -10,24 +10,35 @@ import Index from './components/Index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function App() {
+import { Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import { ProtectedRoute } from './components/ProtectedRoute';
+
+const AppRoutes = () => {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Navbar /> 
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      
+      {/* Solo Admin y Vendedor pueden ver el Home/Dashboard */}
+      <Route 
+        path="/home" 
+        element={
+          <ProtectedRoute allowedRoles={['administrador', 'vendedor']}>
+            <Home />
+          </ProtectedRoute>
+        } 
+      />
 
-        {/* Área de contenido dinámico */}
-        <main style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </main>
-
-        <Footer />
-      </BrowserRouter>
-    </AuthProvider>
+      {/* Rutas exclusivas de Administrador */}
+      <Route 
+        path="/usuarios" 
+        element={
+          <ProtectedRoute allowedRoles={['administrador']}>
+            <Usuarios />
+          </ProtectedRoute>
+        } 
+      />
+    </Routes>
   );
-}
-
-export default App;
+};

@@ -1,44 +1,55 @@
-// src/App.js
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from '../context/authProvider';
-import Navbar from './components/Layout/Navbar';
-import Footer from './components/Layout/Footer';
-import Login from './components/Login';
-import Index from './components/Index';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/authProvider';
+import Navbar from './components/layout/Navbar';
+import Hero from './components/home/Hero'; // Tu landing pública
+import HomeAdministrador from './pages/admin/HomeAdministrador';
+import HomeVendedor from './pages/staff/HomeVendedor';
+import HomeConsumidor from './pages/client/HomeConsumidor';
+import Login from './pages/auth/Login';
 
-// Estilos globales
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-
-import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import { ProtectedRoute } from './components/ProtectedRoute';
-
-const AppRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      
-      {/* Solo Admin y Vendedor pueden ver el Home/Dashboard */}
-      <Route 
-        path="/home" 
-        element={
-          <ProtectedRoute allowedRoles={['administrador', 'vendedor']}>
-            <Home />
-          </ProtectedRoute>
-        } 
-      />
-
-      {/* Rutas exclusivas de Administrador */}
-      <Route 
-        path="/usuarios" 
-        element={
-          <ProtectedRoute allowedRoles={['administrador']}>
-            <Usuarios />
-          </ProtectedRoute>
-        } 
-      />
-    </Routes>
-  );
+// Componente para proteger rutas
+const ProtectedRoute = ({ children }) => {
+  const { isAuth, loading } = useAuth();
+  if (loading) return null; // O un spinner de carga
+  return isAuth ? children : <Navigate to="/login" />;
 };
+
+// --- EL "SWITCH" DE HOMES ---
+const HomeRouter = () => {
+  const { user } = useAuth();
+
+  // Dependiendo del rol, retornamos un componente distinto
+  switch (user?.rol?.toLowerCase()) {
+    case 'administrador':
+      return <HomeAdministrador />;
+    case 'vendedor':
+      return <HomeVendedor />;
+    default:
+      return <HomeConsumidor />;
+  }
+};
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        {/* Ruta Pública */}
+        <Route path="/" element={<Hero />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Ruta Home Protegida y Dinámica */}
+        <Route 
+          path="/home" 
+          element={
+            <ProtectedRoute>
+              <HomeRouter />
+            </ProtectedRoute>
+          } 
+        />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

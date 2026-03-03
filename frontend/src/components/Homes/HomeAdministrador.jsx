@@ -8,10 +8,10 @@ import { IoCalendarNumber } from "react-icons/io5";
 import { BiSolidUserBadge } from "react-icons/bi";
 import { MdOutlineWork } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/authProvider';
-import Navbar from '../components/Layout/Navbar'; // Importado correctamente
+import { useAuth } from '../../../context/authProvider';
+import Navbar from '../../components/Layout/Navbar'; // Importado correctamente
 import { Typography } from '@mui/material';
-import '../styles/Home.css';
+import '../../styles/HomeRoles.css';
 
 const Home = () => {
   const { user } = useAuth();

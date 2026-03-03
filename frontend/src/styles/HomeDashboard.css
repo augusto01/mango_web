@@ -1,0 +1,52 @@
+/* --- ESTILOS ESPECÍFICOS VENDEDOR (COLORES MANGO) --- */
+
+.vendedor-card {
+  /* Mantenemos la base oscura y elegante */
+  background: rgba(15, 15, 15, 0.7) !important;
+  border: 1px solid rgba(255, 107, 0, 0.1) !important;
+}
+
+.vendedor-card:hover {
+  border-color: #FF6B00 !important; /* Naranja Mango Principal */
+  background: rgba(255, 107, 0, 0.05) !important;
+  box-shadow: 0 15px 40px rgba(255, 107, 0, 0.15) !important;
+}
+
+/* El icono y detalles cambian al amarillo Mango en hover */
+.vendedor-card:hover .icon-wrapper-home {
+  color: #ff9900 !important; /* Amarillo Mango */
+  text-shadow: 0 0 20px rgba(255, 153, 0, 0.5);
+  transform: scale(1.1) rotate(2deg);
+}
+
+.vendedor-card .card-border-top {
+  background: #FF6B00 !important; /* Línea superior Naranja */
+}
+
+.vendedor-card .card-corner-fx {
+  background: rgba(255, 107, 0, 0.1);
+}
+
+.vendedor-card:hover .card-corner-fx {
+  background: #ff9900 !important; /* Esquina Amarilla al hacer hover */
+}
+
+/* Títulos dentro de las cards de vendedor */
+.vendedor-card h3 {
+  color: #fff;
+  transition: 0.3s;
+}
+
+.vendedor-card:hover h3 {
+  color: #ff9900;
+}
+
+/* Ajuste para la card de ESCANEAR (hacerla destacar) */
+.vendedor-card.scan {
+  border: 1px solid rgba(255, 107, 0, 0.3) !important;
+  background: rgba(255, 107, 0, 0.02) !important;
+}
+
+.vendedor-card.scan .icon-wrapper-home {
+  color: #FF6B00;
+}

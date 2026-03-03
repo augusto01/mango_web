@@ -161,3 +161,125 @@
   text-align: center;
   letter-spacing: 1px;
 }
+
+/* --- SECCIÓN DE URGENCIA --- */
+.urgency-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  background: rgba(255, 107, 0, 0.03);
+  padding: 15px;
+  border: 1px solid rgba(255, 107, 0, 0.1);
+  margin-top: 20px;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .urgency-container { grid-template-columns: 1fr; gap: 15px; }
+}
+
+.tech-label-xs {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 9px !important;
+  color: #555 !important;
+  letter-spacing: 1px;
+}
+
+.countdown-timer {
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 1.2rem !important;
+  color: #FF6B00 !important;
+}
+
+.batch-badge {
+  display: inline-block;
+  background: #FF6B00;
+  color: #000;
+  font-family: 'JetBrains Mono';
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 8px;
+  margin-bottom: 10px;
+}
+
+/* BARRA DE PROGRESO */
+.batch-progress {
+  height: 4px !important;
+  background-color: #1a1a1a !important;
+  margin-top: 5px;
+}
+
+.batch-progress .MuiLinearProgress-bar {
+  background-color: #FF6B00 !important;
+}
+
+.avail-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.modal-footer-minimal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #444 !important;
+  font-size: 9px !important;
+  margin-top: 30px;
+}
+
+/* --- MODAL CLEAN VERSION (ACTUALIZADO) --- */
+.modal-industrial-clean {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 95% !important;
+  max-width: 600px !important;
+  background: #080808 !important;
+  border: 1px solid #222 !important; /* Borde más sutil para que resalte la marca de agua */
+  outline: none !important;
+  box-shadow: 0 0 60px rgba(0,0,0,1) !important;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+/* MARCA DE AGUA / LOGO DE FONDO */
+.modal-industrial-clean::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg); /* Un poco inclinada queda más pro */
+  width: 120%;
+  height: 120%;
+  /* CAMBIA ESTA URL POR TU LOGO (PNG con transparencia) */
+  background-image: url('https://tu-sitio.com/logo-mango-outline.png'); 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.03; /* Muy sutil para que no moleste la lectura */
+  pointer-events: none; /* Para que no interfiera con los clics */
+  z-index: 0;
+}
+
+/* Aseguramos que el contenido esté por encima del logo de fondo */
+.modal-minimal-content {
+  position: relative;
+  z-index: 1;
+  padding: 40px !important;
+}
+
+/* ... (el resto de tus estilos se mantienen igual) ... */
+
+/* Ajuste adicional para el Timer para que brille un poco más sobre el fondo */
+.countdown-timer {
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 1.4rem !important;
+  color: #FF6B00 !important;
+  text-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
+}
+

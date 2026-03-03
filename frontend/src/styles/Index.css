@@ -44,7 +44,6 @@
   margin-left: -5%;
   margin-top: 40px;
   margin-bottom: 40px;
-  box-shadow: 0 0 25px rgba(255, 107, 0, 0.4);
   z-index: 10;
 }
 
@@ -274,6 +273,162 @@
   font-family: 'Syncopate', sans-serif !important;
   font-size: 1rem !important;
   margin-top: 15px !important;
+}
+
+/* --- DJS --- */
+/* --- DJ SECTION: INDUSTRIAL ARTISTS --- */
+/* Contenedor principal al 100% del viewport */
+.dj-full-width-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #000;
+  overflow: hidden;
+}
+
+.dj-card-industrial {
+  position: relative;
+  /* Altura dinámica: 60vh en desktop, 40vh en móvil */
+  height: 70vh; 
+  width: 100%;
+  overflow: hidden;
+  background: #050505;
+  border: 0.5px solid #1a1a1a; /* Bordes más finos para look premium */
+}
+
+/* Ajuste para móviles */
+@media (max-width: 600px) {
+  .dj-card-industrial {
+    height: 50vh; /* Se apilan y ocupan media pantalla cada uno */
+  }
+  
+  .dj-name-industrial {
+    font-size: 2.5rem !important; /* Texto un poco más pequeño en móvil para que no rompa */
+  }
+}
+
+.dj-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Esto es vital para que no se deforme al estirarse */
+  filter: grayscale(1) contrast(1.2) brightness(0.6);
+  transition: all 0.8s ease;
+}
+
+.dj-card-industrial:hover .dj-img {
+  filter: grayscale(0) contrast(1) brightness(0.8);
+  transform: scale(1.1);
+}
+
+/* El degradado ahora es más alto para asegurar legibilidad en cualquier ancho */
+.dj-info-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 60px 40px;
+  background: linear-gradient(to top, 
+    rgba(0,0,0,1) 0%, 
+    rgba(0,0,0,0.5) 50%, 
+    transparent 100%);
+  z-index: 2;
+}
+
+/* --- UTILIDAD PARA SECCIONES FULL WIDTH --- */
+.full-bleed-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #000; /* Fondo negro para que no se vea blanco en los bordes */
+}
+
+/* Ajuste específico para el Carrusel de Eventos */
+.event-card-industrial {
+  /* En lugar de un ancho fijo, dejamos que el carrusel lo maneje */
+  margin: 0; 
+  height: 600px;
+  border-radius: 0; /* Estética industrial: esquinas rectas */
+  border: 0.5px solid #1a1a1a;
+}
+
+/* Para que el carrusel no deje espacios blancos en los costados */
+.react-multi-carousel-list {
+  position: static !important;
+}
+
+/* Si quieres que las fotos de los eventos ocupen todo el alto de la card */
+.img-industrial {
+  height: 350px;
+  object-fit: cover;
+}
+
+/* --- DJ SECTION: MEGA CARDS --- */
+
+.dj-card-industrial.large-view {
+  height: 85vh; /* Altura masiva */
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(255, 107, 0, 0.1);
+}
+
+.dj-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* El secreto: un filtro que se aclare al hacer hover */
+  filter: grayscale(1) brightness(0.4) contrast(1.1);
+  transition: all 1.2s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+.dj-card-industrial:hover .dj-img {
+  filter: grayscale(0) brightness(0.8) contrast(1);
+  transform: scale(1.08); /* Zoom sutil */
+}
+
+/* Overlay de información más agresivo */
+.dj-info-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 80px 50px; /* Más aire para que se vea premium */
+  background: linear-gradient(to top, 
+    rgba(0,0,0,1) 0%, 
+    rgba(0,0,0,0.6) 40%, 
+    transparent 100%);
+  z-index: 5;
+}
+
+.dj-name-industrial {
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(2.5rem, 6vw, 5rem) !important; /* Tamaño fluido según pantalla */
+  color: #fff !important;
+  line-height: 0.85 !important;
+  letter-spacing: -2px !important;
+  margin-top: 15px !important;
+  text-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+/* Decoraciones extras para el look "Industrial" */
+.corner-tr { position: absolute; top: 20px; right: 20px; width: 20px; height: 20px; border-top: 2px solid #333; border-right: 2px solid #333; }
+.corner-bl { position: absolute; bottom: 20px; left: 20px; width: 20px; height: 20px; border-bottom: 2px solid #333; border-left: 2px solid #333; }
+
+/* Responsive para móvil */
+@media (max-width: 600px) {
+  .dj-card-industrial.large-view {
+    height: 60vh; /* Un poco más bajo en móvil para poder scrollear */
+  }
+  .dj-info-overlay {
+    padding: 40px 20px;
+  }
 }
 
 

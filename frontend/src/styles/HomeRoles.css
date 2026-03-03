@@ -190,6 +190,80 @@
   background: #FF6B00;
 }
 
+.next-event-hero {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  padding: 30px;
+  margin-bottom: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.next-event-hero:hover {
+  background: rgba(255, 107, 0, 0.05);
+  border-color: #FF6B00;
+}
+
+.label-tech {
+  font-family: 'JetBrains Mono';
+  font-size: 10px;
+  color: #FF6B00;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.event-name {
+  font-family: 'Syncopate';
+  font-weight: 800;
+  margin: 10px 0;
+  font-size: 1.5rem;
+}
+
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 25px;
+}
+
+.stat-info {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono';
+  font-size: 11px;
+  margin-bottom: 8px;
+  color: #888;
+}
+
+.stat-bar {
+  height: 6px !important;
+  background: #1a1a1a !important;
+}
+
+.stat-bar .MuiLinearProgress-bar {
+  background: #fff !important;
+}
+
+.scan-bar .MuiLinearProgress-bar {
+  background: #FF6B00 !important;
+}
+
+.btn-stats-direct {
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 8px 15px;
+  font-family: 'JetBrains Mono';
+  font-size: 10px;
+}
+
+@media (max-width: 768px) {
+  .hero-stats-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
   .home-welcome-header {

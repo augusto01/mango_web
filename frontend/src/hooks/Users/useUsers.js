@@ -2,13 +2,12 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export const useUsers = () => {
+  const [users, setUsers] = useState([]); // Estado para guardar la lista
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Traemos la URL directamente del .env de Vite
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-  // Función para obtener el token del momento
   const getHeaders = () => ({
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -16,7 +15,22 @@ export const useUsers = () => {
     }
   });
 
-  // --- PETICIÓN: CREAR ---
+  // --- NUEVA PETICIÓN: OBTENER TODOS ---
+  const getUsers = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(`${BASE_URL}/users/list`, getHeaders());
+      // Ajusta 'response.data' según cómo devuelva tu backend la lista (ej: response.data.users)
+      setUsers(Array.isArray(response.data) ? response.data : response.data.users || []);
+    } catch (err) {
+      const msg = err.response?.data?.message || "ERROR_AL_OBTENER_USUARIOS";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createUser = async (userData) => {
     setLoading(true);
     setError(null);
@@ -32,7 +46,6 @@ export const useUsers = () => {
     }
   };
 
-  // --- PETICIÓN: MODIFICAR ---
   const updateUser = async (id, userData) => {
     setLoading(true);
     setError(null);
@@ -48,7 +61,6 @@ export const useUsers = () => {
     }
   };
 
-  // --- PETICIÓN: ELIMINAR LÓGICO ---
   const deleteUser = async (id) => {
     setLoading(true);
     setError(null);
@@ -64,5 +76,6 @@ export const useUsers = () => {
     }
   };
 
-  return { createUser, updateUser, deleteUser, loading, error };
+  // Importante: Agregamos users y getUsers al return
+  return { users, getUsers, createUser, updateUser, deleteUser, loading, error, setError };
 };

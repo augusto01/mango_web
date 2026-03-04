@@ -1,42 +1,72 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  FaUserPlus, FaUserShield, FaEdit, FaTrashAlt, FaArrowLeft, FaSearch, FaFilter 
+  FaUserPlus, FaEdit, FaTrashAlt, FaArrowLeft, FaSearch, FaFilter, FaHistory, FaEnvelope 
 } from 'react-icons/fa';
-import { Typography, LinearProgress, IconButton, TextField, MenuItem, InputAdornment } from '@mui/material';
+import { 
+  Typography, IconButton, TextField, MenuItem, 
+  InputAdornment, CircularProgress, Box, Fade 
+} from '@mui/material';
+
+// Componentes y Hooks
 import Navbar from '../../components/Layout/Navbar';
 import StaffFormModal from './StaffFormModal';
+import { useUsers } from '../../hooks/Users/useUsers';
+
+// Estilos
 import '../../styles/HomeRoles.css'; 
 import '../../styles/Staff.css'; 
 
 const StaffManagement = () => {
   const navigate = useNavigate();
+  
+  // Custom Hook con lógica de Firebase/MongoDB
+  const { users, getUsers, deleteUser, loading } = useUsers();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState(null);
-  
-  // Estados para Filtros
   const [searchTerm, setSearchTerm] = useState("");
   const [filterRole, setFilterRole] = useState("todos");
 
-  // Datos mockeados extendidos
-  const [staffList, setStaffList] = useState([
-    { id: 1, name: "Lucas Gomez", username: "lucas_staff", role: "admin", status: "activo", phone: "11 2233-4455" },
-    { id: 2, name: "Maria Becerra", username: "maria_ventas", role: "vendedor", status: "activo", phone: "11 5566-7788" },
-    { id: 3, name: "Jorge Rojas", username: "jorge_qr", role: "control", status: "inactivo", phone: "11 9900-1122" },
-  ]);
+  // Carga de datos inicial
+  useEffect(() => {
+    getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Lógica de Filtrado Dinámico
+  // Filtrado reactivo
   const filteredStaff = useMemo(() => {
-    return staffList.filter(staff => {
-      const matchesSearch = staff.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            staff.username.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesRole = filterRole === "todos" || staff.role === filterRole;
+    if (!users) return [];
+    return users.filter(staff => {
+      const fullName = `${staff.name} ${staff.lastname}`.toLowerCase();
+      const matchesSearch = 
+        fullName.includes(searchTerm.toLowerCase()) || 
+        staff.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        staff.email?.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesRole = filterRole === "todos" || staff.rol === filterRole;
       return matchesSearch && matchesRole;
     });
-  }, [searchTerm, filterRole, staffList]);
+  }, [searchTerm, filterRole, users]);
 
   const handleEdit = (staff) => {
     setSelectedStaff(staff);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("¿ESTÁ SEGURO DE ELIMINAR ESTE ACCESO? ESTA ACCIÓN ES IRREVERSIBLE.")) {
+      try {
+        await deleteUser(id);
+        getUsers(); 
+      } catch (err) {
+        console.error("Error al eliminar:", err);
+      }
+    }
+  };
+
+  const handleOpenCreate = () => {
+    setSelectedStaff(null);
     setIsModalOpen(true);
   };
 
@@ -47,29 +77,31 @@ const StaffManagement = () => {
 
       <div className="container home-content-z" style={{ paddingTop: '100px' }}>
         
+        {/* NAVEGACIÓN */}
         <div className="staff-navigation-top">
            <button className="btn-back-minimal" onClick={() => navigate(-1)}>
               <FaArrowLeft /> VOLVER_AL_PANEL
            </button>
         </div>
 
+        {/* HEADER */}
         <div className="home-welcome-header">
           <div className="welcome-text-box">
             <Typography variant="h6" className="system-status">
-              <span className="blink">●</span> SECURITY_LAYER // STAFF_MANAGEMENT
+              <span className="blink">●</span> SECURITY_LAYER // STAFF_DATABASE
             </Typography>
             <h1 className="welcome-title">GESTIÓN DE PERSONAL</h1>
           </div>
-          <button className="quick-scan-btn" onClick={() => { setSelectedStaff(null); setIsModalOpen(true); }}>
+          <button className="quick-scan-btn" onClick={handleOpenCreate}>
               <FaUserPlus /> <span>NUEVO_USUARIO</span>
           </button>
         </div>
 
-        {/* BARRA DE BÚSQUEDA Y FILTROS */}
+        {/* FILTROS */}
         <div className="staff-filter-bar">
           <div className="search-box-industrial">
             <TextField
-              placeholder="BUSCAR POR NOMBRE O USUARIO..."
+              placeholder="BUSCAR POR NOMBRE, EMAIL O USUARIO..."
               variant="outlined"
               fullWidth
               value={searchTerm}
@@ -99,64 +131,81 @@ const StaffManagement = () => {
               }}
             >
               <MenuItem value="todos">TODOS LOS ROLES</MenuItem>
-              <MenuItem value="admin">ADMINISTRADORES</MenuItem>
+              <MenuItem value="administrador">ADMINISTRADORES</MenuItem>
               <MenuItem value="vendedor">VENDEDORES</MenuItem>
               <MenuItem value="control">CONTROL DE ACCESO</MenuItem>
             </TextField>
           </div>
         </div>
 
-        {/* TABLA INDUSTRIAL ACTUALIZADA */}
+        {/* TABLA DE PERSONAL */}
         <div className="staff-table-wrapper mb-5">
-          <table className="staff-table">
-            <thead>
-              <tr>
-                <th>NOMBRE Y APELLIDO</th>
-                <th>USERNAME</th>
-                <th>CELULAR</th>
-                <th>TIPO USUARIO</th>
-                <th>ESTADO</th>
-                <th style={{ textAlign: 'right' }}>ACCIONES</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredStaff.length > 0 ? (
-                filteredStaff.map((staff) => (
-                  <tr key={staff.id} className="staff-row">
-                    <td>
-                      <div className="staff-name-cell">{staff.name.toUpperCase()}</div>
-                      <div className="staff-id-tag">ID_{staff.id.toString().padStart(3, '0')}</div>
-                    </td>
-                    <td><span className="staff-user-tag">@{staff.username}</span></td>
-                    <td><span className="staff-phone-tag">{staff.phone}</span></td>
-                    <td><span className={`role-badge ${staff.role}`}>{staff.role}</span></td>
-                    <td>
-                      <div className="status-indicator">
-                        <span className={staff.status === 'activo' ? 'dot-active' : 'dot-inactive'}></span>
-                        {staff.status}
-                      </div>
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div className="staff-actions">
-                        <IconButton className="btn-action-staff" onClick={() => handleEdit(staff)}>
-                          <FaEdit />
-                        </IconButton>
-                        <IconButton className="btn-action-staff btn-delete">
-                          <FaTrashAlt />
-                        </IconButton>
-                      </div>
-                    </td>
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 8 }}>
+              <CircularProgress sx={{ color: '#FF6B00' }} />
+            </Box>
+          ) : (
+            <Fade in={!loading}>
+              <table className="staff-table">
+                <thead>
+                  <tr>
+                    <th>NOMBRE Y APELLIDO</th>
+                    <th>USUARIO / CONTACTO</th>
+                    <th>CELULAR</th>
+                    <th>TIPO</th>
+                    <th>CREADO_POR</th>
+                    <th style={{ textAlign: 'right' }}>ACCIONES</th>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: 'center', padding: '50px', color: '#444' }}>
-                    NO SE ENCONTRARON RESULTADOS BAJO ESTOS PARÁMETROS // 404_NOT_FOUND
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {filteredStaff.length > 0 ? (
+                    filteredStaff.map((staff) => (
+                      <tr key={staff._id} className="staff-row">
+                        <td className="font-readable">
+                          <div className="staff-name-cell" style={{ fontWeight: 600, color: '#fff' }}>
+                            {staff.name?.toUpperCase()} {staff.lastname?.toUpperCase()}
+                          </div>
+                          <div className="staff-id-tag mono-text">UID_{staff._id?.slice(-6).toUpperCase()}</div>
+                        </td>
+                        <td className="font-readable">
+                          <div className="staff-user-tag" style={{ color: '#FF6B00', fontWeight: 600 }}>@{staff.username}</div>
+                          <div className="staff-email-sub"><FaEnvelope style={{fontSize: '10px'}}/> {staff.email}</div>
+                        </td>
+                        <td className="font-readable"><span className="staff-phone-tag">{staff.cel || '---'}</span></td>
+                        <td>
+                          <span className={`role-badge ${staff.rol?.toLowerCase()}`}>
+                            {staff.rol?.toUpperCase()}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="staff-audit-cell mono-text">
+                            <FaHistory style={{ marginRight: '6px', fontSize: '10px' }} /> 
+                            {staff.createdBy || 'SYSTEM_ROOT'}
+                          </div>
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <div className="staff-actions">
+                            <IconButton className="btn-action-staff edit-btn" onClick={() => handleEdit(staff)}>
+                              <FaEdit />
+                            </IconButton>
+                            <IconButton className="btn-action-staff delete-btn" onClick={() => handleDelete(staff._id)}>
+                              <FaTrashAlt />
+                            </IconButton>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="no-data-msg">
+                        NO_RECORDS_FOUND // SIN RESULTADOS EN LA BASE DE DATOS
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </Fade>
+          )}
         </div>
       </div>
 
@@ -164,7 +213,7 @@ const StaffManagement = () => {
         open={isModalOpen} 
         onClose={() => setIsModalOpen(false)}
         staffToEdit={selectedStaff}
-        onSave={(data) => console.log("Guardando:", data)}
+        onSave={() => getUsers()} 
       />
     </div>
   );

@@ -99,6 +99,64 @@
 
 .vip-btn { background: #FF6B00 !important; color: #000 !important; }
 
+/* Fuente para la tabla */
+.staff-table {
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; /* Más legible */
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+/* Tipografía específica para datos técnicos */
+.staff-id-tag, .staff-audit-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+}
+
+/* COLORES DE ROLES */
+.role-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    display: inline-block;
+}
+
+.role-badge.administrador {
+    background: rgba(255, 107, 0, 0.1);
+    color: #FF6B00; /* Naranja */
+    border: 1px solid #FF6B00;
+}
+
+.role-badge.vendedor {
+    background: rgba(150, 150, 150, 0.1);
+    color: #969696; /* Gris */
+    border: 1px solid #969696;
+}
+
+.role-badge.control {
+    background: rgba(0, 180, 216, 0.1);
+    color: #00b4d8; /* Cyan para variar del gris */
+    border: 1px solid #00b4d8;
+}
+
+/* BOTONES DE ACCIÓN */
+.btn-action-staff.edit-btn {
+    color: #4cc9f0 !important;
+}
+
+.btn-action-staff.edit-btn:hover {
+    background: rgba(76, 201, 240, 0.1) !important;
+}
+
+.btn-action-staff.delete-btn {
+    color: #ff3131 !important;
+}
+
+.btn-action-staff.delete-btn:hover {
+    background: rgba(255, 49, 49, 0.1) !important;
+}
+
 .blink { animation: blinker 1s linear infinite; }
 @keyframes blinker { 50% { opacity: 0; } }
 

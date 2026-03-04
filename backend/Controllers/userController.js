@@ -4,17 +4,21 @@ const { validationResult } = require('express-validator'); // Recomendado usar e
 
 // --- 1. REGISTRAR (ALTA DE STAFF) ---
 const register = async (req, res) => {
-    // Validamos que no vengan campos vacíos
-    const { email, password, username, rol, name, lastname } = req.body;
+    // 1. Extraemos solo lo necesario para evitar basura del req.body
+    const { email, password, username, rol, name, lastname, cel } = req.body;
 
-    if (!email || !password || !username || !rol) {
-        return res.status(400).json({ status: "error", message: "CAMPOS_OBLIGATORIOS_VACIOS" });
+    // 2. Validación manual de seguridad
+    if (!email || !password || !username || !rol || !name || !lastname) {
+        return res.status(400).json({ 
+            status: "error", 
+            message: "FALTAN_DATOS_OBLIGATORIOS" 
+        });
     }
 
     try {
         const emailLower = email.toLowerCase().trim();
         
-        // SEGURIDAD: Verificar si el usuario ya existe (Email o Username)
+        // 3. Verificar duplicados
         const existingUser = await User.findOne({ 
             $or: [{ email: emailLower }, { username: username.trim() }] 
         });
@@ -22,22 +26,22 @@ const register = async (req, res) => {
         if (existingUser) {
             return res.status(409).json({
                 status: "error",
-                message: "CREDENCIALES_YA_REGISTRADAS"
+                message: "EL_USUARIO_O_EMAIL_YA_EXISTE"
             });
         }
 
-        // VALIDACIÓN DE ROL: Evitar que inyecten roles inexistentes
-        const rolesPermitidos = ['administrador', 'vendedor', 'control'];
-        if (!rolesPermitidos.includes(rol.toLowerCase())) {
-            return res.status(400).json({ status: "error", message: "ROL_NO_VALIDO" });
-        }
-
+        // 4. Hashear password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // 5. Crear usuario con campos específicos (NO USAR ...req.body)
         const newUser = new User({
-            ...req.body,
+            name: name.trim(),
+            lastname: lastname.trim(),
+            username: username.trim(),
             email: emailLower,
             password: hashedPassword,
+            rol: rol.toLowerCase(),
+            cel: cel || "", // Campo opcional
             active: true
         });
 
@@ -47,8 +51,16 @@ const register = async (req, res) => {
             status: "success",
             message: "USUARIO_CREADO_EXITOSAMENTE"
         });
+
     } catch (error) {
-        return res.status(500).json({ status: "error", message: "ERROR_INTERNO_SERVIDOR" });
+        // MUY IMPORTANTE: Esto te dirá en la terminal de VS Code POR QUÉ falló (Mongoose validation, etc)
+        console.error("CRITICAL_BACKEND_ERROR:", error);
+        
+        return res.status(500).json({ 
+            status: "error", 
+            message: "ERROR_INTERNO_SERVIDOR",
+            details: error.message // Esto ayudará a debuguear desde el Front
+        });
     }
 };
 

@@ -1,0 +1,301 @@
+/* ==========================================
+   CONFIGURACIÓN DE CARDS (LISTADO)
+   ========================================== */
+.event-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    padding-bottom: 50px;
+}
+
+.event-card-industrial {
+    background: rgba(15, 15, 15, 0.95);
+    border: 1px solid #222;
+    border-top: 3px solid #FF6B00;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card-industrial:hover {
+    transform: translateY(-10px);
+    border-color: #FF6B00;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 107, 0, 0.1);
+}
+
+/* ==========================================
+   ESTRUCTURA DEL MODAL (FULL SCREEN)
+   ========================================== */
+.modal-industrial-full-wrapper {
+    position: fixed !important;
+    top: 0; left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #080808;
+    padding: 50px 80px;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999 !important;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+    .modal-industrial-full-wrapper {
+        top: 2vh; left: 2vw;
+        width: 96vw !important;
+        height: 96vh !important;
+        border-right: 6px solid #FF6B00;
+        box-shadow: 0 0 100px rgba(0,0,0,0.9);
+    }
+}
+
+.event-form-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 1700px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   TÍTULOS Y CABECERA
+   ========================================== */
+.modal-header-section {
+    margin-bottom: 40px;
+    border-left: 4px solid #FF6B00;
+    padding-left: 25px;
+}
+
+.syncopate-title {
+    font-family: 'Bebas Neue', sans-serif !important;
+    font-size: 4rem !important;
+    line-height: 0.9 !important;
+    color: #fff !important;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 10px 0 !important;
+    text-shadow: 2px 2px 0px rgba(255, 107, 0, 0.3);
+}
+
+.sub-label-tech {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #FF6B00;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+/* ==========================================
+   BLOQUES SUPERIORES (3 COLUMNAS)
+   ========================================== */
+.form-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 20px;
+    margin-bottom: 20px;
+}
+
+.side-borders {
+    border-left: 1px solid #1a1a1a;
+    border-right: 1px solid #1a1a1a;
+    padding: 0 40px;
+}
+
+.flyer-upload-zone-panoramic {
+    width: 100%;
+    height: 280px;
+    background: #000;
+    border: 1px dashed #333;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #444;
+}
+
+.flyer-upload-zone-panoramic:hover {
+    border-color: #FF6B00;
+    color: #FF6B00;
+}
+
+/* ==========================================
+   BOTONES (ACCIONES)
+   ========================================== */
+.btn-add-tech {
+    background: #111 !important;
+    color: #FF6B00 !important;
+    border: 1px solid #FF6B00 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    padding: 4px 12px !important;
+    border-radius: 0 !important;
+    transition: 0.3s !important;
+}
+
+.btn-add-tech:hover {
+    background: #FF6B00 !important;
+    color: #000 !important;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid #222;
+    background: #080808;
+}
+
+.btn-abort {
+    color: #666 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 400 !important;
+    letter-spacing: 2px !important;
+}
+
+.btn-abort:hover {
+    color: #ff3131 !important;
+    background: transparent !important;
+}
+
+.btn-mango-minimal.vip-btn {
+    background: #FF6B00 !important;
+    color: #000 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 900 !important;
+    font-size: 14px !important;
+    padding: 18px 50px !important;
+    border-radius: 0 !important;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+    transition: 0.3s !important;
+}
+
+.btn-mango-minimal.vip-btn:hover {
+    background: #fff !important;
+    transform: scale(1.05);
+}
+
+.btn-mango-minimal.vip-btn:disabled {
+    background: #333 !important;
+    color: #666 !important;
+}
+
+/* ==========================================
+   SISTEMA DE TICKETS (INFERIOR)
+   ========================================== */
+.ticketing-section-wrapper {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid #1a1a1a;
+}
+
+.lote-container-panoramic {
+    background: #0c0c0c;
+    border: 1px solid #1a1a1a;
+    padding: 30px;
+    border-top: 4px solid #FF6B00;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.lote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #222;
+}
+
+.category-row-industrial {
+    background: #050505;
+    border: 1px solid #1a1a1a;
+    padding: 15px;
+    margin-bottom: 12px;
+    transition: 0.2s;
+}
+
+.category-row-industrial:hover {
+    border-color: #333;
+    background: #080808;
+}
+
+/* ==========================================
+   INPUTS PERSONALIZADOS
+   ========================================== */
+.industrial-input .MuiOutlinedInput-root {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 0;
+    font-family: 'JetBrains Mono', monospace;
+    color: #fff;
+}
+
+.industrial-input .MuiOutlinedInput-notchedOutline {
+    border-color: #222;
+}
+
+.industrial-input:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #444;
+}
+
+.industrial-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #FF6B00;
+}
+
+.industrial-input .MuiInputLabel-root {
+    color: #555;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.industrial-input .MuiInputLabel-root.Mui-focused {
+    color: #FF6B00;
+}
+
+/* ==========================================
+   MISC / UTILS
+   ========================================== */
+.modal-close-btn {
+    position: absolute !important;
+    right: 40px; top: 40px;
+    color: #444 !important;
+    transition: 0.3s !important;
+}
+
+.modal-close-btn:hover {
+    color: #fff !important;
+    transform: rotate(90deg);
+}
+
+.artist-scroll-area::-webkit-scrollbar,
+.form-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-scroll-container::-webkit-scrollbar-thumb {
+    background: #222;
+}
+
+.form-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #FF6B00;
+}
+
+@media (max-width: 900px) {
+    .modal-industrial-full-wrapper { padding: 80px 30px 30px; }
+    .side-borders { border: none; padding: 0; margin: 30px 0; }
+    .syncopate-title { font-size: 2.5rem !important; }
+}

@@ -1,0 +1,365 @@
+/* --- CONTENEDOR BASE DEL MODAL (FULL SCREEN REAL) --- */
+.modal-industrial-clean.modal-full-screen {
+    /* Fixed asegura que se posicione respecto a la ventana del navegador, no al padre */
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important; /* Eliminamos el translate para que pegue a los bordes */
+    
+    /* Ocupa el 100% de la pantalla */
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    
+    background: #0a0a0a;
+    border: none; /* En full screen real, los bordes externos suelen sobrar */
+    padding: 40px;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999 !important; /* Por encima de todo */
+}
+
+/* Ajuste para PC: Si quieres que respire un poco y no pegue literal al borde */
+@media (min-width: 1200px) {
+    .modal-industrial-clean.modal-full-screen {
+        top: 2% !important;
+        left: 2% !important;
+        width: 96vw !important;
+        height: 96vh !important;
+        border: 1px solid #333;
+        border-right: 5px solid #FF6B00;
+        box-shadow: 0 0 100px rgba(0,0,0,0.9);
+    }
+}
+
+/* --- ESTRUCTURA DEL FORMULARIO --- */
+.event-form-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.form-scroll-container {
+    flex: 1; /* Esto empuja el footer hacia abajo */
+    overflow-y: auto;
+    padding-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Scrollbar Industrial Custom */
+.form-scroll-container::-webkit-scrollbar { width: 6px; }
+.form-scroll-container::-webkit-scrollbar-track { background: #000; }
+.form-scroll-container::-webkit-scrollbar-thumb { background: #FF6B00; border-radius: 10px; }
+
+/* --- SECCIÓN FLYER --- */
+.flyer-upload-zone {
+    width: 100%;
+    height: 280px; /* Un poco más alto ya que tenemos espacio */
+    border: 1px dashed #444;
+    background: #111;
+    background-size: contain; /* Para ver el flyer entero sin recortes */
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.flyer-upload-zone:hover {
+    border-color: #FF6B00;
+    background-color: rgba(255, 107, 0, 0.05);
+}
+
+/* --- LOTES Y CATEGORÍAS --- */
+.lote-container {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid #222;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-left: 3px solid #333;
+}
+
+.lote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 15px;
+}
+
+.category-card-mini {
+    background: #000 !important;
+    border: 1px solid #1a1a1a !important;
+    padding: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+/* --- INPUTS INDUSTRIALES --- */
+.industrial-input .MuiOutlinedInput-root {
+    background: #000;
+    border-radius: 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.industrial-input .MuiOutlinedInput-notchedOutline { border-color: #222; }
+.industrial-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline { border-color: #444; }
+.industrial-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline { border-color: #FF6B00; }
+
+/* --- FOOTER FIJO ABAJO --- */
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #222;
+    background: #0a0a0a;
+}
+
+.btn-mango-minimal.vip-btn {
+    background: #FF6B00 !important;
+    color: #000 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 900 !important;
+    padding: 12px 60px !important;
+    border-radius: 0 !important;
+    font-size: 14px !important;
+}
+
+/* --- AJUSTE INTERIOR PARA EXPANSIÓN TOTAL --- */
+
+.event-form-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%; /* Asegura que el form ocupe todo el ancho */
+}
+
+.form-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden; /* Evita scroll horizontal innecesario */
+    padding: 20px; /* Un poco de aire en los bordes */
+    width: 100%;
+}
+
+/* Fuerza al Grid de Material UI a no limitarse */
+.form-scroll-container .MuiGrid-container {
+    width: 100% !important;
+    margin: 0 !important; /* Resetea margenes negativos de MUI */
+}
+
+/* Si usas la clase column-content, asegúrate que se estire */
+.column-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* --- SECCIÓN TICKETING (DERECHA) --- */
+/* Haz que los lotes ocupen todo el ancho de su columna */
+.lote-container {
+    width: 100%; 
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #222;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+/* --- SECCIÓN FLYER (IZQUIERDA) --- */
+.flyer-upload-zone {
+    width: 100%;
+    height: 350px; /* Aumentamos el alto ya que hay espacio */
+    background-size: contain; 
+    background-color: #050505;
+}
+
+/* --- INPUTS --- */
+.industrial-input {
+    width: 100%; /* Asegura que los campos de texto no se queden cortos */
+}
+
+/* --- MEDIA QUERIES PARA PC --- */
+@media (min-width: 1200px) {
+    .form-scroll-container {
+        padding: 40px; /* Más espacio en pantallas grandes */
+    }
+    
+    /* Separación visual entre columna izquierda y derecha */
+    .left-border {
+        border-right: 1px solid #222;
+        padding-right: 40px;
+    }
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 600px) {
+    .modal-industrial-clean.modal-full-screen {
+        padding: 20px;
+    }
+
+    .form-footer {
+        flex-direction: column-reverse;
+        gap: 15px;
+        padding-bottom: 10px;
+    }
+
+    .btn-mango-minimal.vip-btn {
+        width: 100%;
+    }
+}
+
+/* --- CONTENEDOR BASE --- */
+.modal-industrial-clean.modal-full-screen {
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #0a0a0a;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999 !important;
+    outline: none;
+}
+
+@media (min-width: 1200px) {
+    .modal-industrial-clean.modal-full-screen {
+        top: 2% !important;
+        left: 2% !important;
+        width: 96vw !important;
+        height: 96vh !important;
+        border: 1px solid #333;
+        border-right: 5px solid #FF6B00;
+        box-shadow: 0 0 100px rgba(0,0,0,0.9);
+    }
+}
+
+.event-form-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.form-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    padding-right: 20px;
+}
+
+.form-scroll-container::-webkit-scrollbar { width: 6px; }
+.form-scroll-container::-webkit-scrollbar-thumb { background: #FF6B00; border-radius: 10px; }
+
+/* --- GRID Y COLUMNAS --- */
+.form-scroll-container .MuiGrid-container {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.column-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 900px) {
+    .left-border {
+        border-right: 1px solid #222;
+        padding-right: 40px;
+    }
+}
+
+/* --- ELEMENTOS INDUSTRIALES --- */
+.flyer-upload-zone {
+    width: 100%;
+    height: 350px;
+    border: 1px dashed #444;
+    background: #050505;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lote-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #222;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-left: 3px solid #FF6B00;
+}
+
+.category-card-mini {
+    background: #000 !important;
+    border: 1px solid #1a1a1a !important;
+    padding: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+.industrial-input .MuiOutlinedInput-root {
+    background: #000;
+    border-radius: 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.industrial-input .MuiOutlinedInput-notchedOutline { border-color: #222; }
+.industrial-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline { border-color: #444; }
+.industrial-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline { border-color: #FF6B00; }
+
+.syncopate-title {
+    font-family: 'Bebas Neue', sans-serif !important;
+    color: #fff !important;
+    letter-spacing: 2px;
+}
+
+.sub-label-tech {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #666;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- FOOTER --- */
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #222;
+    background: #0a0a0a;
+}
+
+.btn-mango-minimal.vip-btn {
+    background: #FF6B00 !important;
+    color: #000 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 900 !important;
+    padding: 12px 60px !important;
+    border-radius: 0 !important;
+}
+
+.btn-abort { color: #444 !important; font-family: 'JetBrains Mono', monospace !important; }
+
+@media (max-width: 600px) {
+    .modal-industrial-clean.modal-full-screen { padding: 20px; }
+    .form-footer { flex-direction: column-reverse; gap: 15px; }
+    .btn-mango-minimal.vip-btn { width: 100%; }
+}

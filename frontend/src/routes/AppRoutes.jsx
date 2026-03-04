@@ -13,6 +13,7 @@ import HomeConsumidor from '../components/Homes/HomeConsumidor';
 
 import StaffManagement from '../components/Staff/StaffManagment';
 import { useAuth } from '../../context/authProvider';
+import EventManagement from '../components/Events/EventManagement';
 
 // Componente Selector de Home según Rol
 const HomeRouter = () => {
@@ -40,6 +41,7 @@ const AppRoutes = () => {
         {/* NIVEL 2: PROTECCIÓN DE ROL (SÓLO ADMINISTRADOR) */}
         <Route element={<RoleRoute allowedRoles={['administrador']} />}>
           <Route path="/usuarios" element={<StaffManagement />} />
+          <Route path="/eventos-admin" element={<EventManagement />} />
         </Route>
       </Route>
 

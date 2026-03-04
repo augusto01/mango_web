@@ -3,6 +3,7 @@
   min-height: 100vh;
   background-color: #050505;
   color: #ffffff;
+  padding: 20px;
   padding-bottom: 50px;
 }
 
@@ -12,6 +13,7 @@
   background: transparent; border: 1px solid #333; color: #888;
   font-family: 'JetBrains Mono', monospace; font-size: 10px;
   padding: 5px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  text-transform: uppercase;
 }
 
 .home-welcome-header {
@@ -36,7 +38,7 @@
 .staff-table td { padding: 15px 20px; font-size: 13px; border-bottom: 1px solid #111; vertical-align: middle; }
 
 /* --- BADGES & STATUS --- */
-.role-badge { font-size: 9px; font-weight: 900; padding: 4px 8px; text-transform: uppercase; }
+.role-badge { font-size: 9px; font-weight: 900; padding: 4px 8px; text-transform: uppercase; border-radius: 2px; }
 .role-badge.administrador { background: #fff; color: #000; }
 .role-badge.vendedor { border: 1px solid #FF6B00; color: #FF6B00; }
 .role-badge.control { border: 1px solid #555; color: #888; }
@@ -48,17 +50,30 @@
 
 /* --- BOTÓN NUEVO USUARIO --- */
 .quick-scan-btn {
-  background: #FF6B00; color: #fff !important; border: none; padding: 10px 20px;
+  background: #FF6B00; color: #fff !important; border: none; padding: 12px 24px;
   font-family: 'Syncopate', sans-serif; font-weight: 800; font-size: 12px;
   cursor: pointer; clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0% 30%);
+  transition: all 0.3s ease;
 }
+.quick-scan-btn:hover { background: #ff8533; transform: translateY(-2px); }
 
-/* --- MODAL INDUSTRIAL (RESPONSIVO) --- */
+/* --- MODAL INDUSTRIAL --- */
 .modal-industrial-clean {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   background: #0A0A0A; border: 1px solid #1a1a1a; border-top: 3px solid #FF6B00;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.9); padding: 30px !important;
   width: 95%; max-width: 600px; max-height: 90vh; overflow-y: auto; outline: none;
+}
+
+.sub-label-tech {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px !important;
+  color: #555; letter-spacing: 1px; margin-bottom: 10px !important;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.event-title-huge {
+  font-family: 'Syncopate', sans-serif; font-weight: 800 !important;
+  font-size: 1.5rem !important; margin-bottom: 25px !important;
 }
 
 .form-section {
@@ -68,22 +83,29 @@
 
 .industrial-input { width: 100% !important; margin-bottom: 15px !important; }
 .industrial-input .MuiInputBase-root {
-  height: 48px; background: #0d0d0d !important; color: #fff !important;
+  background: #0d0d0d !important; color: #fff !important;
   font-family: 'JetBrains Mono', monospace !important; border-radius: 0;
 }
-.industrial-input .MuiInputLabel-root { color: #fff !important; opacity: 0.6; font-size: 12px; }
-.industrial-input .MuiOutlinedInput-notchedOutline { border-color: #333 !important; }
+.industrial-input .MuiInputLabel-root { color: #fff !important; opacity: 0.4; font-size: 12px; }
+.industrial-input .MuiOutlinedInput-notchedOutline { border-color: #222 !important; }
+.industrial-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #FF6B00 !important;
+}
 
-.actions-footer { display: flex; gap: 15px; margin-top: 20px; width: 100%; }
+.btn-mango-minimal {
+  font-family: 'JetBrains Mono', monospace; font-weight: 700 !important;
+  border-radius: 0 !important; padding: 12px !important;
+}
 
-/* --- QUERIES PARA MÓVIL (CENTRADO TOTAL) --- */
+.vip-btn { background: #FF6B00 !important; color: #000 !important; }
+
+.blink { animation: blinker 1s linear infinite; }
+@keyframes blinker { 50% { opacity: 0; } }
+
+/* --- QUERIES PARA MÓVIL --- */
 @media (max-width: 600px) {
-  .modal-industrial-clean { padding: 20px !important; text-align: center; }
+  .modal-industrial-clean { padding: 20px !important; }
   .form-section { border-left: none; border-top: 1px solid #222; padding: 20px 0; }
-  .sub-label-tech { justify-content: center; }
   .actions-footer { flex-direction: column-reverse; }
   .staff-filter-bar { grid-template-columns: 1fr; }
-  .staff-header-box { flex-direction: column; align-items: center; }
-  .staff-table th:nth-child(2), .staff-table td:nth-child(2),
-  .staff-table th:nth-child(3), .staff-table td:nth-child(3) { display: none; }
 }

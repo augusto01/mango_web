@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
   },
   empresa: { type: mongoose.Schema.Types.ObjectId, ref: "Empresa" },
   created_at: { type: Date, default: Date.now },
+  createdBy: { type: String, default: 'SYSTEM_ROOT' },
   active: { type: Boolean, default: true },
 });
 

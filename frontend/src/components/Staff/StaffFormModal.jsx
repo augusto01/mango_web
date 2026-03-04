@@ -6,10 +6,12 @@ import {
 } from '@mui/material';
 import { FiX, FiUserPlus, FiLock, FiAlertTriangle, FiCheckCircle } from 'react-icons/fi';
 import { useUsers } from '../../hooks/Users/useUsers';
+import { useAuth } from '../../../context/authProvider'; 
 import '../../styles/Staff.css';
 
 const StaffFormModal = ({ open, onClose, onSave, staffToEdit }) => {
-  const { createUser, updateUser, loading, error, setError } = useUsers(); // Asumiendo que puedes setear error
+  const { createUser, updateUser, loading, error, setError } = useUsers();
+  const { user: currentUser } = useAuth(); 
   const [success, setSuccess] = useState(null);
   
   const [formData, setFormData] = useState({
@@ -17,11 +19,11 @@ const StaffFormModal = ({ open, onClose, onSave, staffToEdit }) => {
     password: '', rol: 'vendedor', cel: '', active: true
   });
 
-  // Limpieza de estados al cerrar o abrir
+  // Reset de estados y carga de datos para editar
   useEffect(() => {
     if (open) {
       setSuccess(null);
-      if (setError) setError(null); // Limpia error del hook si existe la función
+      if (setError) setError(null);
       
       if (staffToEdit) {
         setFormData({ ...staffToEdit, password: '' });
@@ -36,6 +38,7 @@ const StaffFormModal = ({ open, onClose, onSave, staffToEdit }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Validación de solo números para el celular
     if (name === 'cel') {
       const numericValue = value.replace(/[^0-9]/g, '');
       setFormData({ ...formData, [name]: numericValue });
@@ -47,15 +50,27 @@ const StaffFormModal = ({ open, onClose, onSave, staffToEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccess(null);
+
+    // Concatenación del nombre del administrador logueado para auditoría
+    const adminFullName = currentUser 
+      ? `${currentUser.name} ${currentUser.lastname}`.trim() 
+      : 'SISTEMA_OPERATIVO';
+
+    const payload = {
+      ...formData,
+      createdBy: adminFullName 
+    };
+
     try {
       if (staffToEdit) {
         await updateUser(staffToEdit._id || staffToEdit.id, formData);
-        setSuccess('USUARIO EDITADO CON ÉXITO');
+        setSuccess('USUARIO ACTUALIZADO CON ÉXITO');
       } else {
-        await createUser(formData);
+        await createUser(payload);
         setSuccess('USUARIO CREADO CON ÉXITO');
       }
       
+      // Delay para feedback visual antes de cerrar
       setTimeout(() => {
         if (onSave) onSave();
         handleClose();
@@ -125,7 +140,7 @@ const StaffFormModal = ({ open, onClose, onSave, staffToEdit }) => {
                 <TextField 
                   fullWidth label="CONTRASEÑA" name="password" value={formData.password} onChange={handleChange} 
                   type="password" required={!staffToEdit} disabled={loading} className="industrial-input" 
-                  placeholder={staffToEdit ? "DEJAR VACÍO PARA NO CAMBIAR" : ""}
+                  placeholder={staffToEdit ? "DEJAR VACÍO PARA NO CAMBIAR" : "REQUERIDO PARA NUEVO STAFF"}
                 />
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
@@ -150,18 +165,22 @@ const StaffFormModal = ({ open, onClose, onSave, staffToEdit }) => {
                   CANCELAR
                 </Button>
                 <Button type="submit" className="btn-mango-minimal vip-btn" fullWidth disabled={loading}>
-                  {loading ? <CircularProgress size={24} sx={{ color: '#000' }} /> : (staffToEdit ? 'GUARDAR CAMBIOS' : 'CREAR ACCESO')}
+                  {loading ? (
+                    <CircularProgress size={24} sx={{ color: '#000' }} />
+                  ) : (
+                    staffToEdit ? 'GUARDAR CAMBIOS' : 'CREAR ACCESO'
+                  )}
                 </Button>
               </Box>
 
-              {/* AREA DE MENSAJES DINÁMICA (ÉXITO O ERROR) */}
-              <Box sx={{ minHeight: '60px', mt: 2 }}>
+              {/* CONTENEDOR DE FEEDBACK (ÉXITO O ERROR) */}
+              <Box sx={{ minHeight: '65px', mt: 2 }}>
                 {error && (
                   <Fade in={!!error}>
                     <Box sx={{ p: 2, bgcolor: 'rgba(255, 49, 49, 0.1)', borderLeft: '4px solid #FF3131', display: 'flex', alignItems: 'center', gap: 2 }}>
                       <FiAlertTriangle color="#FF3131" />
                       <Typography sx={{ color: '#FF3131', fontSize: '11px', fontFamily: 'JetBrains Mono', fontWeight: 700 }}>
-                        CRITICAL_ERROR: {error}
+                        CRITICAL_ERROR: {error.toUpperCase()}
                       </Typography>
                     </Box>
                   </Fade>

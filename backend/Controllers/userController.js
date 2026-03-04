@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator'); // Recomendado usar e
 // --- 1. REGISTRAR (ALTA DE STAFF) ---
 const register = async (req, res) => {
     // 1. Extraemos solo lo necesario para evitar basura del req.body
-    const { email, password, username, rol, name, lastname, cel } = req.body;
+    const { email, password, username, rol, name, lastname,createdBy, cel } = req.body;
 
     // 2. Validación manual de seguridad
     if (!email || !password || !username || !rol || !name || !lastname) {
@@ -26,7 +26,7 @@ const register = async (req, res) => {
         if (existingUser) {
             return res.status(409).json({
                 status: "error",
-                message: "EL_USUARIO_O_EMAIL_YA_EXISTE"
+                message: "EL USUARIO O EMAIL YA EXISTE"
             });
         }
 
@@ -42,6 +42,7 @@ const register = async (req, res) => {
             password: hashedPassword,
             rol: rol.toLowerCase(),
             cel: cel || "", // Campo opcional
+            createdBy,
             active: true
         });
 
@@ -49,12 +50,12 @@ const register = async (req, res) => {
 
         return res.status(201).json({
             status: "success",
-            message: "USUARIO_CREADO_EXITOSAMENTE"
+            message: "USUARIO CREADO CON ÉXITO",
         });
 
     } catch (error) {
         // MUY IMPORTANTE: Esto te dirá en la terminal de VS Code POR QUÉ falló (Mongoose validation, etc)
-        console.error("CRITICAL_BACKEND_ERROR:", error);
+        console.error("ERROR EN EL SERVIDOR:", error);
         
         return res.status(500).json({ 
             status: "error", 

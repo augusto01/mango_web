@@ -1,16 +1,23 @@
-/* --- DASHBOARD HOME: ESTILO MANGO FEST --- */
+/* --- CONFIGURACIÓN DE FUENTES Y BASE --- */
+:root {
+  --mango-orange: #FF6B00;
+  --mango-glow: rgba(255, 107, 0, 0.2);
+  --dark-bg: #000;
+  --glass-bg: rgba(15, 15, 15, 0.6);
+  --font-tech: 'JetBrains Mono', monospace;
+  --font-brand: 'Syncopate', sans-serif;
+}
 
 .home-dashboard-wrapper {
-  background-color: #000;
+  background-color: var(--dark-bg);
   min-height: 100vh;
-  padding-top: 100px; /* Ajuste para que no lo tape el Navbar */
-  padding-bottom: 80px;
+  padding: 100px 20px 80px;
   position: relative;
   overflow-x: hidden;
   color: #fff;
 }
 
-/* Resplandor de fondo sutil */
+/* Resplandor de fondo */
 .home-glow-bg {
   position: absolute;
   top: 0;
@@ -26,6 +33,8 @@
 .home-content-z {
   position: relative;
   z-index: 5;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* --- HEADER DE BIENVENIDA --- */
@@ -36,10 +45,11 @@
   margin-bottom: 50px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   padding-bottom: 25px;
+  transition: all 0.3s ease;
 }
 
 .welcome-title {
-  font-family: 'Syncopate', sans-serif !important;
+  font-family: var(--font-brand) !important;
   font-weight: 800 !important;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   letter-spacing: -1px;
@@ -48,11 +58,13 @@
   text-transform: uppercase;
 }
 
+/* Status y Roles */
 .system-status {
-  font-family: 'JetBrains Mono', monospace !important;
+  font-family: var(--font-tech) !important;
   font-size: 0.7rem !important;
-  color: #FF6B00;
+  color: var(--mango-orange);
   letter-spacing: 3px;
+  text-transform: uppercase;
 }
 
 .blink {
@@ -62,43 +74,24 @@
 
 @keyframes blinker { 50% { opacity: 0; } }
 
-/* Indicador de Rol */
 .user-role-indicator {
-  font-family: 'JetBrains Mono', monospace !important;
+  font-family: var(--font-tech) !important;
   font-size: 0.65rem !important;
   padding: 4px 12px;
   border-radius: 4px;
   display: inline-block;
   letter-spacing: 1px;
   text-transform: uppercase;
+  border: 1px solid transparent;
 }
 
-.user-role-indicator.administrador {
-  background: rgba(255, 107, 0, 0.1);
-  color: #FF6B00;
-  border: 1px solid rgba(255, 107, 0, 0.3);
-}
-
-.user-role-indicator.vendedor {
-  background: rgba(0, 242, 255, 0.1);
-  color: #00f2ff;
-  border: 1px solid rgba(0, 242, 255, 0.3);
-}
-
-.user-role-indicator.consumidor {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.logo-mini-home img {
-  height: 60px;
-  filter: drop-shadow(0 0 15px rgba(255, 107, 0, 0.5));
-}
+.user-role-indicator.administrador { background: rgba(255, 107, 0, 0.1); color: var(--mango-orange); border-color: rgba(255, 107, 0, 0.3); }
+.user-role-indicator.vendedor { background: rgba(0, 242, 255, 0.1); color: #00f2ff; border-color: rgba(0, 242, 255, 0.3); }
+.user-role-indicator.consumidor { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: rgba(255, 255, 255, 0.3); }
 
 /* --- GRID DE OPCIONES (CARDS) --- */
 .home-option-card {
-  background: rgba(15, 15, 15, 0.6) !important;
+  background: var(--glass-bg) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.03);
@@ -118,170 +111,180 @@
   background: rgba(255, 107, 0, 0.04) !important;
   border-color: rgba(255, 107, 0, 0.4);
   transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-/* Línea superior animada */
 .card-border-top {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 3px;
-  background: #FF6B00;
+  top: 0; left: 0; width: 0; height: 3px;
+  background: var(--mango-orange);
   transition: width 0.4s ease;
 }
 
-.home-option-card:hover .card-border-top {
-  width: 100%;
-}
+.home-option-card:hover .card-border-top { width: 100%; }
 
 .icon-wrapper-home {
   font-size: 2.5rem;
-  color: #fff;
   margin-bottom: 20px;
   transition: 0.3s ease;
   opacity: 0.8;
-  display: flex;
-  align-items: center;
 }
 
 .home-option-card:hover .icon-wrapper-home {
-  color: #FF6B00;
+  color: var(--mango-orange);
   transform: scale(1.1);
   opacity: 1;
 }
 
 .card-info-home h3 {
-  font-family: 'Syncopate', sans-serif; /* Unificado con el branding */
+  font-family: var(--font-brand);
   font-weight: 800;
   font-size: 1.1rem;
   margin-bottom: 8px;
-  letter-spacing: -0.5px;
   color: #fff;
 }
 
 .card-info-home p {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-tech);
   font-size: 0.65rem;
   color: #777;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin: 0;
 }
 
-.home-option-card:hover .card-info-home p {
-  color: #aaa;
-}
-
-/* Detalle visual de esquina */
-.card-corner-fx {
-  position: absolute;
-  bottom: -12px;
-  right: -12px;
-  width: 25px;
-  height: 25px;
-  background: rgba(255, 107, 0, 0.1);
-  transform: rotate(45deg);
-  transition: 0.3s;
-}
-
-.home-option-card:hover .card-corner-fx {
-  background: #FF6B00;
-}
-
+/* --- HERO EVENT --- */
 .next-event-hero {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 107, 0, 0.3);
+  border: 1px solid rgba(255, 107, 0, 0.2);
   padding: 30px;
   margin-bottom: 30px;
-  position: relative;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.next-event-hero:hover {
-  background: rgba(255, 107, 0, 0.05);
-  border-color: #FF6B00;
-}
-
-.label-tech {
-  font-family: 'JetBrains Mono';
-  font-size: 10px;
-  color: #FF6B00;
-  letter-spacing: 2px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.event-name {
-  font-family: 'Syncopate';
-  font-weight: 800;
-  margin: 10px 0;
-  font-size: 1.5rem;
+  border-radius: 4px;
 }
 
 .hero-stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
   margin-top: 25px;
 }
+
+/* --- ESTILOS DE BARRAS DE PROGRESO (EVENTO HERO) --- */
 
 .stat-info {
   display: flex;
   justify-content: space-between;
-  font-family: 'JetBrains Mono';
+  align-items: flex-end;
+  font-family: var(--font-tech);
   font-size: 11px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: #888;
 }
 
+.stat-info span:last-child {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Contenedor base de la barra de Material UI */
 .stat-bar {
   height: 6px !important;
-  background: #1a1a1a !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
 }
 
+/* Barra de Ventas (Color Blanco/Neutral) */
 .stat-bar .MuiLinearProgress-bar {
-  background: #fff !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
+/* Barra de Escaneo/Ingresos (Color Mango) */
 .scan-bar .MuiLinearProgress-bar {
-  background: #FF6B00 !important;
+  background-color: var(--mango-orange) !important;
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.5);
 }
 
+/* Botón de acceso directo en el Hero */
 .btn-stats-direct {
   background: transparent;
-  border: 1px solid #444;
-  color: #fff;
-  padding: 8px 15px;
-  font-family: 'JetBrains Mono';
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #aaa;
+  padding: 8px 16px;
+  font-family: var(--font-tech);
   font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: 15px;
 }
 
-@media (max-width: 768px) {
-  .hero-stats-grid { grid-template-columns: 1fr; gap: 20px; }
+.btn-stats-direct:hover {
+  border-color: var(--mango-orange);
+  color: var(--mango-orange);
+  background: rgba(255, 107, 0, 0.05);
 }
 
-/* --- RESPONSIVE --- */
+/* Ajuste de Grid para las barras en móviles */
 @media (max-width: 768px) {
+  .hero-stats-grid {
+    gap: 20px;
+  }
+  
+  .stat-info {
+    font-size: 10px;
+  }
+}
+
+/* --- RESPONSIVE OPTIMIZADO --- */
+@media (max-width: 768px) {
+  .home-dashboard-wrapper {
+    padding-top: 80px;
+  }
+
   .home-welcome-header {
     flex-direction: column;
     text-align: center;
     gap: 20px;
+    padding-bottom: 40px;
   }
-  
+
+  /* Contenedor del título y rol centrado */
+  .home-welcome-header > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
   .welcome-title {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
+    margin: 15px 0 !important;
   }
 
+  .logo-mini-home {
+    order: -1; /* Mueve el logo arriba en móviles */
+    margin-bottom: 10px;
+  }
+
+  .logo-mini-home img {
+    height: 50px;
+  }
+
+  /* Cards centradas para mejor lectura en pulgares */
   .home-option-card {
-    padding: 25px;
-    align-items: center; /* Centrado en móviles para mejor UX */
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px;
   }
 
-  .card-info-home {
-    text-align: center;
+  .icon-wrapper-home {
+    margin-bottom: 15px;
+  }
+
+  .hero-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }

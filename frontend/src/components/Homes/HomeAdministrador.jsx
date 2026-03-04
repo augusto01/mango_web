@@ -1,13 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// Iconos
 import { 
-  FaBoxes, FaUsers, FaChartLine, FaMusic, FaQrcode, FaTicketAlt, FaBolt 
+  FaUsers, FaChartLine, FaQrcode, FaTicketAlt, FaBolt 
 } from 'react-icons/fa';
 import { IoCalendarNumber } from "react-icons/io5";
-import { MdAnalytics } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
+import { MdBlock } from 'react-icons/md';
+
+// Hooks y Contexto
 import { useAuth } from '../../../context/authProvider';
+
+// Componentes
 import Navbar from '../../components/Layout/Navbar';
-import { Typography, LinearProgress } from '@mui/material';
+import { Typography, LinearProgress, Box } from '@mui/material';
+
+// Estilos
 import '../../styles/HomeRoles.css';
 
 const HomeAdministrador = () => {
@@ -15,7 +23,6 @@ const HomeAdministrador = () => {
   const navigate = useNavigate();
   const userName = user?.name || user?.username || 'Admin_User';
 
-  // Datos mockeados del evento más próximo (Esto vendría de una API)
   const proximoEvento = {
     nombre: "MANGO_FEST // WINTER_EDITION",
     fecha: "15_JUL_2026",
@@ -25,12 +32,12 @@ const HomeAdministrador = () => {
   };
 
   const options = [
-    { icon: <FaQrcode className="icon-scan" />, title: 'SCANNER_QR', path: '/escaner', desc: 'Validación de Accesos', category: 'live' },
-    { icon: <FaTicketAlt />, title: 'Entradas', path: '/ventas', desc: 'Módulo de Boletería', category: 'live' },
-    { icon: <IoCalendarNumber />, title: 'Eventos', path: '/eventos-admin', desc: 'Configurar Fechas' },
-    { icon: <FaUsers />, title: 'Staff_MNG', path: '/usuarios', desc: 'Gestión de Personal' },
-    { icon: <MdAnalytics />, title: 'Reportes', path: '/reportes', desc: 'Estadísticas de Venta' },
-    { icon: <FaChartLine />, title: 'Finanzas', path: '/finanzas', desc: 'Balances de Evento' },
+    { icon: <FaQrcode className="icon-scan" />, title: 'SCANNER', path: '/escaner', desc: 'Validación de Accesos' },
+    { icon: <FaTicketAlt />, title: 'ENTRADAS', path: '/ventas', desc: 'Módulo de Boletería' },
+    { icon: <IoCalendarNumber />, title: 'EVENTOS', path: '/eventos-admin', desc: 'Configurar Fechas' },
+    { icon: <FaUsers />, title: 'STAFF', path: '/usuarios', desc: 'Gestión de Personal' },
+    { icon: <FaChartLine />, title: 'FINANZAS', path: '/finanzas', desc: 'Balances de Evento' },
+    { icon: <MdBlock />,  title: 'BLACK LIST', path: '/lista-negra', desc: 'Personas no autorizadas',variant: 'danger'},
   ];
 
   return (
@@ -38,7 +45,7 @@ const HomeAdministrador = () => {
       <Navbar /> 
       <div className="home-glow-bg"></div>
 
-      <div className="container home-content-z" style={{ paddingTop: '100px' }}>
+      <div className="container home-content-z">
         
         {/* HEADER BIENVENIDA */}
         <div className="home-welcome-header">
@@ -53,7 +60,7 @@ const HomeAdministrador = () => {
           </button>
         </div>
 
-        {/* SECCIÓN EVENTO PRÓXIMO & STATS RÁPIDAS */}
+        {/* SECCIÓN EVENTO PRÓXIMO */}
         <div className="next-event-hero" onClick={() => navigate('/reportes')}>
           <div className="hero-header">
             <div className="event-info">
@@ -99,9 +106,8 @@ const HomeAdministrador = () => {
               key={index} 
               className="col-xl-4 col-lg-4 col-md-6 col-sm-12"
               onClick={() => navigate(option.path)}
-              style={{ cursor: 'pointer' }}
             >
-              <div className={`home-option-card ${option.category === 'live' ? 'card-live' : ''}`}>
+              <div className={`home-option-card ${option.variant === 'danger' ? 'blacklist-variant' : ''}`}>
                 <div className="card-border-top"></div>
                 <div className="icon-wrapper-home">{option.icon}</div>
                 <div className="card-info-home">
@@ -109,7 +115,6 @@ const HomeAdministrador = () => {
                   <p>{option.desc}</p>
                 </div>
                 <div className="card-corner-fx"></div>
-                {option.category === 'live' && <div className="live-tag">LIVE</div>}
               </div>
             </div>
           ))}

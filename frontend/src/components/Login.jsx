@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authProvider';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, CircularProgress } from '@mui/material';
 import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import ErrorAlert from '../components/Alerts/ErrorAlert';
 import '../styles/Login.css';
 
 const Login = () => {
-  const { login, user } = useAuth();
+  // Extraemos loading del context para controlar el botón
+  const { login, user, loading } = useAuth();
+  
   const navigate = useNavigate();
   const [form, setForm] = useState({ emailOrUser: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [openError, setOpenError] = useState(false);
 
+  // Redirigir si ya está logueado
   useEffect(() => {
     if (user) navigate('/home');
   }, [user, navigate]);
@@ -24,10 +27,14 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    
     try {
+      // Usamos los datos del estado 'form'
       await login(form.emailOrUser, form.password);
+      navigate('/home');
     } catch (err) {
-      setError('Credenciales incorrectas. Verificá tus datos.');
+      setError(err.message || 'Error al iniciar sesión');
       setOpenError(true);
     }
   };
@@ -38,7 +45,7 @@ const Login = () => {
       <div className="bg-glow-orange"></div>
 
       <Box className="glass-login-card">
-        {/* LOGO EN LUGAR DE TEXTO */}
+        {/* LOGO */}
         <Box className="login-logo-wrapper">
           <img 
             src="/img/mangocompleto.png" 
@@ -48,8 +55,8 @@ const Login = () => {
           <div className="logo-shadow-glow"></div>
         </Box>
 
-
         <form onSubmit={handleSubmit} className="club-form">
+          {/* INPUT USUARIO/EMAIL */}
           <div className="custom-input-group">
             <FiMail className="input-icon" />
             <input
@@ -58,10 +65,12 @@ const Login = () => {
               placeholder="Email o Usuario"
               value={form.emailOrUser}
               onChange={handleChange}
+              disabled={loading}
               required
             />
           </div>
 
+          {/* INPUT CONTRASEÑA */}
           <div className="custom-input-group">
             <FiLock className="input-icon" />
             <input
@@ -70,6 +79,7 @@ const Login = () => {
               placeholder="Contraseña"
               value={form.password}
               onChange={handleChange}
+              disabled={loading}
               required
             />
             <button 
@@ -81,20 +91,37 @@ const Login = () => {
             </button>
           </div>
 
-          {/* BOTÓN CON DISEÑO DE EVENTOS */}
-          <Button type="submit" className="btn-industrial-buy">
-            INICIAR SESIÓN
+          {/* BOTÓN CON PREVENCIÓN DE DOBLE CLIC */}
+          <Button 
+            type="submit" 
+            className="btn-industrial-buy"
+            disabled={loading}
+            sx={{ position: 'relative' }}
+          >
+            {loading ? (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <CircularProgress size={20} color="inherit" />
+                Cargando...
+              </Box>
+            ) : (
+              "INICIAR SESIÓN"
+            )}
           </Button>
 
           <Box className="login-options">
-            <Typography onClick={() => navigate('/register')}>
+            <Typography onClick={() => navigate('/register')} style={{ cursor: 'pointer' }}>
               ¿No tenés cuenta? <span>Registrate</span>
             </Typography>
           </Box>
         </form>
       </Box>
 
-      <ErrorAlert open={openError} onClose={() => setOpenError(false)} message={error} />
+      {/* Alerta de Error */}
+      <ErrorAlert 
+        open={openError} 
+        onClose={() => setOpenError(false)} 
+        message={error} 
+      />
     </Box>
   );
 };

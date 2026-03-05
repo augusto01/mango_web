@@ -5,17 +5,47 @@ import { HiOutlineTicket } from 'react-icons/hi';
 import '../../styles/EventModal.css';
 
 const EventDetailModal = ({ open, onClose, evento }) => {
-  const [timeLeft, setTimeLeft] = useState({ minutes: 15, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [expanded, setExpanded] = useState(false);
 
+  // 1. Lógica del Contador de Tiempo Real (Días, Horas, Minutos, Segundos)
+  useEffect(() => {
+    if (!open || !evento?.date) return;
+
+    const calculateTime = () => {
+      const target = new Date(evento.date).getTime();
+      const now = new Date().getTime();
+      const difference = target - now;
+
+      if (difference <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      });
+    };
+
+    calculateTime(); // Ejecución inicial
+    const timer = setInterval(calculateTime, 1000);
+
+    return () => clearInterval(timer);
+  }, [open, evento]);
+
+  // 2. Gestión de expansión automática de Lotes
   useEffect(() => {
     if (open && evento?.lotes) {
       const firstActive = evento.lotes.find(l => l.isActive);
-      setExpanded(firstActive?._id || evento.lotes[0]?._id);
+      setExpanded(firstActive?._id || false);
     }
   }, [open, evento]);
 
-  const handleAccordionChange = (panelId) => (event, isExpanded) => {
+  const handleAccordionChange = (panelId, isActive) => (event, isExpanded) => {
+    if (!isActive) return; // Bloqueo de apertura si está Sold Out
     setExpanded(isExpanded ? panelId : false);
   };
 
@@ -28,18 +58,20 @@ const EventDetailModal = ({ open, onClose, evento }) => {
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{
-        backdrop: { timeout: 500, sx: { backdropFilter: 'blur(20px)', backgroundColor: 'rgba(0,0,0,0.9)' } }
+        backdrop: { 
+          timeout: 500, 
+          sx: { backdropFilter: 'blur(20px)', backgroundColor: 'rgba(0,0,0,0.92)' } 
+        }
       }}
     >
       <Fade in={open}>
-        <Box className="modal-industrial-dark"> {/* Cambiada clase para fondo oscuro */}
+        <Box className="modal-industrial-dark">
           <IconButton className="modal-close-btn" onClick={onClose} sx={{ zIndex: 10, color: '#fff' }}>
             <FiX />
           </IconButton>
 
           <Box className="modal-minimal-content">
             <header className="modal-tech-header">
-              {/* TÍTULO EN NARANJA */}
               <Typography className="event-title-huge-mango">{evento.name}</Typography>
               
               <Box className="info-row-minimal">
@@ -52,55 +84,66 @@ const EventDetailModal = ({ open, onClose, evento }) => {
             <Divider className="divider-dark" />
 
             <div className="section-container">
-              <Typography className="sub-label-tech"><HiOutlineTicket /> BATCH_SELECTION_v2</Typography>
+              <Typography className="sub-label-tech"><HiOutlineTicket /> ACCESS_CONTROL_SYSTEM_v2</Typography>
               
               <div className="lotes-accordion-container">
-                {evento.lotes?.map((lote) => (
-                  <Accordion 
-                    key={lote._id} 
-                    expanded={expanded === lote._id} 
-                    onChange={handleAccordionChange(lote._id)}
-                    className={`industrial-accordion-dark ${!lote.isActive ? 'lote-disabled' : ''}`}
-                    disabled={!lote.isActive && expanded !== lote._id}
-                  >
-                    <AccordionSummary expandIcon={<FiChevronDown color={lote.isActive ? "#FF6B00" : "#222"} />}>
-                      <Box className="accordion-summary-content">
-                        <Typography className="lote-name-tech">
-                           {lote.loteName}
-                           {!lote.isActive && <span className="sold-out-tag">SOLD OUT</span>}
-                        </Typography>
-                        
-                        {lote.isActive && (
-                          <div className="lote-timer-inline">
-                            <FiClock size={12} />
-                            <span>{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}</span>
-                          </div>
-                        )}
-                      </Box>
-                    </AccordionSummary>
-
-                    <AccordionDetails sx={{ bgcolor: 'rgba(0,0,0,0.4)' }}>
-                      <div className="tickets-stack">
-                        {lote.categories?.map((cat) => (
-                          <div key={cat._id} className="ticket-item-minimal-dark">
-                            <div className="t-info">
-                              <span className="t-label">{cat.name}</span>
-                              <span className="t-price">${cat.price.toLocaleString()}</span>
+                {evento.lotes?.map((lote) => {
+                  const isActive = lote.isActive;
+                  return (
+                    <Accordion 
+                      key={lote._id} 
+                      expanded={expanded === lote._id && isActive} 
+                      onChange={handleAccordionChange(lote._id, isActive)}
+                      className={`industrial-accordion-dark ${!isActive ? 'lote-locked' : ''}`}
+                      disabled={!isActive}
+                    >
+                      <AccordionSummary expandIcon={isActive ? <FiChevronDown color="#FF6B00" /> : <FiLock color="#666" />}>
+                        <Box className="accordion-summary-content">
+                          <Typography className="lote-name-tech">
+                             {lote.loteName}
+                             {!isActive && <span className="sold-out-tag">PURGED / SOLD OUT</span>}
+                          </Typography>
+                          
+                          {isActive && (
+                            <div className="lote-timer-inline">
+                              <FiClock size={12} />
+                              <span>
+                                {timeLeft.days > 0 && `${timeLeft.days}D : `}
+                                {String(timeLeft.hours).padStart(2, '0')}H : 
+                                {String(timeLeft.minutes).padStart(2, '0')}M
+                              </span>
                             </div>
-                            <Button className={`btn-mango-minimal ${cat.name.includes('VIP') ? 'vip-btn' : ''}`}>
-                              COMPRAR
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
+                          )}
+                        </Box>
+                      </AccordionSummary>
+
+                      <AccordionDetails sx={{ bgcolor: 'rgba(0,0,0,0.6)', borderTop: '1px solid #1a1a1a' }}>
+                        <div className="tickets-stack">
+                          {lote.categories?.map((cat) => (
+                            <div key={cat._id} className="ticket-item-minimal-dark">
+                              <div className="t-info">
+                                <span className="t-label">{cat.name}</span>
+                                <span className="t-price">${cat.price.toLocaleString()}</span>
+                              </div>
+                              <Button 
+                                className={`btn-mango-minimal ${cat.name.includes('VIP') ? 'vip-btn' : ''}`}
+                                onClick={() => console.log(`Seleccionado: ${cat.name} - ${lote.loteName}`)}
+                              >
+                                SELECT_UNIT
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
+                  );
+                })}
               </div>
             </div>
 
             <footer className="modal-footer-minimal-dark">
-              <FiAlertCircle color="#444" /> SELECCIONE UN LOTE PARA DESPLEGAR CATEGORÍAS DISPONIBLES.
+              <FiAlertCircle color="#FF6B00" /> 
+              <span>SISTEMA DE RESERVAS DINÁMICO. LOS PRECIOS PUEDEN VARIAR SIN PREVIO AVISO SEGÚN DISPONIBILIDAD.</span>
             </footer>
           </Box>
         </Box>

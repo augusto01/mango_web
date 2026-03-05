@@ -106,7 +106,7 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
             <form onSubmit={handleFormSubmit} className="event-form-layout">
               <header className="modal-header-section">
                 <Typography className="sub-label-tech">● UNIT_RECRUITMENT_STATION_v9.0</Typography>
-                <Typography variant="h3" className="syncopate-title">{eventToEdit ? 'OVERWRITE_DATA' : 'NEW_ENROLLMENT'}</Typography>
+                <Typography variant="h3" className="syncopate-title">{eventToEdit ? 'EDITAR EVENTO' : 'NUEVO EVENTO'}</Typography>
               </header>
 
               <Box className="form-scroll-container">

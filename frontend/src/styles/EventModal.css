@@ -302,17 +302,46 @@
 }
 
 /* --- ACORDEÓN DARK --- */
+/* --- ACORDEÓN DARK (AJUSTADO) --- */
 .industrial-accordion-dark {
-    background: #0f0f0f !important; /* Gris muy oscuro */
+    background: #0f0f0f !important; /* Gris base muy oscuro */
     border: 1px solid #1a1a1a !important;
     color: white !important;
     margin-bottom: 10px !important;
     box-shadow: none !important;
+    transition: all 0.3s ease !important;
 }
 
-.industrial-accordion-dark.Mui-expanded {
-    border-color: #FF6B00 !important;
-    background: #121212 !important;
+/* --- ESTADO BLOQUEADO / INACTIVE (MEJORADO) --- */
+.lote-locked {
+    /* Un gris ligeramente más claro que el fondo para que se note la tarjeta */
+    background: #161616 !important; 
+    border: 1px solid #222 !important; 
+    opacity: 0.7 !important; /* Subimos la opacidad para que sea legible */
+    cursor: not-allowed !important;
+    filter: none !important; /* Quitamos el grayscale agresivo */
+}
+
+.lote-locked .lote-name-tech {
+    /* Color gris ceniza para el nombre, legible pero claramente desactivado */
+    color: #666 !important; 
+}
+
+.lote-locked .MuiAccordionSummary-expandIconWrapper {
+    display: none; /* Quitamos la flecha si está bloqueado */
+}
+
+/* Ajuste del Sold Out Tag para que resalte sobre el gris */
+.sold-out-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    background: #ff3131;
+    color: #fff; /* Texto blanco para mejor contraste */
+    padding: 2px 8px;
+    font-weight: 800;
+    margin-left: 10px;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(255, 49, 49, 0.2);
 }
 
 /* --- TICKET ITEMS DARK --- */
@@ -321,17 +350,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    background: #161616;
-    border: 1px solid #222;
+    background: #0a0a0a; /* Más oscuro que el acordeón para generar profundidad */
+    border: 1px solid #1a1a1a;
     margin-bottom: 8px;
-    transition: 0.3s;
 }
-
-.ticket-item-minimal-dark:hover {
-    border-color: #333;
-    background: #1c1c1c;
-}
-
 .divider-dark {
     background-color: #1a1a1a !important;
     margin: 25px 0 !important;
@@ -356,3 +378,128 @@
   text-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
 }
 
+/* --- MODAL WRAPPER --- */
+.modal-industrial-dark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    max-width: 550px;
+    background-color: #050505; /* Casi negro total */
+    border: 1px solid #1a1a1a;
+    padding: 45px 35px;
+    outline: none;
+    border-radius: 2px;
+    box-shadow: 0 0 100px rgba(0,0,0,1), 0 0 20px rgba(255, 107, 0, 0.05);
+}
+
+/* --- TÍTULO IMPACTO --- */
+.event-title-huge-mango {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: #FF6B00;
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+    text-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+}
+
+/* --- ESTADO BLOQUEADO --- */
+.lote-locked {
+    background: #080808 !important;
+    border: 1px solid #111 !important;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+}
+
+.lote-locked .lote-name-tech {
+    color: #333 !important;
+}
+
+.sold-out-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    background: #ff3131;
+    color: #000;
+    padding: 2px 8px;
+    font-weight: 800;
+    margin-left: 10px;
+    border-radius: 2px;
+}
+
+/* --- BOTONES MINIMALISTAS --- */
+.btn-mango-minimal {
+    background: transparent !important;
+    border: 1px solid #FF6B00 !important;
+    color: #FF6B00 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 10px !important;
+    padding: 5px 15px !important;
+    border-radius: 0 !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.btn-mango-minimal:hover {
+    background: #FF6B00 !important;
+    color: #000 !important;
+}
+
+.vip-btn {
+    border-color: #fff !important;
+    color: #fff !important;
+}
+
+.vip-btn:hover {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+/* --- SCROLLBAR TERMINAL --- */
+.modal-minimal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.modal-minimal-content::-webkit-scrollbar {
+    width: 2px;
+}
+
+.modal-minimal-content::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+}
+
+.lote-timer-inline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #FF6B00;
+    background: rgba(255, 107, 0, 0.08);
+    padding: 4px 10px;
+    border: 1px solid rgba(255, 107, 0, 0.2);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px; /* Evita que el ancho salte al cambiar números */
+    justify-content: center;
+}
+
+/* Ajuste para que el nombre del lote y el timer no choquen en móviles */
+.accordion-summary-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+@media (max-width: 480px) {
+    .lote-timer-inline {
+        font-size: 8px;
+        min-width: 110px;
+        padding: 2px 6px;
+    }
+}

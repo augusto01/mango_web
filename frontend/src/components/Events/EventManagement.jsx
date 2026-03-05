@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, CircularProgress, Box, useMediaQuery, useTheme } from '@mui/material';
-import { FiPlus, FiActivity } from 'react-icons/fi';
+import { Container, Typography, CircularProgress, Box, useMediaQuery, useTheme, Tooltip } from '@mui/material';
+import { FiPlus, FiActivity, FiEdit3, FiInfo, FiTrash2 } from 'react-icons/fi';
 import { useEvents } from '../../hooks/Events/useEvents';
 import EventFormModal from './EventFormModal';
 import Navbar from '../Layout/Navbar'; 
 import '../../styles/EventManagement.css';
 
 const EventManagement = () => {
-  const { events, getEvents, loading, error } = useEvents();
+  const { events, getEvents, deleteEvent, loading, error } = useEvents();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -26,6 +26,13 @@ const EventManagement = () => {
   const handleOpenEdit = (event) => {
     setSelectedEvent(event);
     setModalOpen(true);
+  };
+
+  const handleDelete = async (id, name) => {
+    if (window.confirm(`> CAUTION: PERMANENTLY DELETE ${name.toUpperCase()}?`)) {
+      await deleteEvent(id);
+      getEvents();
+    }
   };
 
   return (
@@ -55,14 +62,6 @@ const EventManagement = () => {
           </button>
         </header>
 
-        {error && (
-          <Box sx={{ p: 2, mb: 4, border: '1px solid #ff3131', background: 'rgba(255,49,49,0.05)' }}>
-            <Typography className="staff-audit-cell" sx={{ color: '#ff3131' }}>
-              {`> [TERMINAL_ERROR]: ${error}`}
-            </Typography>
-          </Box>
-        )}
-
         {loading && events.length === 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
             <CircularProgress size={30} sx={{ color: '#FF6B00', mb: 2 }} />
@@ -71,24 +70,38 @@ const EventManagement = () => {
         ) : (
           <div className="event-cards-container">
             {events.map((event) => (
-              <div key={event._id} className="event-card-industrial" onClick={() => handleOpenEdit(event)}>
+              <div key={event._id} className="event-card-industrial">
+                {/* Visualización del Flyer */}
                 <div className="event-card-flyer-box" style={{ 
-                    height: '240px', 
+                    height: '220px', 
                     backgroundImage: `url(${event.flyer || 'https://via.placeholder.com/400x600/000/333?text=NO_ASSET'})`, 
                     backgroundSize: 'cover', backgroundPosition: 'center',
                 }} />
                 
-                <Box sx={{ p: 3, borderTop: '1px solid #111' }}>
-                  <Typography className="sub-label-tech" sx={{ mb: '4px !important' }}>
+                {/* BARRA DE ACCIONES TÉCNICAS (DEBAJO DE LA FOTO) */}
+                <Box className="card-action-bar-integrated">
+                  <button onClick={() => handleOpenEdit(event)} className="action-btn-sub edit">
+                    <FiEdit3 /> <span>EDIT</span>
+                  </button>
+                  <button onClick={() => console.log("Info", event._id)} className="action-btn-sub info">
+                    <FiInfo /> <span>DATA</span>
+                  </button>
+                  <button onClick={() => handleDelete(event._id, event.name)} className="action-btn-sub delete">
+                    <FiTrash2 /> <span>PURGE</span>
+                  </button>
+                </Box>
+
+                <Box sx={{ p: 2.5, borderTop: '1px solid #1a1a1a' }}>
+                  <Typography className="sub-label-tech" sx={{ mb: '4px !important', fontSize: '10px' }}>
                     <span className="dot-active"></span>
                     {event.date ? new Date(event.date).toLocaleDateString('es-AR') : 'NO_DATE'}
                   </Typography>
-                  <Typography variant="h5" className="card-title-staff" sx={{ color: '#fff', mb: 1 }}>
+                  <Typography variant="h6" className="card-title-staff" sx={{ color: '#fff', mb: 1, fontSize: '1.1rem' }}>
                     {event.name}
                   </Typography>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-                    <Typography className="staff-id-tag">LOC: {event.location}</Typography>
-                    <span className="role-badge administrador" style={{ fontSize: '8px' }}>ACTIVE_UNIT</span>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1 }}>
+                    <Typography className="staff-id-tag" sx={{ fontSize: '9px' }}>LOC: {event.location}</Typography>
+                    <span className="role-badge administrador" style={{ fontSize: '7px', padding: '2px 6px' }}>ACTIVE</span>
                   </Box>
                 </Box>
               </div>

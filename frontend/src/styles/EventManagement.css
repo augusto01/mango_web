@@ -172,27 +172,39 @@
 }
 
 .btn-mango-minimal.vip-btn {
-    background: #FF6B00 !important;
-    color: #000 !important;
+    background: transparent !important;
+    color: #ffffff !important;
     font-family: 'JetBrains Mono', monospace !important;
-    font-weight: 900 !important;
-    font-size: 14px !important;
-    padding: 18px 50px !important;
-    border-radius: 0 !important;
-    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
-    transition: 0.3s !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    padding: 12px 40px !important;
+    border-radius: 0 !important;   /* Rectangular puro industrial */
+    border: 1px solid #FF6B00 !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer;
+    outline: none;
 }
 
 .btn-mango-minimal.vip-btn:hover {
-    background: #fff !important;
-    transform: scale(1.05);
+    background: #FF6B00 !important; /* Relleno naranja al pasar el mouse */
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-mango-minimal.vip-btn:active {
+    transform: translateY(0);
 }
 
 .btn-mango-minimal.vip-btn:disabled {
-    background: #333 !important;
-    color: #666 !important;
+    background: transparent !important;
+    border-color: #333 !important;
+    color: #444 !important;
+    cursor: not-allowed;
+    transform: none;
 }
-
 /* ==========================================
    SISTEMA DE TICKETS (INFERIOR)
    ========================================== */
@@ -292,6 +304,39 @@
 
 .form-scroll-container::-webkit-scrollbar-thumb:hover {
     background: #FF6B00;
+}
+
+/* FUENTE PRINCIPAL DEL TÍTULO (IGUAL A STAFF) */
+.syncopate-title-staff {
+    font-family: 'Syncopate', sans-serif !important; /* O 'Bebas Neue' según tu Staff */
+    font-weight: 800 !important;
+    font-size: 3.5rem !important;
+    line-height: 1 !important;
+    color: #fff !important;
+    letter-spacing: -2px; /* Ajuste para look compacto industrial */
+    text-transform: uppercase;
+    margin: 10px 0 !important;
+}
+
+/* SUBTÍTULOS DE LAS CARDS */
+.card-title-staff {
+    font-family: 'Bebas Neue', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 400;
+    color: #fff !important;
+    letter-spacing: 1px;
+    margin-top: 5px !important;
+    text-transform: uppercase;
+}
+
+/* ETIQUETAS TÉCNICAS (FECHAS, UUIDs) */
+.sub-label-tech {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase;
+    color: #FF6B00;
+    opacity: 0.9;
 }
 
 @media (max-width: 900px) {

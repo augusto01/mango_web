@@ -1,104 +1,88 @@
 import { useState, useCallback } from 'react';
-import axios from 'axios'; // O tu instancia de axios configurada
-import { useAuth } from '../../../context/authProvider';
+import axios from 'axios';
 
 export const useEvents = () => {
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const { token } = useAuth();
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    // Configuración de cabeceras con el token
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    };
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
-    // 1. OBTENER TODOS LOS EVENTOS
-    const getEvents = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await axios.get('/api/events', config);
-            // Ordenar por fecha por defecto (más próximos primero)
-            const sortedEvents = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
-            setEvents(sortedEvents);
-        } catch (err) {
-            setError(err.response?.data?.message || 'ERROR_FETCHING_EVENTS');
-        } finally {
-            setLoading(false);
-        }
-    }, [token]);
+  const getHeaders = () => ({
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  });
 
-    // 2. CREAR NUEVO EVENTO
-    const createEvent = async (eventData) => {
-        setLoading(true);
-        setError(null);
-        try {
-            // Aquí podrías procesar la data antes de enviarla
-            // Por ejemplo, calcular el stock total sumando categorías
-            const totalStock = eventData.categories.reduce((acc, cat) => {
-                return acc + (cat.useLotes 
-                    ? cat.lotes.reduce((sum, lote) => sum + Number(lote.quantity), 0)
-                    : Number(cat.stock));
-            }, 0);
+  // --- OBTENER TODOS: /events/all ---
+  // Usamos useCallback para que la referencia de la función sea estable y no dispare useEffect infinitamente
+  const getEvents = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(`${BASE_URL}/events/all`, getHeaders());
+      // Ajuste para leer response.data o response.data.events
+      const data = Array.isArray(response.data) ? response.data : response.data.events || [];
+      setEvents(data);
+    } catch (err) {
+      const msg = err.response?.data?.message || "ERROR_FETCHING_EVENTS_INFRASTRUCTURE";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [BASE_URL]);
 
-            const payload = { ...eventData, totalStock };
-            const response = await axios.post('/api/events', payload, config);
-            
-            setEvents(prev => [...prev, response.data]);
-            return response.data;
-        } catch (err) {
-            const msg = err.response?.data?.message || 'ERROR_CREATING_EVENT';
-            setError(msg);
-            throw new Error(msg);
-        } finally {
-            setLoading(false);
-        }
-    };
+  // --- CREAR: /events/register ---
+  const createEvent = async (eventData) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(`${BASE_URL}/events/register`, eventData, getHeaders());
+      return response.data;
+    } catch (err) {
+      const msg = err.response?.data?.message || "ERROR_REGISTERING_EVENT";
+      setError(msg);
+      throw new Error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // 3. ACTUALIZAR EVENTO
-    const updateEvent = async (id, eventData) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await axios.put(`/api/events/${id}`, eventData, config);
-            setEvents(prev => prev.map(ev => ev._id === id ? response.data : ev));
-            return response.data;
-        } catch (err) {
-            const msg = err.response?.data?.message || 'ERROR_UPDATING_EVENT';
-            setError(msg);
-            throw new Error(msg);
-        } finally {
-            setLoading(false);
-        }
-    };
+  // --- ACTUALIZAR: /events/update/:id ---
+  const updateEvent = async (id, eventData) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.put(`${BASE_URL}/events/update/${id}`, eventData, getHeaders());
+      return response.data;
+    } catch (err) {
+      const msg = err.response?.data?.message || "ERROR_UPDATING_EVENT_DATA";
+      setError(msg);
+      throw new Error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // 4. ELIMINAR EVENTO (Baja lógica o física)
-    const deleteEvent = async (id) => {
-        if (!window.confirm("CONFIRM_ACTION: ¿ELIMINAR EVENTO PERMANENTEMENTE?")) return;
-        
-        setLoading(true);
-        try {
-            await axios.delete(`/api/events/${id}`, config);
-            setEvents(prev => prev.filter(ev => ev._id !== id));
-        } catch (err) {
-            setError(err.response?.data?.message || 'ERROR_DELETING_EVENT');
-        } finally {
-            setLoading(false);
-        }
-    };
+  // --- ELIMINAR: /events/delete/:id ---
+  const deleteEvent = async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.delete(`${BASE_URL}/events/delete/${id}`, getHeaders());
+      // Opcional: recargar la lista después de eliminar
+      await getEvents();
+      return response.data;
+    } catch (err) {
+      const msg = err.response?.data?.message || "ERROR_DELETING_EVENT";
+      setError(msg);
+      throw new Error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return {
-        events,
-        loading,
-        error,
-        getEvents,
-        createEvent,
-        updateEvent,
-        deleteEvent,
-        setError
-    };
+  return { events, getEvents, createEvent, updateEvent, deleteEvent, loading, error, setError };
 };

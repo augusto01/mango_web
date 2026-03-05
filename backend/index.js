@@ -9,6 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const empresaRoutes = require('./routes/empresaRoutes');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 
 
 
@@ -49,6 +50,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/empresas', empresaRoutes);
 app.use('/api/products',productRoutes );
 app.use('/api/users', userRoutes);
+app.use('/api/events', eventRoutes);
 
 
 

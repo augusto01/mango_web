@@ -8,8 +8,24 @@ const CategorySchema = new mongoose.Schema({
 });
 
 const LoteSchema = new mongoose.Schema({
-  loteName: { type: String, uppercase: true, required: true },
+  loteName: { 
+    type: String, 
+    uppercase: true, 
+    required: true 
+  },
+  // Determina si el lote está habilitado para la venta manual
+  isActive: { 
+    type: Boolean, 
+    default: true 
+  },
+  // Representa el tiempo límite de venta en días desde la creación
+  expirationDays: { 
+    type: Number, 
+    default: 0 // 0 significa sin límite de tiempo
+  },
   categories: [CategorySchema]
+}, { 
+  timestamps: true // Esto te da 'createdAt', útil para calcular la expiración
 });
 
 const EventSchema = new mongoose.Schema({

@@ -431,6 +431,138 @@
     width: 100%;
 }
 
+/* CSS ADICIONAL PARA VALIDACIÓN NATIVA */
+.industrial-input input:invalid {
+    border-bottom: 1px solid rgba(255, 49, 49, 0.3);
+}
+
+/* Evitar que el scroll tape los botones en pantallas pequeñas */
+.form-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 15px;
+    margin-bottom: 20px;
+    min-height: 0; /* Importante para Flexbox */
+}
+
+/* Botones de acción dentro de filas */
+.artist-input-row, .category-row-industrial {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Terminal de estado en el footer */
+.terminal-status-bar {
+    background: rgba(0,0,0,0.6);
+    padding: 10px;
+    border-left: 4px solid #444;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.terminal-status-bar.error { border-color: var(--danger); color: var(--danger); }
+.terminal-status-bar.info { border-color: var(--info); color: var(--info); }
+.terminal-status-bar.success { border-color: #00ff41; color: #00ff41; }
+
+/* Estado del lote cuando está pausado */
+.lote-disabled {
+    opacity: 0.6;
+    border-left: 4px solid var(--danger) !important;
+    filter: grayscale(0.5);
+}
+
+.lote-disabled input {
+    color: var(--danger) !important;
+}
+
+/* ==========================================
+   CORRECCIÓN LOTE_HEADER & CONTROLS
+   ========================================== */
+
+.lote-header {
+    display: flex;
+    justify-content: space-between; /* Separa Título de Controles */
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-wrap: wrap; /* Para móviles */
+    gap: 15px;
+}
+
+.lote-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px 15px;
+    border-radius: 4px;
+    border: 1px solid #1a1a1a;
+}
+
+/* Caja del Timer */
+.timer-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-right: 1px solid #222;
+    padding-right: 15px;
+}
+
+.timer-box span {
+    font-family: var(--font-tech);
+    font-size: 9px;
+    color: #555;
+}
+
+/* Override de MUI FormControlLabel para que no ocupe espacio extra */
+.lote-controls .MuiFormControlLabel-root {
+    margin: 0;
+}
+
+.lote-controls .MuiTypography-root {
+    font-family: var(--font-tech) !important;
+    font-size: 10px !important;
+    font-weight: 800;
+    margin-left: 5px;
+    color: #444;
+}
+
+/* Color cuando está activo */
+.lote-controls .Mui-checked + .MuiSwitch-track {
+    background-color: var(--mango) !important;
+}
+
+.lote-controls .Mui-checked .MuiSwitch-thumb {
+    color: var(--mango) !important;
+}
+
+/* ESTADO DESACTIVADO (Visual Kill-switch) */
+.lote-container-panoramic.lote-disabled {
+    opacity: 0.5;
+    filter: grayscale(0.8);
+    border-top-color: #333; /* Cambia el naranja por gris */
+    pointer-events: none; /* Bloquea interacción con las categorías */
+}
+
+/* Permitir interacción solo en la cabecera para poder reactivarlo */
+.lote-disabled .lote-header {
+    pointer-events: all;
+    opacity: 1;
+    filter: none;
+}
+
+.lote-disabled .lote-header input {
+    color: #555;
+}
+
+/* Ajuste de los inputs de las filas de categorías */
+.category-row-industrial .industrial-input {
+    margin-bottom: 0 !important;
+}
 /* UTILS */
 .blink { animation: blinker 1s linear infinite; }
 @keyframes blinker { 50% { opacity: 0; } }

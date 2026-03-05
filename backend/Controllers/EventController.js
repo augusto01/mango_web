@@ -31,20 +31,27 @@ exports.getEvents = async (req, res) => {
 
 // @desc    Actualizar evento (OVERWRITE)
 // @route   PUT /api/events/:id
+// exports.updateEvent en tu controlador
 exports.updateEvent = async (req, res) => {
   try {
     const updatedEvent = await Event.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true, runValidators: true }
+      { 
+        new: true, 
+        runValidators: true // Obliga a Mongoose a validarisActive y expirationDays
+      }
     );
     if (!updatedEvent) return res.status(404).json({ message: 'Evento no encontrado' });
     res.json(updatedEvent);
   } catch (error) {
-    res.status(400).json({ message: 'Error al actualizar registro', error });
+    console.error("Update Error:", error);
+    res.status(400).json({ 
+      message: 'Error al actualizar registro', 
+      details: error.message 
+    });
   }
 };
-
 // @desc    Eliminar evento
 // @route   DELETE /api/events/:id
 exports.deleteEvent = async (req, res) => {

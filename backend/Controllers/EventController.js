@@ -8,7 +8,13 @@ exports.createEvent = async (req, res) => {
     const savedEvent = await newEvent.save();
     res.status(201).json(savedEvent);
   } catch (error) {
-    res.status(400).json({ message: 'Error en la infraestructura de datos', error: error.message });
+    // Loguea el error real en tu terminal de Node
+    console.log("Mongoose Validation Error:", error);
+    
+    res.status(400).json({ 
+      message: 'Error en la infraestructura de datos', 
+      details: error.message // Esto te dirá qué campo falló
+    });
   }
 };
 

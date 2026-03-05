@@ -5,19 +5,23 @@ import {
 } from '@mui/material';
 import { 
   FiX, FiPlus, FiTrash2, FiMusic, FiMapPin, 
-  FiLayers, FiUploadCloud, FiImage 
+  FiLayers, FiUploadCloud, FiImage, FiTerminal, FiAlertCircle 
 } from 'react-icons/fi';
 import { useEvents } from '../../hooks/Events/useEvents';
 import '../../styles/EventManagement.css';
 
 const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
-  const { createEvent, updateEvent, loading } = useEvents();
+  const { createEvent, updateEvent, loading, error: apiError } = useEvents();
   const fileInputRef = useRef(null);
   
+  // Estados de control industrial
+  const [statusMsg, setStatusMsg] = useState({ text: '', type: '' });
+  const [isConfirming, setIsConfirming] = useState(false);
+
   const initialLote = () => ({
     id: Date.now(),
     loteName: '',
-    categories: [{ id: Date.now() + 1, name: 'GENERAL', price: 0, stock: 0, maxStockPerSeller: '' }]
+    categories: [{ id: Date.now() + 1, name: 'GENERAL', price: 0, stock: 0, maxStockPerSeller: 0 }]
   });
 
   const [formData, setFormData] = useState({
@@ -26,14 +30,23 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
   });
 
   useEffect(() => {
-    if (open && eventToEdit) setFormData(eventToEdit);
-    else if (open) setFormData({
-      name: '', location: '', address: '', date: '', djs: [''], ageLimit: '18',
-      flyer: '', lotes: [initialLote()]
-    });
+    if (open) {
+      setStatusMsg({ text: '', type: '' });
+      setIsConfirming(false);
+      if (eventToEdit) {
+        // Formatear fecha para el input datetime-local (YYYY-MM-DDTHH:mm)
+        const formattedDate = eventToEdit.date ? new Date(eventToEdit.date).toISOString().slice(0, 16) : '';
+        setFormData({ ...eventToEdit, date: formattedDate });
+      } else {
+        setFormData({
+          name: '', location: '', address: '', date: '', djs: [''], ageLimit: '18',
+          flyer: '', lotes: [initialLote()]
+        });
+      }
+    }
   }, [open, eventToEdit]);
 
-  // Handlers
+  // --- HANDLERS ---
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -60,13 +73,61 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
     } : l)
   });
 
+  const addCategoryToLote = (loteId) => {
+    const newCat = { id: Date.now(), name: '', price: 0, stock: 0, maxStockPerSeller: 0 };
+    setFormData({
+      ...formData,
+      lotes: formData.lotes.map(l => l.id === loteId ? { ...l, categories: [...l.categories, newCat] } : l)
+    });
+  };
+
+  const removeCategoryFromLote = (loteId, catId) => {
+    setFormData({
+      ...formData,
+      lotes: formData.lotes.map(l => l.id === loteId ? { ...l, categories: l.categories.filter(c => c.id !== catId) } : l)
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Paso 1: Confirmación
+    if (!isConfirming) {
+      setIsConfirming(true);
+      setStatusMsg({ text: 'AWAITING_MANUAL_CONFIRMATION...', type: 'info' });
+      return;
+    }
+
+    // Paso 2: Envío
+    setStatusMsg({ text: 'SYNCHRONIZING_INFRASTRUCTURE...', type: 'info' });
+
+    const cleanLotes = formData.lotes.map(lote => ({
+      loteName: lote.loteName || "LOTE_DEFAULT",
+      categories: lote.categories.map(cat => ({
+        name: cat.name || "GENERAL",
+        price: Number(cat.price),
+        stock: Number(cat.stock),
+        maxStockPerSeller: Number(cat.maxStockPerSeller)
+      }))
+    }));
+
+    const payload = { 
+      ...formData, 
+      date: new Date(formData.date).toISOString(), // Fix de persistencia de fecha
+      lotes: cleanLotes, 
+      djs: formData.djs.filter(dj => dj.trim() !== '') 
+    };
+
     try {
-      if (eventToEdit) await updateEvent(eventToEdit._id, formData);
-      else await createEvent(formData);
-      onSave(); onClose();
-    } catch (err) { console.error(err); }
+      if (eventToEdit) await updateEvent(eventToEdit._id, payload);
+      else await createEvent(payload);
+      
+      setStatusMsg({ text: 'DATABASE_SYNCHRONIZED_SUCCESSFULLY', type: 'success' });
+      setTimeout(() => { onSave(); onClose(); }, 1500);
+    } catch (err) {
+      setIsConfirming(false);
+      setStatusMsg({ text: `[FATAL_ERROR]: ${apiError || 'INFRASTRUCTURE_FAILURE'}`, type: 'error' });
+    }
   };
 
   return (
@@ -78,16 +139,14 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
           <form onSubmit={handleSubmit} className="event-form-layout">
             <header className="modal-header-section">
               <Typography className="sub-label-tech" color="primary">● SYSTEM_INFRASTRUCTURE_v7.2</Typography>
-              <Typography variant="h3" className="syncopate-title">
+              <Typography variant="h3" className="syncopate-title" sx={{ fontSize: {xs: '1.5rem', md: '2.5rem'} }}>
                 {eventToEdit ? 'OVERWRITE_DATA' : 'NEW_ENROLLMENT'}
               </Typography>
             </header>
 
             <Box className="form-scroll-container">
-              {/* BLOQUE SUPERIOR: TRIPLE COLUMNA */}
               <Grid container spacing={4} sx={{ width: '100%', m: 0, mb: 5 }}>
-                
-                {/* 1. FLYER */}
+                {/* MEDIA */}
                 <Grid item xs={12} md={4} sx={{ pl: '0 !important' }}>
                   <Typography className="sub-label-tech"><FiImage /> MEDIA_ASSETS</Typography>
                   <Box 
@@ -100,17 +159,17 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
                   </Box>
                 </Grid>
 
-                {/* 2. INFO & GEO */}
+                {/* INFO */}
                 <Grid item xs={12} md={4}>
                   <Box className="column-content side-borders">
                     <Typography className="sub-label-tech"><FiMapPin /> GEO_LOCATION</Typography>
                     <TextField fullWidth label="EVENT_NAME" value={formData.name} onChange={(e)=>setFormData({...formData, name: e.target.value})} className="industrial-input" sx={{mb:2}} />
-                    <TextField fullWidth label="LOCATION_NAME" placeholder="Example: Stadium A" value={formData.location} onChange={(e)=>setFormData({...formData, location: e.target.value})} className="industrial-input" sx={{mb:2}} />
+                    <TextField fullWidth label="LOCATION" value={formData.location} onChange={(e)=>setFormData({...formData, location: e.target.value})} className="industrial-input" sx={{mb:2}} />
                     <TextField fullWidth label="DATE_TIME" type="datetime-local" value={formData.date} onChange={(e)=>setFormData({...formData, date: e.target.value})} className="industrial-input" InputLabelProps={{ shrink: true }} />
                   </Box>
                 </Grid>
 
-                {/* 3. DJs / LINE UP */}
+                {/* LINEUP */}
                 <Grid item xs={12} md={4}>
                   <Box className="column-content">
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
@@ -119,8 +178,8 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
                     </Box>
                     <Box className="artist-scroll-area">
                       {formData.djs.map((dj, i) => (
-                        <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                          <TextField fullWidth placeholder="ARTIST_NAME" value={dj} onChange={(e) => handleDjChange(i, e.target.value)} className="industrial-input" size="small" />
+                        <div key={`dj-${i}`} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                          <TextField fullWidth placeholder="NAME" value={dj} onChange={(e) => handleDjChange(i, e.target.value)} className="industrial-input" size="small" />
                           <IconButton size="small" onClick={()=>removeDj(i)} sx={{color:'#444'}}><FiTrash2/></IconButton>
                         </div>
                       ))}
@@ -129,7 +188,7 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
                 </Grid>
               </Grid>
 
-              {/* BLOQUE INFERIOR: TICKETING (FULL WIDTH) */}
+              {/* TICKETING */}
               <Box className="ticketing-section-wrapper">
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                   <Typography className="sub-label-tech"><FiLayers /> TICKETING_INFRASTRUCTURE</Typography>
@@ -140,31 +199,30 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
                   {formData.lotes.map((lote) => (
                     <Grid item xs={12} lg={6} key={lote.id}>
                       <Box className="lote-container-panoramic">
-                        <Box className="lote-header">
+                        <Box className="lote-header" sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                           <TextField 
                             variant="standard" value={lote.loteName} 
                             onChange={(e) => updateLoteName(lote.id, e.target.value)}
                             placeholder="BATCH_NAME"
-                            sx={{ input: { color: '#FF6B00', fontFamily: 'JetBrains Mono', fontWeight: '900', fontSize: '1.2rem' } }}
+                            sx={{ input: { color: '#FF6B00', fontFamily: 'JetBrains Mono', fontWeight: '900' } }}
                           />
-                          <IconButton color="error" onClick={() => setFormData({...formData, lotes: formData.lotes.filter(l => l.id !== lote.id)})}><FiTrash2 size={20}/></IconButton>
+                          <IconButton color="error" onClick={() => setFormData({...formData, lotes: formData.lotes.filter(l => l.id !== lote.id)})}>
+                            <FiTrash2 size={20}/>
+                          </IconButton>
                         </Box>
 
                         {lote.categories.map((cat) => (
-                          <Box key={cat.id} className="category-row-industrial">
-                            <Grid container spacing={2} alignItems="center">
-                              <Grid item xs={4}><TextField fullWidth label="CAT" size="small" value={cat.name} onChange={(e)=>updateCategory(lote.id, cat.id, 'name', e.target.value.toUpperCase())} className="industrial-input" /></Grid>
-                              <Grid item xs={2}><TextField fullWidth label="PRICE" size="small" type="number" value={cat.price} onChange={(e)=>updateCategory(lote.id, cat.id, 'price', e.target.value)} className="industrial-input" /></Grid>
-                              <Grid item xs={2}><TextField fullWidth label="STOCK" size="small" type="number" value={cat.stock} onChange={(e)=>updateCategory(lote.id, cat.id, 'stock', e.target.value)} className="industrial-input" /></Grid>
-                              <Grid item xs={3}><TextField fullWidth label="MAX_S" size="small" type="number" value={cat.maxStockPerSeller} onChange={(e)=>updateCategory(lote.id, cat.id, 'maxStockPerSeller', e.target.value)} className="industrial-input" /></Grid>
-                              <Grid item xs={1}><IconButton size="small" sx={{color:'#ff3131'}}><FiTrash2/></IconButton></Grid>
+                          <Box key={cat.id} sx={{ mb: 1, p: 1, borderBottom: '1px solid #111' }}>
+                            <Grid container spacing={1} alignItems="center">
+                              <Grid item xs={4}><TextField fullWidth label="TYPE" size="small" value={cat.name} onChange={(e)=>updateCategory(lote.id, cat.id, 'name', e.target.value.toUpperCase())} className="industrial-input" /></Grid>
+                              <Grid item xs={2}><TextField fullWidth label="$" size="small" type="number" value={cat.price} onChange={(e)=>updateCategory(lote.id, cat.id, 'price', e.target.value)} className="industrial-input" /></Grid>
+                              <Grid item xs={2}><TextField fullWidth label="STK" size="small" type="number" value={cat.stock} onChange={(e)=>updateCategory(lote.id, cat.id, 'stock', e.target.value)} className="industrial-input" /></Grid>
+                              <Grid item xs={3}><TextField fullWidth label="MAX" size="small" type="number" value={cat.maxStockPerSeller} onChange={(e)=>updateCategory(lote.id, cat.id, 'maxStockPerSeller', e.target.value)} className="industrial-input" /></Grid>
+                              <Grid item xs={1}><IconButton size="small" sx={{color:'#ff3131'}} onClick={() => removeCategoryFromLote(lote.id, cat.id)}><FiTrash2/></IconButton></Grid>
                             </Grid>
                           </Box>
                         ))}
-                        <Button startIcon={<FiPlus />} sx={{ color: '#FF6B00', mt: 1, fontFamily: 'JetBrains Mono' }} onClick={() => {
-                          const newLotes = formData.lotes.map(l => l.id === lote.id ? {...l, categories: [...l.categories, {id: Date.now(), name: '', price: 0, stock: 0}]} : l);
-                          setFormData({...formData, lotes: newLotes});
-                        }}>ADD_CATEGORY</Button>
+                        <Button startIcon={<FiPlus />} fullWidth onClick={() => addCategoryToLote(lote.id)} sx={{ color: '#FF6B00', mt: 1, fontFamily: 'JetBrains Mono', fontSize: '10px' }}>ADD_CATEGORY_UNIT</Button>
                       </Box>
                     </Grid>
                   ))}
@@ -172,11 +230,37 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
               </Box>
             </Box>
 
-            <footer className="form-footer">
-              <Button onClick={onClose} className="btn-abort">ABORT_MISSION</Button>
-              <Button type="submit" className="btn-mango-minimal vip-btn" disabled={loading}>
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'DEPLOY_CHANGES'}
-              </Button>
+            {/* CONSOLA DE ESTADO Y FOOTER */}
+            <footer className="form-footer-staff">
+              {statusMsg.text && (
+                <Box className={`terminal-status-bar ${statusMsg.type}`}>
+                  {statusMsg.type === 'error' ? <FiAlertCircle className="blink" /> : <FiTerminal />}
+                  <Typography variant="caption">{`> ${statusMsg.text}`}</Typography>
+                </Box>
+              )}
+              
+              <Box className="footer-actions">
+                <Button 
+                  onClick={() => isConfirming ? setIsConfirming(false) : onClose()} 
+                  className="btn-abort" 
+                  disabled={loading}
+                >
+                  {isConfirming ? 'BACK' : 'ABORT_MISSION'}
+                </Button>
+
+                <Button 
+                  type="submit" 
+                  className={`btn-mango-minimal vip-btn ${isConfirming ? 'confirm-mode' : ''}`} 
+                  disabled={loading}
+                  sx={{ minWidth: '240px' }}
+                >
+                  {loading ? (
+                    <CircularProgress size={20} sx={{ color: '#000' }} />
+                  ) : (
+                    isConfirming ? 'CONFIRM_DATA_ENROLLMENT?' : (eventToEdit ? 'OVERWRITE_CHANGES' : 'DEPLOY_ENROLLMENT')
+                  )}
+                </Button>
+              </Box>
             </footer>
           </form>
         </Box>

@@ -1,0 +1,280 @@
+/* --- PURCHASE MODAL COMPACTO (PC OPTIMIZED) --- */
+
+.purchase-modal-compact {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  max-width: 420px; /* Tamaño reducido para PC */
+  background-color: #080808;
+  border: 1px solid var(--border-tech);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+  outline: none;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+}
+
+.purchase-container-inner {
+  padding: 20px;
+}
+
+/* HEADER COMPACTO */
+.compact-header {
+  margin-bottom: 20px;
+  border-left: 3px solid var(--mango);
+  padding-left: 12px;
+}
+
+.compact-event-title {
+  font-family: 'Syncopate', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #fff;
+  margin: 5px 0;
+  letter-spacing: -1px;
+}
+
+.compact-lote-info {
+  font-size: 10px;
+  color: var(--mango);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* INPUTS INDUSTRIALES */
+.tech-input-small {
+  margin-bottom: 12px !important;
+}
+
+.tech-input-small .MuiFilledInput-root {
+  background: #111 !important;
+  border-bottom: 1px solid var(--border-tech);
+  border-radius: 0 !important;
+  font-size: 13px !important;
+}
+
+.tech-input-small .MuiFilledInput-root:after {
+  border-bottom-color: var(--mango);
+}
+
+.tech-input-small label {
+  color: #555 !important;
+  font-size: 11px !important;
+}
+
+.input-row-split {
+  display: grid;
+  grid-template-columns: 1fr 120px; /* El DNI es más corto que el email */
+  gap: 10px;
+}
+
+/* SELECTOR DE CANTIDAD */
+.compact-quantity-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0d0d0d;
+  padding: 10px 15px;
+  border: 1px dashed #222;
+  margin: 15px 0;
+}
+
+.q-label-mini {
+  font-size: 10px;
+  color: #666;
+}
+
+.q-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.q-val {
+  font-family: 'Syncopate';
+  font-size: 18px;
+  color: var(--mango);
+  min-width: 25px;
+  text-align: center;
+}
+
+.q-ctrl-btn {
+  color: #fff !important;
+  border: 1px solid #222 !important;
+  border-radius: 0 !important;
+  padding: 4px !important;
+}
+
+/* CATCHUP / VALIDACIÓN */
+.compact-catchup {
+  background: #0c0c0c;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.error-blink {
+  border: 1px solid #ff3131;
+  animation: blinker 0.8s linear 3;
+}
+
+/* FOOTER Y BOTÓN */
+.total-box-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px 5px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.total-label { font-size: 11px; color: #888; }
+
+.total-price {
+  font-family: 'Syncopate';
+  font-size: 22px;
+  color: var(--mango);
+}
+
+.btn-buy-execute {
+  background-color: var(--mango) !important;
+  color: #000 !important;
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: 12px !important;
+  border-radius: 0 !important;
+  height: 48px;
+  transition: 0.2s all !important;
+}
+
+.btn-buy-execute:hover:not(:disabled) {
+  background-color: #fff !important;
+  box-shadow: 0 0 15px var(--mango);
+}
+
+.btn-buy-execute:disabled {
+  background-color: #222 !important;
+  color: #444 !important;
+}
+
+.secure-badge-mini {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  font-size: 8px;
+  color: #333;
+  margin-top: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* CIERRE */
+.close-buy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #444 !important;
+  z-index: 5;
+}
+
+.close-buy-btn:hover {
+  color: var(--mango) !important;
+}
+
+/* --- PURCHASE MODAL COMPACTO (PC OPTIMIZED) --- */
+
+.purchase-modal-compact {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  max-width: 400px;
+  background-color: #080808;
+  border: 1px solid var(--border-tech);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+  outline: none;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+}
+
+.purchase-container-inner {
+  padding: 24px;
+}
+
+/* HEADER */
+.compact-header {
+  margin-bottom: 20px;
+  border-left: 3px solid var(--mango);
+  padding-left: 12px;
+}
+
+.compact-event-title {
+  font-family: 'Syncopate', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #fff;
+  margin: 5px 0;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+}
+
+/* INPUTS CON LETRAS BLANCAS */
+.tech-input-small {
+  margin-bottom: 12px !important;
+}
+
+.tech-input-small .MuiFilledInput-root {
+  background: #111 !important;
+  border-bottom: 1px solid var(--border-tech);
+  border-radius: 0 !important;
+  font-size: 13px !important;
+  color: #ffffff !important; /* TEXTO BLANCO FORZADO */
+}
+
+.tech-input-small .MuiInputBase-input {
+  color: #ffffff !important; /* INPUT TEXT BLANCO */
+}
+
+.tech-input-small label {
+  color: #666 !important;
+  font-size: 11px !important;
+}
+
+/* TOTAL CON FUENTE DEL TÍTULO */
+.total-box-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 12px 5px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.total-price {
+  font-family: 'Syncopate', sans-serif; /* MISMA FUENTE QUE EL TÍTULO */
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--mango);
+  letter-spacing: -1px;
+}
+
+/* BOTÓN DE COMPRA */
+.btn-buy-execute {
+  background-color: var(--mango) !important;
+  color: #000 !important;
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: 12px !important;
+  border-radius: 0 !important;
+  height: 50px;
+  transition: 0.2s all !important;
+}
+
+/* ... (resto de estilos de cantidad y badges se mantienen igual) */

@@ -308,6 +308,135 @@
   transform: rotate(90deg);
 }
 
+.success-view-terminal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.success-title {
+  font-family: 'Syncopate';
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #00ff41; /* Verde Neón */
+  margin: 15px 0 !important;
+  letter-spacing: 1px;
+}
+
+.qr-container-industrial {
+  background: #000;
+  padding: 15px;
+  border: 2px solid var(--mango);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+  margin-bottom: 20px;
+}
+
+.success-msg {
+  font-size: 10px;
+  color: #666;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.blink {
+  animation: blinker 1.5s linear infinite;
+}
+
+/* VISTA MANGUERO SUCCESS */
+.success-view-manguero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+  animation: fadeIn 0.5s ease;
+}
+
+.success-logo-wrapper {
+  background: rgba(255, 107, 0, 0.1);
+  padding: 15px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+}
+
+.zap-icon {
+  animation: pulse 1.5s infinite;
+}
+
+.manguero-title {
+  font-family: 'Syncopate', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 1.1rem !important;
+  color: #fff !important;
+  letter-spacing: -1px;
+  margin-bottom: 20px !important;
+}
+
+.qr-visual-frame {
+  background: #080808;
+  padding: 20px;
+  border: 1px solid #1a1a1a;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.qr-visual-frame::after {
+  content: "SECURE_QR_VALID";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--mango);
+  color: #000;
+  font-size: 8px;
+  padding: 2px 8px;
+  font-weight: 900;
+}
+
+.success-notification-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 255, 65, 0.05);
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 65, 0.1);
+  width: 100%;
+}
+
+.notification-text {
+  font-size: 10px !important;
+  color: #888;
+  text-align: left;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.notification-text span {
+  color: #00ff41;
+  font-weight: bold;
+}
+
+.btn-success-finish {
+  background: #fff !important; /* Cambio de color para diferenciar el éxito */
+  color: #000 !important;
+}
+
+/* ANIMACIONES */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Resto de estilos del total y tipografías se mantienen... */
 .total-price {
   font-family: 'Syncopate', sans-serif;

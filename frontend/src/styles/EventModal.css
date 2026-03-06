@@ -496,6 +496,84 @@
     gap: 10px;
 }
 
+/* --- CATEGORÍA INDIVIDUAL DESHABILITADA --- */
+.cat-disabled {
+    opacity: 0.5;
+    background: #050505 !important;
+    border: 1px dashed #222 !important;
+}
+
+.cat-disabled .t-price {
+    color: #444 !important;
+    text-decoration: line-through;
+}
+
+.cat-disabled .t-label {
+    color: #333 !important;
+}
+
+.cat-sold-out-mini {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: #ff3131;
+    border: 1px solid #ff3131;
+    padding: 0 4px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+}
+
+/* El botón cuando la categoría está en Sold Out */
+.btn-mango-minimal:disabled {
+    border-color: #222 !important;
+    color: #333 !important;
+    cursor: not-allowed;
+}
+
+/* --- REFUERZO DEL LOTE BLOQUEADO --- */
+.lote-locked {
+    background: #111 !important; /* Un poco más claro que el fondo para que se vea la caja */
+    border: 1px solid #1a1a1a !important;
+    opacity: 0.8 !important; /* Suficiente para leer el nombre */
+}
+
+/* Fila de categoría agotada */
+.cat-sold-out-style {
+    background: rgba(255, 0, 0, 0.02) !important; /* Un tinte rojo casi imperceptible */
+    border: 1px solid #222 !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Marca de agua "SOLD OUT" cruzada sobre la categoría */
+.cat-sold-out-style::after {
+    content: "OUT_OF_STOCK";
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%) rotate(-5deg);
+    font-family: 'JetBrains Mono';
+    font-size: 20px;
+    font-weight: 900;
+    color: rgba(255, 49, 49, 0.05); /* Muy sutil */
+    pointer-events: none;
+}
+
+.tag-sold-out-critical {
+    background: #ff3131;
+    color: #fff;
+    font-size: 8px;
+    padding: 1px 5px;
+    font-weight: 900;
+    font-family: 'JetBrains Mono';
+}
+
+/* El precio se apaga */
+.cat-sold-out-style .t-price {
+    color: #333 !important;
+    filter: blur(0.5px);
+}
+
 @media (max-width: 480px) {
     .lote-timer-inline {
         font-size: 8px;

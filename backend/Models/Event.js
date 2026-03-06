@@ -4,6 +4,10 @@ const CategorySchema = new mongoose.Schema({
   name: { type: String, uppercase: true, default: 'GENERAL' },
   price: { type: Number, default: 0 },
   stock: { type: Number, default: 0 },
+  // Nuevo: Seguimiento de tickets emitidos
+  sold: { type: Number, default: 0 },
+  // Nuevo: Control manual para el front-end
+  isActive: { type: Boolean, default: true },
   maxStockPerSeller: { type: Number, default: 0 }
 });
 
@@ -13,19 +17,19 @@ const LoteSchema = new mongoose.Schema({
     uppercase: true, 
     required: true 
   },
-  // Determina si el lote está habilitado para la venta manual
+  // Determina si el lote completo está habilitado
   isActive: { 
     type: Boolean, 
     default: true 
   },
-  // Representa el tiempo límite de venta en días desde la creación
+  // Tiempo límite de venta en días desde la creación
   expirationDays: { 
     type: Number, 
-    default: 0 // 0 significa sin límite de tiempo
+    default: 0 
   },
   categories: [CategorySchema]
 }, { 
-  timestamps: true // Esto te da 'createdAt', útil para calcular la expiración
+  timestamps: true 
 });
 
 const EventSchema = new mongoose.Schema({
@@ -34,10 +38,23 @@ const EventSchema = new mongoose.Schema({
   address: { type: String },
   date: { type: Date, required: true },
   djs: [{ type: String }],
-  flyer: { type: String }, // Aquí guardaremos la URL de la imagen o Base64
+  flyer: { type: String }, 
   ageLimit: { type: String, default: '18' },
   lotes: [LoteSchema],
   status: { type: String, enum: ['active', 'draft', 'archived'], default: 'active' }
 }, { timestamps: true });
+
+// Middleware pre-save: Si el stock llega al límite, desactivar categoría automáticamente
+EventSchema.pre('save', function(next) {
+  this.lotes.forEach(lote => {
+    lote.categories.forEach(cat => {
+      // Si el vendido iguala o supera al stock, forzamos isActive a false
+      if (cat.stock > 0 && cat.sold >= cat.stock) {
+        cat.isActive = false;
+      }
+    });
+  });
+  next();
+});
 
 module.exports = mongoose.model('Event', EventSchema);

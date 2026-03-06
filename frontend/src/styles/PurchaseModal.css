@@ -277,4 +277,42 @@
   transition: 0.2s all !important;
 }
 
-/* ... (resto de estilos de cantidad y badges se mantienen igual) */
+.purchase-modal-compact {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  max-width: 400px;
+  background-color: #080808;
+  border: 1px solid var(--border-tech);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+  outline: none;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden; /* Importante para que el diseño no se rompa */
+}
+
+/* BOTÓN DE CIERRE ARRIBA A LA DERECHA */
+.close-buy-btn {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  color: #555 !important;
+  z-index: 10;
+  transition: all 0.2s ease !important;
+}
+
+.close-buy-btn:hover {
+  color: var(--mango) !important;
+  transform: rotate(90deg);
+}
+
+/* Resto de estilos del total y tipografías se mantienen... */
+.total-price {
+  font-family: 'Syncopate', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--mango);
+  letter-spacing: -1px;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Modal, Box, Typography, Button, IconButton, TextField, 
   Backdrop, Fade, CircularProgress, Checkbox, FormControlLabel 
@@ -12,6 +12,17 @@ const PurchaseModal = ({ open, onClose, eventName, category, loteName }) => {
   const [isHuman, setIsHuman] = useState(false);
   const [errors, setErrors] = useState({});
   const [userData, setUserData] = useState({ fullName: '', email: '' });
+
+  // Resetear estados cuando el modal se cierra
+  useEffect(() => {
+    if (!open) {
+      setLoading(false);
+      setQuantity(1);
+      setIsHuman(false);
+      setErrors({});
+      setUserData({ fullName: '', email: '' });
+    }
+  }, [open]);
 
   const validate = () => {
     let tempErrors = {};
@@ -33,10 +44,10 @@ const PurchaseModal = ({ open, onClose, eventName, category, loteName }) => {
     if (!validate()) return;
     setLoading(true);
     
-    // Simulación de integración con Mercado Pago
+    // Simulación de integración (Aquí iría tu fetch al backend)
     setTimeout(() => {
       console.log("TX_DATA:", { ...userData, quantity, catId: category._id });
-      setLoading(false);
+      // Nota: Aquí podrías redirigir a Mercado Pago
     }, 2000);
   };
 
@@ -47,7 +58,10 @@ const PurchaseModal = ({ open, onClose, eventName, category, loteName }) => {
       slotProps={{ backdrop: { timeout: 500, sx: { backdropFilter: 'blur(8px)' } } }}>
       <Fade in={open}>
         <Box className="purchase-modal-compact">
-          <IconButton className="close-buy-btn" onClick={onClose}><FiX size={18} /></IconButton>
+          {/* Botón de cierre corregido */}
+          <IconButton className="close-buy-btn" onClick={onClose}>
+            <FiX size={20} />
+          </IconButton>
 
           <Box className="purchase-container-inner">
             <header className="compact-header">

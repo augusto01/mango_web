@@ -10,6 +10,7 @@ import PurchaseModal from './PurchaseModal'; // Importamos el modal de compra
 import '../../styles/EventModal.css';
 
 
+
 const EventDetailModal = ({ open, onClose, evento }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
   const [expanded, setExpanded] = useState(false);

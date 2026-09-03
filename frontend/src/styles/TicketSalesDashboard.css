@@ -1,0 +1,370 @@
+/* ==========================================================================
+   TICKET SALES DASHBOARD - FULL NO-SCROLL LAYOUT
+   ========================================================================== */
+
+.pos-compact-container {
+  width: 100% !important;
+  height: calc(100vh - 85px);
+  background-color: #000;
+  color: #fff;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* BASE MINIMALISTA */
+.pos-card-minimal {
+  background: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* INPUTS REDUCIDOS Y LIMPIOS */
+.industrial-input-small .MuiOutlinedInput-root {
+  background-color: #000 !important;
+  color: #fff !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.75rem !important;
+  border-radius: 2px !important;
+}
+
+.industrial-input-small .MuiOutlinedInput-input {
+  padding: 6px 8px !important;
+}
+
+.industrial-input-small .MuiOutlinedInput-notchedOutline {
+  border-color: #222 !important;
+}
+
+.industrial-input-small:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #333 !important;
+}
+
+.industrial-input-small .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #FF6B00 !important;
+}
+
+.industrial-input-small .MuiInputLabel-root {
+  color: #666 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.7rem !important;
+}
+
+.industrial-input-small .MuiFormHelperText-root {
+  margin-top: 1px !important;
+  font-size: 0.58rem !important;
+  color: #444 !important;
+}
+
+/* TOTAL CAJA EN MODAL */
+.pos-total-minimal {
+  background: #000;
+  border: 1px solid #222;
+  border-radius: 3px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* BOTÓN DE ACCIÓN MINIMALISTA */
+.btn-pos-minimal {
+  background: transparent !important;
+  color: #FF6B00 !important;
+  border: 1px solid #FF6B00 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  padding: 6px 14px !important;
+  border-radius: 3px !important;
+  letter-spacing: 1px;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.btn-pos-minimal:hover {
+  background: #FF6B00 !important;
+  color: #000 !important;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.4) !important;
+}
+
+.btn-pos-minimal:disabled {
+  border-color: #222 !important;
+  color: #444 !important;
+}
+
+/* CARDS DE KPIS */
+.pos-kpi-compact {
+  background: #0a0a0a !important;
+  border: 1px solid #1a1a1a !important;
+  border-radius: 3px !important;
+}
+
+.pos-kpi-compact.highlight {
+  border-color: #FF6B00 !important;
+}
+
+/* TABLA DE AUDITORÍA Y SCROLL DISCRETO */
+.pos-table-compact ::-webkit-scrollbar {
+  width: 3px;
+}
+
+.pos-table-compact ::-webkit-scrollbar-thumb {
+  background: #FF6B00;
+}
+
+/* --- AGRANDAR MODAL Y FORMULARIO POS --- */
+.industrial-confirm-modal {
+  box-shadow: 0 0 35px rgba(255, 107, 0, 0.3) !important;
+  outline: none !important;
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: 6px !important;
+}
+
+/* CAJAS CONTENEDORAS DE CADA SECCIÓN CON MÁS ESPACIO */
+.modal-section-box {
+  background: #000;
+  border: 1px solid #222;
+  border-radius: 4px;
+  padding: 14px 16px !important;
+  margin-bottom: 6px;
+}
+
+/* AGRANDAR INPUTS Y NOMBRES EN EL FORMULARIO */
+.industrial-input-small .MuiOutlinedInput-root {
+  background-color: #000 !important;
+  color: #fff !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.9rem !important; /* Letra más grande (antes 0.75rem) */
+  border-radius: 4px !important;
+}
+
+.industrial-input-small .MuiOutlinedInput-input {
+  padding: 10px 12px !important; /* Más alto para mejor clic */
+}
+
+.industrial-input-small .MuiInputLabel-root {
+  color: #888 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.8rem !important; /* Etiqueta más clara y legible */
+}
+
+.industrial-input-small .MuiFormHelperText-root {
+  margin-top: 3px !important;
+  font-size: 0.68rem !important;
+  color: #666 !important;
+}
+
+/* TÍTULOS DE LAS SECCIONES */
+.modal-section-title {
+  font-family: 'JetBrains Mono', monospace !important;
+  color: #aaa !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 1.5px !important;
+  margin-bottom: 10px !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* RESUMEN DEL COBRO MÁS GRANDE */
+.pos-total-minimal {
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 12px 16px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* BOTÓN CONFIRMAR VENTA AGRANDADO */
+.btn-pos-minimal {
+  background: transparent !important;
+  color: #FF6B00 !important;
+  border: 1.5px solid #FF6B00 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 800 !important;
+  font-size: 0.85rem !important; /* Botón de confirmación con fuente destacada */
+  padding: 10px 16px !important;
+  border-radius: 4px !important;
+  letter-spacing: 1px;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.btn-pos-minimal:hover {
+  background: #FF6B00 !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.4) !important;
+}
+/* SECCIONES DEL MODAL */
+.modal-section-box {
+  background: #000;
+  border: 1px solid #1c1c1c;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+/* SEPARACIÓN ENTRE CAJAS Y SECCIONES DEL MODAL */
+.modal-section-box {
+  background: #000;
+  border: 1px solid #222;
+  border-radius: 4px;
+  padding: 16px !important;
+  margin-bottom: 12px !important; /* Margen inferior para desahogar las secciones */
+}
+
+/* MARGEN INTERNO EN INPUTS PARA EVITAR QUE QUEDEN AMONTONADOS */
+.industrial-input-small {
+  margin-bottom: 6px !important;
+}
+
+.industrial-input-small .MuiOutlinedInput-root {
+  background-color: #000 !important;
+  color: #fff !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.9rem !important;
+  border-radius: 4px !important;
+}
+
+.industrial-input-small .MuiOutlinedInput-input {
+  padding: 12px 14px !important; /* Inputs más altos */
+}
+
+.industrial-input-small .MuiInputLabel-root {
+  color: #888 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.82rem !important;
+}
+
+.industrial-input-small .MuiFormHelperText-root {
+  margin-top: 4px !important;
+  font-size: 0.7rem !important;
+  color: #666 !important;
+}
+
+/* BOTÓN CONFIRMAR CON ESPACIO Y SPINNER */
+.btn-pos-minimal {
+  background: transparent !important;
+  color: #FF6B00 !important;
+  border: 1.5px solid #FF6B00 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 800 !important;
+  font-size: 0.9rem !important;
+  padding: 12px 18px !important;
+  border-radius: 4px !important;
+  letter-spacing: 1px;
+  transition: all 0.2s ease !important;
+}
+
+/* POS CONTAINER MANTENIENDO POSICIONAMIENTO RELATIVO */
+/* CONTAINER PRINCIPAL CON MARCA DE AGUA */
+.pos-compact-container {
+  position: relative;
+  width: 100% !important;
+  height: calc(100vh - 85px);
+  background-color: #000;
+  color: #fff;
+  padding: 10px 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pos-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background-image: url('/img/mangocompleto.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* CARDS DE KPIS Y CONTENEDORES */
+.pos-card-minimal {
+  background: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  border-radius: 6px;
+}
+
+.pos-kpi-compact {
+  background: #0a0a0a !important;
+  border: 1px solid #1a1a1a !important;
+  border-radius: 6px !important;
+}
+
+.pos-kpi-compact.highlight {
+  border-color: rgba(255, 107, 0, 0.4) !important;
+}
+
+/* BOTÓN NUEVA VENTA Y ACCIONES */
+.btn-pos-minimal {
+  background: #FF6B00 !important;
+  color: #000 !important;
+  font-weight: 800 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  border-radius: 6px !important;
+}
+
+.btn-pos-minimal:hover {
+  background: #e05e00 !important;
+}
+
+/* BADGES DE MEDIO DE PAGO EN TABLA */
+.badge-payment {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.badge-payment.cash {
+  background: rgba(0, 255, 65, 0.1);
+  color: #00ff41;
+  border: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.badge-payment.transfer {
+  background: rgba(0, 229, 255, 0.1);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+/* SECCIONES INTERNAS DEL MODAL */
+.modal-section-box {
+  background: #050505;
+  border: 1px solid #1c1c1c;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.modal-section-title {
+  color: #888;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 8px !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+.pos-total-minimal {
+  background: #000;
+  border: 1px solid #222;
+  padding: 10px 14px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

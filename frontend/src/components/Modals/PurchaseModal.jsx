@@ -1,61 +1,80 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Modal, Box, Typography, Button, IconButton, TextField, 
-  Backdrop, Fade, CircularProgress, Checkbox, FormControlLabel,
-  Divider // <--- IMPORTACIÓN CORREGIDA AQUÍ
+  Modal, Box, Typography, IconButton, TextField, 
+  Backdrop, Fade, Button, CircularProgress, Checkbox, FormControlLabel 
 } from '@mui/material';
 import { 
-  FiX, FiMinus, FiPlus, FiCreditCard, FiShield, 
-  FiCheckCircle, FiSend, FiZap 
+  FiX, FiMinus, FiPlus, FiCreditCard, FiSend, FiCheckCircle 
 } from 'react-icons/fi';
-import { QRCodeSVG } from 'qrcode.react'; 
+import { usePurchase } from '../../hooks/Ticket/usePurchase'; 
 import '../../styles/PurchaseModal.css';
 
 const PurchaseModal = ({ open, onClose, eventName, category, loteName }) => {
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [purchased, setPurchased] = useState(false); 
-  const [isHuman, setIsHuman] = useState(false);
-  const [errors, setErrors] = useState({});
   const [userData, setUserData] = useState({ fullName: '', email: '' });
+  const [isHuman, setIsHuman] = useState(false);
+  const [formError, setFormError] = useState(false);
 
-  // Reset al cerrar
+  const { executePurchase, loading, success, resetStatus } = usePurchase();
+
   useEffect(() => {
     if (!open) {
-      setLoading(false);
-      setPurchased(false);
+      resetStatus();
       setQuantity(1);
       setIsHuman(false);
-      setErrors({});
+      setFormError(false);
       setUserData({ fullName: '', email: '' });
     }
-  }, [open]);
+  }, [open, resetStatus]);
 
   const handleCheckout = async () => {
     if (!userData.fullName.trim() || !userData.email.trim() || !isHuman) {
-      setErrors({ human: !isHuman });
+      setFormError(true);
       return;
     }
-    setLoading(true);
-    
-    // Simulación de procesamiento y envío de correo
-    setTimeout(() => {
-      setLoading(false);
-      setPurchased(true);
-    }, 2500);
+
+    await executePurchase({
+      fullName: userData.fullName,
+      email: userData.email,
+      eventName: eventName,
+      categoryName: category?.name,
+      price: category?.price,
+      quantity: quantity,
+      total: category?.price * quantity
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value.toUpperCase() });
+    if (formError) setFormError(false);
   };
 
   if (!category) return null;
 
   return (
-    <Modal open={open} onClose={onClose} closeAfterTransition slots={{ backdrop: Backdrop }}
-      slotProps={{ backdrop: { timeout: 500, sx: { backdropFilter: 'blur(10px)', backgroundColor: 'rgba(0,0,0,0.9)' } } }}>
+    <Modal 
+      open={open} 
+      onClose={onClose} 
+      closeAfterTransition 
+      slots={{ backdrop: Backdrop }}
+      slotProps={{ 
+        backdrop: { 
+          timeout: 500, 
+          sx: { backdropFilter: 'blur(10px)', backgroundColor: 'rgba(0,0,0,0.9)' } 
+        } 
+      }}
+    >
       <Fade in={open}>
         <Box className="purchase-modal-compact">
-          <IconButton className="close-buy-btn" onClick={onClose} sx={{ color: '#fff' }}><FiX size={20} /></IconButton>
+          {/* ÚNICO MÉTODO DE CIERRE: LA CRUZ */}
+          <IconButton className="close-buy-btn" onClick={onClose} sx={{ zIndex: 10 }}>
+            <FiX size={24} color="#fff" />
+          </IconButton>
 
           <Box className="purchase-container-inner">
-            {!purchased ? (
+            {!success ? (
+              /* VISTA A: FORMULARIO */
               <>
                 <header className="compact-header">
                   <Typography className="sub-label-tech">TX_GATEWAY_v1.0</Typography>
@@ -66,16 +85,17 @@ const PurchaseModal = ({ open, onClose, eventName, category, loteName }) => {
                 <div className="compact-form-grid">
                   <TextField 
                     fullWidth name="fullName" label="NOMBRE COMPLETO" variant="filled" 
-                    value={userData.fullName} onChange={(e) => setUserData({...userData, fullName: e.target.value.toUpperCase()})} 
+                    value={userData.fullName} onChange={handleInputChange} 
                     className="tech-input-small"
                   />
                   <TextField 
                     fullWidth name="email" label="EMAIL_ADDRESS" variant="filled" 
-                    value={userData.email} onChange={(e) => setUserData({...userData, email: e.target.value.toUpperCase()})} 
+                    value={userData.email} onChange={handleInputChange} 
                     className="tech-input-small"
                   />
+                  
                   <Box className="compact-quantity-selector">
-                    <Typography className="q-label-mini">QUANTITY</Typography>
+                    <Typography className="q-label-mini">CANTIDAD (MAX 5)</Typography>
                     <Box className="q-controls">
                       <IconButton onClick={() => setQuantity(Math.max(1, quantity - 1))} size="small" className="q-ctrl-btn"><FiMinus/></IconButton>
                       <Typography className="q-val">{quantity}</Typography>
@@ -84,9 +104,16 @@ const PurchaseModal = ({ open, onClose, eventName, category, loteName }) => {
                   </Box>
                 </div>
 
-                <Box className={`compact-catchup ${errors.human ? 'error-blink' : ''}`}>
+                <Box className={`compact-catchup ${formError && !isHuman ? 'error-blink' : ''}`}>
                   <FormControlLabel
-                    control={<Checkbox size="small" checked={isHuman} onChange={(e) => setIsHuman(e.target.checked)} sx={{ color: '#FF6B00' }} />}
+                    control={
+                      <Checkbox 
+                        size="small" 
+                        checked={isHuman} 
+                        onChange={(e) => setIsHuman(e.target.checked)} 
+                        sx={{ color: '#FF6B00', '&.Mui-checked': { color: '#FF6B00' } }} 
+                      />
+                    }
                     label={<Typography sx={{ fontSize: '9px', color: '#888', fontFamily: 'JetBrains Mono' }}>VERIFY_HUMAN_STATUS</Typography>}
                   />
                 </Box>
@@ -96,43 +123,53 @@ const PurchaseModal = ({ open, onClose, eventName, category, loteName }) => {
                     <span className="total-label">TOTAL_DUE</span>
                     <span className="total-price">${(category.price * quantity).toLocaleString()}</span>
                   </div>
-                  <Button fullWidth className="btn-buy-execute" onClick={handleCheckout} disabled={loading}>
-                    {loading ? <CircularProgress size={22} sx={{ color: '#000' }} /> : <><FiCreditCard style={{ marginRight: '8px' }} /> CONFIRMAR PAGO</>}
+                  
+                  <Button 
+                    fullWidth 
+                    className="btn-buy-execute" 
+                    onClick={handleCheckout} 
+                    disabled={loading}
+                  >
+                    {loading ? <CircularProgress size={22} sx={{ color: '#000' }} /> : <> <FiCreditCard style={{ marginRight: '8px' }} /> CONFIRMAR PAGO </>}
                   </Button>
                 </footer>
               </>
             ) : (
-              /* VISTA DE ÉXITO PERSONALIZADA "MANGUERO" */
+              /* VISTA B: ÉXITO (SIN QR) */
               <Box className="success-view-manguero">
-                <div className="success-logo-wrapper">
-                    <FiZap size={40} color="#FF6B00" className="zap-icon" />
+                {/* ICONO DE ÉXITO ESTILO TECH */}
+                <div className="success-icon-container">
+                    <FiCheckCircle size={80} color="#00FF41" className="check-success-anim" />
                 </div>
                 
-                <Typography className="manguero-title">¡GRACIAS POR TU COMPRA, MANGUERO!</Typography>
-                
-                <Box className="qr-visual-frame">
-                  <QRCodeSVG 
-                    value={`MANGUERO_ID:${userData.fullName}|REF:${Math.random().toString(36).toUpperCase().substring(2,10)}`} 
-                    size={140}
-                    bgColor={"#080808"}
-                    fgColor={"#FF6B00"}
-                    level={"M"}
-                  />
+                <Typography className="manguero-title-success">PAGO_APROBADO</Typography>
+
+                <Box className="success-card-summary">
+                  <Typography className="success-category-name">
+                    {category.name.toUpperCase()}
+                  </Typography>
+                  <Typography className="success-user-text">
+                    PARA: {userData.fullName}
+                  </Typography>
+                  
+                  <div className="success-divider" />
+
+                  <Typography className="success-instruction">
+                    Tus tickets digitales han sido generados y enviados.
+                  </Typography>
                 </Box>
 
-                <Box className="success-notification-box">
-                    <FiSend size={18} color="#00ff41" />
-                    <Typography className="notification-text">
-                        SISTEMA: REVISA TU CORREO. <br/>
-                        <span>LAS ENTRADAS HAN SIDO ENVIADAS A: {userData.email}</span>
-                    </Typography>
+                <Box className="success-notification-box-final">
+                    <FiSend size={20} color="#FF6B00" />
+                    <Box>
+                        <Typography className="notification-label">REVISA TU BANDEJA:</Typography>
+                        <Typography className="notification-email-text">{userData.email}</Typography>
+                    </Box>
                 </Box>
 
-                <Divider sx={{ bgcolor: '#1a1a1a', my: 2.5, width: '100%' }} />
-                
-                <Button fullWidth className="btn-buy-execute btn-success-finish" onClick={onClose}>
-                  VOLVER AL INICIO
-                </Button>
+                <Typography sx={{ color: '#444', fontSize: '10px', mt: 4, fontFamily: 'monospace' }}>
+                    SISTEMA AUTOMATIZADO MANGUERO_TECH // 2026
+                </Typography>
               </Box>
             )}
           </Box>

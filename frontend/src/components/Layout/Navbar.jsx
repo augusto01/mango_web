@@ -35,7 +35,7 @@ const Navbar = () => {
         
         {/* LOGO: Siempre redirige a / en modo público o /home en admin */}
         <Box className="nav-brand" onClick={() => navigate(isAuth ? '/home' : '/')} style={{ cursor: 'pointer' }}>
-          <img src="/img/mango.png" alt="Logo" className="nav-logo-img" />
+          <img src="/img/mangocompleto.png" alt="Logo" className="nav-logo-img" />
         </Box>
 
         <Box className="nav-user-section">

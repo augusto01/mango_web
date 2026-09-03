@@ -15,13 +15,13 @@ const Index = () => {
       <Box className="index-container">
         <Hero />
         
-        <CautionTape text="PRÓXIMOS EVENTOS ⚡ MANGO EXPERIENCE 🔥" />
+        <CautionTape text="PRÓXIMOS EVENTOS ⚡ SUNSET EXPERIENCE 🔥" />
         <Events />
         
-        <CautionTape text="DJ'S ⚡ ARTISTAS QUE HAN PASADO POR MANGO 🔥" reverse />
+        <CautionTape text="DJ'S ⚡ ARTISTAS  🔥" reverse />
         <DjSection />
 
-        <CautionTape text="MOMENTOS INOLVIDABLES • MANGO RECUERDOS •" />
+        <CautionTape text="MOMENTOS INOLVIDABLES • SUNSET •" />
         <Gallery />
       </Box>
       <Footer />

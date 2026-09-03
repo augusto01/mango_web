@@ -10,14 +10,14 @@ const empresaRoutes = require('./routes/empresaRoutes');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const eventRoutes = require('./routes/eventRoutes');
-
-
+const ticketRoutes = require('./routes/ticketRoutes'); // <--- NUEVA RUTA IMPORTADA
+const salesRoutes = require('./routes/salesRoutes'); // <--- NUEVA RUTA IMPORTADA
 
 const app = express();
 
 // Middleware CORS (configuración segura para producción)
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // Netlify o dominio que pongas en .env
+  process.env.FRONTEND_URL, 
   'https://agronat.netlify.app',
   'http://localhost:5173'
 ];
@@ -43,24 +43,23 @@ app.options('*', cors(corsOptions)); // Preflight para todos los métodos
 app.use(express.json());
 
 // Conexión a la base de datos
-connectDB(); // Asegurate que use process.env.MONGODB_URI
+connectDB(); 
 
-// Rutas
+// Registro de Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/empresas', empresaRoutes);
-app.use('/api/products',productRoutes );
+app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/tickets', ticketRoutes);
+app.use('/api/sales', salesRoutes);
 
-
-
-// Health check para cronjob (Railway o similares)
+// Health check para cronjob
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'active' });
 });
 
-// Middleware de erroresnpm run dev
-
+// Middleware de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Algo salió mal en el servidor' });
@@ -69,6 +68,7 @@ app.use((err, req, res, next) => {
 // Puerto y arranque del servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-  console.log(`Modo: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
+  console.log(`🔧 Modo: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📧 Email Service: ${process.env.EMAIL_USER ? 'Configurado' : 'Faltante'}`);
 });

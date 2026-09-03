@@ -16,12 +16,23 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
   const [statusMsg, setStatusMsg] = useState({ text: '', type: '' });
   const [showConfirm, setShowConfirm] = useState(false);
 
+  // Default maxTicketsPerPurchase a 5 por transacción
   const initialCategory = () => ({ 
-    id: crypto.randomUUID(), name: 'GENERAL', price: 0, stock: 0, sold: 0, isActive: true, maxStockPerSeller: 0 
+    id: crypto.randomUUID(), 
+    name: 'GENERAL', 
+    price: 0, 
+    stock: 0, 
+    sold: 0, 
+    isActive: true, 
+    maxTicketsPerPurchase: 5 
   });
 
   const initialLote = () => ({
-    id: crypto.randomUUID(), loteName: '', isActive: true, expirationDays: 0, categories: [initialCategory()]
+    id: crypto.randomUUID(), 
+    loteName: '', 
+    isActive: true, 
+    expirationDays: 0, 
+    categories: [initialCategory()]
   });
 
   const [formData, setFormData] = useState({
@@ -37,9 +48,14 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
           ...eventToEdit,
           date: formattedDate,
           lotes: eventToEdit.lotes?.map(l => ({
-            ...l, id: l._id || crypto.randomUUID(), isActive: l.isActive ?? true,
+            ...l, 
+            id: l._id || crypto.randomUUID(), 
+            isActive: l.isActive ?? true,
             categories: l.categories?.map(c => ({ 
-              ...c, id: c._id || crypto.randomUUID(), isActive: c.isActive ?? true, maxStockPerSeller: c.maxStockPerSeller || 0
+              ...c, 
+              id: c._id || crypto.randomUUID(), 
+              isActive: c.isActive ?? true, 
+              maxTicketsPerPurchase: c.maxTicketsPerPurchase ?? 5
             }))
           })) || [initialLote()]
         });
@@ -173,10 +189,27 @@ const EventFormModal = ({ open, onClose, onSave, eventToEdit }) => {
                               return (
                                 <Box key={cat.id} className={`category-row-industrial ${(!cat.isActive || isZeroStock) ? 'cat-row-off' : ''}`}>
                                   <Grid container spacing={1} alignItems="center">
-                                    <Grid item xs={3}><TextField required fullWidth label="CAT_NAME" size="small" value={cat.name} onChange={(e)=>updateCategory(lote.id, cat.id, 'name', e.target.value.toUpperCase())} className="industrial-input" /></Grid>
-                                    <Grid item xs={2}><TextField required fullWidth label="PRICE" size="small" type="number" value={cat.price} onChange={(e)=>updateCategory(lote.id, cat.id, 'price', e.target.value)} className="industrial-input" /></Grid>
-                                    <Grid item xs={2}><TextField fullWidth label="STOCK" size="small" type="number" error={isInvalidStock} value={cat.stock} onChange={(e)=>updateCategory(lote.id, cat.id, 'stock', e.target.value)} className="industrial-input" /></Grid>
-                                    <Grid item xs={3}><TextField fullWidth label="MAX_STAFF" size="small" type="number" value={cat.maxStockPerSeller} onChange={(e)=>updateCategory(lote.id, cat.id, 'maxStockPerSeller', e.target.value)} className="industrial-input" /></Grid>
+                                    <Grid item xs={3}>
+                                      <TextField required fullWidth label="CAT_NAME" size="small" value={cat.name} onChange={(e)=>updateCategory(lote.id, cat.id, 'name', e.target.value.toUpperCase())} className="industrial-input" />
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                      <TextField required fullWidth label="PRICE" size="small" type="number" value={cat.price} onChange={(e)=>updateCategory(lote.id, cat.id, 'price', e.target.value)} className="industrial-input" />
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                      <TextField fullWidth label="STOCK" size="small" type="number" error={isInvalidStock} value={cat.stock} onChange={(e)=>updateCategory(lote.id, cat.id, 'stock', e.target.value)} className="industrial-input" />
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                      {/* CAMBIO CLAVE: Configura el límite máximo por cada operación de venta */}
+                                      <TextField 
+                                        fullWidth 
+                                        label="MAX_PER_SALE" 
+                                        size="small" 
+                                        type="number" 
+                                        value={cat.maxTicketsPerPurchase} 
+                                        onChange={(e)=>updateCategory(lote.id, cat.id, 'maxTicketsPerPurchase', e.target.value)} 
+                                        className="industrial-input" 
+                                      />
+                                    </Grid>
                                     <Grid item xs={2} sx={{ textAlign: 'right', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 0.5 }}>
                                       <FormControlLabel
                                         control={<Switch size="small" checked={cat.isActive} onChange={() => updateCategory(lote.id, cat.id, 'isActive', !cat.isActive)} />}

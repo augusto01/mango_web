@@ -32,12 +32,12 @@ const HomeAdministrador = () => {
   };
 
   const options = [
-    { icon: <FaQrcode className="icon-scan" />, title: 'SCANNER', path: '/escaner', desc: 'Validación de Accesos' },
-    { icon: <FaTicketAlt />, title: 'ENTRADAS', path: '/ventas', desc: 'Módulo de Boletería' },
+   // { icon: <FaQrcode className="icon-scan" />, title: 'SCANNER', path: '/escaner', desc: 'Validación de Accesos' },
+   // { icon: <FaTicketAlt />, title: 'ENTRADAS', path: '/ventas', desc: 'Módulo de Boletería' },
     { icon: <IoCalendarNumber />, title: 'EVENTOS', path: '/eventos-admin', desc: 'Configurar Fechas' },
     { icon: <FaUsers />, title: 'STAFF', path: '/usuarios', desc: 'Gestión de Personal' },
     { icon: <FaChartLine />, title: 'FINANZAS', path: '/finanzas', desc: 'Balances de Evento' },
-    { icon: <MdBlock />,  title: 'BLACK LIST', path: '/lista-negra', desc: 'Personas no autorizadas',variant: 'danger'},
+   // { icon: <MdBlock />,  title: 'BLACK LIST', path: '/lista-negra', desc: 'Personas no autorizadas',variant: 'danger'},
   ];
 
   return (
@@ -60,44 +60,7 @@ const HomeAdministrador = () => {
           </button>
         </div>
 
-        {/* SECCIÓN EVENTO PRÓXIMO */}
-        <div className="next-event-hero" onClick={() => navigate('/reportes')}>
-          <div className="hero-header">
-            <div className="event-info">
-              <span className="label-tech"><FaBolt /> NEXT_EVENT</span>
-              <h2 className="event-name">{proximoEvento.nombre}</h2>
-              <span className="event-date">{proximoEvento.fecha}</span>
-            </div>
-            <div className="hero-action">
-              <button className="btn-stats-direct">VER_DETALLES</button>
-            </div>
-          </div>
-
-          <div className="hero-stats-grid">
-            <div className="stat-item">
-              <div className="stat-info">
-                <span>TICKETS_SOLD</span>
-                <span>{proximoEvento.vendidas} / {proximoEvento.totalTickets}</span>
-              </div>
-              <LinearProgress 
-                variant="determinate" 
-                value={(proximoEvento.vendidas / proximoEvento.totalTickets) * 100} 
-                className="stat-bar"
-              />
-            </div>
-            <div className="stat-item">
-              <div className="stat-info">
-                <span>CHECK_IN_QR</span>
-                <span>{proximoEvento.escaneadas} / {proximoEvento.vendidas}</span>
-              </div>
-              <LinearProgress 
-                variant="determinate" 
-                value={(proximoEvento.escaneadas / proximoEvento.vendidas) * 100} 
-                className="stat-bar scan-bar"
-              />
-            </div>
-          </div>
-        </div>
+        
 
         {/* GRID DE OPCIONES */}
         <div className="row g-4 mt-2 mb-5">

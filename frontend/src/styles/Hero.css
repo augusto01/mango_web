@@ -1,6 +1,6 @@
 /* --- CONFIGURACIÓN BASE --- */
 .hero-main-container {
-  height: 100vh;
+  min-height: 100vh; /* Permite crecimiento dinámico en pantallas pequeñas */
   width: 100%;
   background: #000;
   display: flex;
@@ -8,6 +8,9 @@
   justify-content: center; /* Centrado horizontal */
   overflow: hidden;
   position: relative;
+  padding-top: 90px; /* Margen superior para despegarlo del Header */
+  padding-bottom: 40px;
+  box-sizing: border-box;
 }
 
 /* --- CONTENIDO CENTRAL --- */
@@ -26,8 +29,8 @@
 /* --- LOGO: DINÁMICO --- */
 .logo-container {
   position: relative;
-  width: clamp(260px, 85vw, 450px);
-  margin-bottom: 30px;
+  width: clamp(240px, 80vw, 420px);
+  margin-bottom: 15px; /* Reducido para dar espacio a SUNSET AGRO */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,6 +64,28 @@
   animation: scanLogo 3.5s infinite;
 }
 
+/* --- TÍTULO SUNSET AGRO --- */
+.hero-sunset-title {
+  font-family: 'Montserrat', 'Orbitron', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: clamp(2rem, 6vw, 3.5rem) !important; /* Tamaño responsivo automático */
+  letter-spacing: clamp(4px, 1.5vw, 8px) !important;
+  color: #FF6B00 !important; /* Naranja vibrante base */
+  text-transform: uppercase;
+  margin-top: 5px !important;
+  margin-bottom: 15px !important;
+  text-align: center;
+  
+  /* Resplandor Neón Naranja */
+  text-shadow: 
+    0 0 10px rgba(255, 107, 0, 0.8),
+    0 0 20px rgba(255, 107, 0, 0.6),
+    0 0 40px rgba(255, 107, 0, 0.4);
+
+  /* Animación suave de pulso */
+  animation: sunsetGlow 3s infinite alternate;
+}
+
 /* --- TIPOGRAFÍA DINÁMICA --- */
 .text-wrapper {
   height: 50px; /* Evita saltos en el layout */
@@ -80,7 +105,7 @@
 
 /* --- BOTÓN MANGO --- */
 .btn-mango-main {
-  margin-top: 50px !important;
+  margin-top: 30px !important; /* Espaciado ajustado */
   padding: 14px 60px !important;
   background: #FF6B00 !important;
   color: #000 !important;
@@ -107,6 +132,21 @@
 }
 
 /* --- ANIMACIONES --- */
+@keyframes sunsetGlow {
+  0% {
+    text-shadow: 
+      0 0 10px rgba(255, 107, 0, 0.8),
+      0 0 20px rgba(255, 107, 0, 0.6),
+      0 0 40px rgba(255, 107, 0, 0.4);
+  }
+  100% {
+    text-shadow: 
+      0 0 15px rgba(255, 140, 0, 1),
+      0 0 30px rgba(255, 140, 0, 0.8),
+      0 0 50px rgba(255, 140, 0, 0.6);
+  }
+}
+
 @keyframes scanLogo {
   0% { top: 10%; opacity: 0; }
   50% { opacity: 1; }
@@ -122,6 +162,8 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 0.9; transform: translateY(0); }
 }
+
+@keyframes fullScan { 0% { top: 0%; } 100% { top: 100%; } }
 
 /* --- AMBIENTE --- */
 .hero-noise-overlay {
@@ -141,8 +183,6 @@
   animation: fullScan 8s linear infinite;
   z-index: 3;
 }
-
-@keyframes fullScan { 0% { top: 0%; } 100% { top: 100%; } }
 
 .corner-tag {
   position: absolute;
@@ -178,6 +218,9 @@
 
 /* --- RESPONSIVIDAD --- */
 @media (max-width: 768px) {
+  .hero-main-container {
+    padding-top: 110px; /* Mayor espacio en móviles para dar aire a la barra de navegación */
+  }
   .hero-subtitle-modern {
     letter-spacing: 4px !important;
   }
